@@ -1,0 +1,252 @@
+﻿<!-- INLINE MARQUEE SCRIPT from home-v1 (reference for timing/behavior) -->
+<script>
+
+gsap.registerPlugin(ScrollTrigger, Observer);
+
+// Run all animations when DOM is ready
+document.addEventListener("DOMContentLoaded", function () {
+  initMarqueeAnimation();
+  initCounterAnimation();
+  initScrollRevealAnimations();
+});
+
+// ======================================================
+// MARQUEE SCROLL ANIMATION (auto-run) + OPTIONAL HOVER PAUSE
+// ======================================================
+function initMarqueeAnimation() {
+  // Collect all marquee items and group them by their immediate parent
+  const marqueeItems = gsap.utils.toArray(".marquee-scroll-item");
+  if (!marqueeItems.length) return;
+
+  const marqueeGroups = new Map(); // parentElement -> [items]
+
+  marqueeItems.forEach((marqueeItem) => {
+    const marqueeParent = marqueeItem.parentElement;
+    if (!marqueeParent) return;
+    if (!marqueeGroups.has(marqueeParent)) marqueeGroups.set(marqueeParent, []);
+    marqueeGroups.get(marqueeParent).push(marqueeItem);
+  });
+
+  // Build a marquee instance per parent wrapper
+  const marqueeInstances = [];
+
+  marqueeGroups.forEach((groupedItems, marqueeContainerElement) => {
+    if (!groupedItems.length) return;
+
+    const marqueeInstance = {
+      containerElement: marqueeContainerElement,
+      marqueeSpeedProxy: { value: 1 },
+      hoverPauseProxy: { value: 1 },
+      isHoverPaused: false,
+      lastScrollDirection: 1, // 1 forward, -1 reverse from scroll
+      marqueeTimeline: gsap.timeline({
+        repeat: -1,
+        onReverseComplete: function () {
+          this.progress(1);
+        }
+      })
+    };
+
+    // Base animation: move left forever
+    marqueeInstance.marqueeTimeline.fromTo(
+      groupedItems,
+      { xPercent: 0 },
+      { xPercent: -100, duration: 50, ease: "none" }
+    );
+
+    // ----- OPTIONAL HOVER PAUSE -----
+    // Triggers are: the container if it has .marquee-hover-stop,
+    // and/or any descendants with that class
+    const hoverTriggerSet = new Set();
+
+    if (marqueeContainerElement.classList.contains("marquee-hover-stop")) {
+      hoverTriggerSet.add(marqueeContainerElement);
+    }
+
+    marqueeContainerElement
+      .querySelectorAll(".marquee-hover-stop")
+      .forEach((hoverElement) => hoverTriggerSet.add(hoverElement));
+
+    const hoverTriggerElements = Array.from(hoverTriggerSet);
+
+    function setMarqueeHoverPaused(isPaused) {
+      marqueeInstance.isHoverPaused = isPaused;
+
+      const currentTimeScale = marqueeInstance.marqueeTimeline.timeScale();
+      const fromTimeScale = isPaused ? currentTimeScale : 0;
+      const toTimeScale = isPaused ? 0 : (marqueeInstance.lastScrollDirection || 1);
+
+      // Smoothly tween the hoverPauseProxy and drive the timeline's timeScale
+      gsap.killTweensOf(marqueeInstance.hoverPauseProxy);
+
+      gsap.fromTo(
+        marqueeInstance.hoverPauseProxy,
+        { value: fromTimeScale },
+        {
+          value: toTimeScale,
+          duration: 0.4,
+          ease: "power2.out",
+          onUpdate: () => {
+            marqueeInstance.marqueeTimeline.timeScale(marqueeInstance.hoverPauseProxy.value);
+          }
+        }
+      );
+    }
+
+    // Only apply pointer hover on fine pointers (desktops / laptops)
+    if (hoverTriggerElements.length && window.matchMedia("(pointer: fine)").matches) {
+      hoverTriggerElements.forEach((hoverElement) => {
+        hoverElement.addEventListener("mouseenter", () => setMarqueeHoverPaused(true));
+        hoverElement.addEventListener("mouseleave", () => setMarqueeHoverPaused(false));
+      });
+    }
+
+    marqueeInstances.push(marqueeInstance);
+  });
+
+  // A single Observer drives all marquee instances; it respects per-instance hover pause
+  if (marqueeInstances.length) {
+    Observer.create({
+      target: window,
+      type: "wheel,scroll,touch",
+      onChangeY: (observerInstance) => {
+        let scrollVelocity = observerInstance.velocityY * 0.002;
+        scrollVelocity = gsap.utils.clamp(-40, 40, scrollVelocity);
+
+        // Ignore tiny deltas to avoid unnecessary work
+        if (!scrollVelocity) return;
+
+        const scrollDirection = scrollVelocity < 0 ? -1 : 1;
+
+        marqueeInstances.forEach((marqueeInstance) => {
+          if (marqueeInstance.isHoverPaused) return;
+
+          // Immediate response to input
+          marqueeInstance.marqueeTimeline.timeScale(scrollVelocity);
+          marqueeInstance.lastScrollDirection = scrollDirection;
+
+          // Ease back to resting direction
+          gsap.killTweensOf(marqueeInstance.marqueeSpeedProxy);
+
+          gsap.fromTo(
+            marqueeInstance.marqueeSpeedProxy,
+            { value: scrollVelocity },
+            {
+              value: scrollDirection,
+              duration: 1,
+              ease: "power2.out",
+              overwrite: true,
+              onUpdate: () => {
+                if (!marqueeInstance.isHoverPaused) {
+                  marqueeInstance.marqueeTimeline.timeScale(
+                    marqueeInstance.marqueeSpeedProxy.value
+                  );
+                }
+              }
+            }
+          );
+        });
+      }
+    });
+  }
+
+  // Reduced motion: pause all marquee timelines
+  const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (reduceMotionQuery.matches) {
+    marqueeInstances.forEach((marqueeInstance) => marqueeInstance.marqueeTimeline.pause());
+  }
+}
+
+// ======================================================
+// NUMBER COUNTER ANIMATION
+// ======================================================
+function initCounterAnimation() {
+  function formatCounterValue(counterValue, decimalPlaces = 0) {
+    return counterValue.toLocaleString(undefined, {
+      minimumFractionDigits: decimalPlaces,
+      maximumFractionDigits: decimalPlaces
+    });
+  }
+
+  const counterElements = gsap.utils.toArray(".count-up-number-animation");
+  if (!counterElements.length) return;
+
+  counterElements.forEach((counterElement, elementIndex) => {
+    const targetValue = parseFloat(counterElement.getAttribute("data-count")) || 100;
+    const decimalPlaces = targetValue % 1 !== 0 ? 1 : 0;
+
+    // Create counter animation with GSAP
+    gsap.fromTo(
+      counterElement,
+      { textContent: 0 },
+      {
+        textContent: targetValue,
+        duration: 2,
+        ease: "power1.out",
+        snap: decimalPlaces ? { textContent: 0.1 } : { textContent: 1 },
+        delay: elementIndex * 0.1,
+        scrollTrigger: {
+          trigger: counterElement,
+          start: "top 80%",
+          once: true,
+          toggleActions: "play none none none"
+        },
+        onUpdate: function () {
+          const currentValue = parseFloat(counterElement.textContent) || 0;
+          counterElement.textContent = formatCounterValue(currentValue, decimalPlaces);
+        }
+      }
+    );
+  });
+}
+
+// ======================================================
+// SCROLL REVEAL ANIMATIONS (UTILITY)
+// ======================================================
+function initScrollRevealAnimations() {
+  const scrollRevealElements = gsap.utils.toArray(".animate-on-scroll");
+  if (!scrollRevealElements.length) return;
+
+  // Ensure a consistent initial state for all reveal elements
+  gsap.set(scrollRevealElements, {
+    opacity: 0,
+    y: 100
+  });
+
+  ScrollTrigger.batch(scrollRevealElements, {
+    onEnter: (batchElements) =>
+      gsap.to(batchElements, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        overwrite: true
+      }),
+    onLeave: (batchElements) =>
+      gsap.set(batchElements, {
+        opacity: 0,
+        y: 100,
+        overwrite: true
+      }),
+    onEnterBack: (batchElements) =>
+      gsap.to(batchElements, {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        overwrite: true
+      }),
+    onLeaveBack: (batchElements) =>
+      gsap.set(batchElements, {
+        opacity: 0,
+        y: -100,
+        overwrite: true
+      })
+  });
+}
+
+// Keep ScrollTrigger layout measurements fresh once all assets are loaded
+window.addEventListener("load", function () {
+  if (typeof ScrollTrigger !== "undefined") {
+    ScrollTrigger.refresh();
+  }
+});
+</script>

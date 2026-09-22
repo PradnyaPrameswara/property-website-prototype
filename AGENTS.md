@@ -55,7 +55,7 @@ into `app/public/assets/` during migration; do not hotlink in the final site.
 | Home variants | `home-pages/home-v1\|v2\|v3.html` |
 | Company | `company-pages/about.html`, `company-pages/team.html` |
 | Services index | `service-pages/services.html` |
-| Service details (CMS, 14) | `services/*.html` (architectural-design, interior-design, 3d-rendering-visualization, …) |
+| Service details (CMS, 15) | `services/*.html` (architectural-design, interior-design, 3d-rendering-visualization, …) |
 | Portfolio index | `portfolio-pages/portfolio.html` |
 | Portfolio details (CMS, 4) | `portfolio/*.html` |
 | Blog variants | `blog-pages/blog-v1\|v2\|v3.html` |
@@ -145,6 +145,10 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
 - [x] Astro + TS + React + Tailwind v4 + ShadCN (Base UI) scaffold in `app/`
 - [x] Design tokens migrated to Tailwind theme (`app/src/styles/global.css`)
 - [x] Agent skills, MCP servers, and lint tooling installed & verified
+- [x] **Phase 0 — inventory & extraction** (`reference/`): `page-sections.md`
+  (69 pages × sections × widgets), `cms-inventory.md` (5 collections),
+  `assets-inventory.txt` (595 CDN URLs), `css-facts.md` (breakpoints, type
+  scale, runtime facts), `components/*.html` (21 canonical snippets)
 - [ ] Shared layout: `Base.astro`, `Header.astro`, `Footer.astro`
 - [ ] Page migration (69 pages; start with `home-v1` → `src/pages/index.astro`)
 - [ ] Content Collections for services, portfolio, blog, team, categories

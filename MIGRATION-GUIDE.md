@@ -27,9 +27,9 @@ Measured across all 69 pages (counts are raw occurrences):
 | 11 | Background video | 14 | `w-background-video` (mp4/webm on CDN) |
 | 12 | Cards | 224+ | `.card` (services, portfolio, blog, team, testimonial) |
 | 13 | Marquee | heavy | `.marquee*` rows (brand/logo/award tickers) |
-| 14 | Counters | heavy | `.counter-number-wrap.one…five` |
+| 14 | Counters | 0 used (head-guard only) | `.counter-number-wrap.one…five` — defined in CSS/JS guard but **no page renders them**; recipe 2.13 kept for future use |
 | 15 | Text reveal | 73 | `.text-reveal-paragraph` (SplitText) |
-| 16 | Parallax sections | 147 | `.parallax-section`, `.parallax-animation-content` (ScrollTrigger) |
+| 16 | Parallax sections | 147 mentions | `.parallax-section`, `.parallax-animation-content` (ScrollTrigger) |
 | 17 | Accordion / FAQ dropdowns | 179 | custom `.dropdown-*` blocks |
 | 18 | Icon fonts | heavy | `Filled/Line Rounded/Line Squared/Social Media Icon Font Brix` |
 | 19 | Badges | 74+ | `data-wf--badges-tertiary--*` variants |
@@ -192,6 +192,10 @@ Pure CSS infinite loop. Duplicate the list in markup (`aria-hidden` on the copy)
 Match the original duration by measuring px/s in the raw page (DevTools).
 
 ### 2.13 Counters (← `.counter-number-wrap.one…five`)
+> **Phase 0 finding:** counters are defined in the CSS/JS head-guard but no
+> raw page actually renders them. Skip this component unless a future design
+> needs it; the recipe below is kept for reference.
+
 The export hides counters until JS runs (`visibility: hidden` guard in
 `<head>`). Migrate with a framework-free Astro `<script>`:
 
@@ -248,7 +252,7 @@ collections; one Markdown/MDX file per CMS item, frontmatter = CMS fields:
 
 | Collection | Source folder | Items | Key frontmatter fields |
 | --- | --- | --- | --- |
-| `services` | `services/*.html` | 14 | title, slug, excerpt, icon, image, order |
+| `services` | `services/*.html` | 15 | title, slug, excerpt, icon, image, order |
 | `portfolio` | `portfolio/*.html` | 4 | title, client, location, year, services[], gallery[] |
 | `posts` | `blog-posts/*.html` | 7 | title, slug, category, date, author, heroImage, readingTime |
 | `categories` | `blog-categories/*.html` | 3 | title, slug, description |
