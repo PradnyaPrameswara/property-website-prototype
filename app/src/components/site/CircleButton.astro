@@ -1,0 +1,40 @@
+---
+/**
+ * CircleButton — Webflow `.circle-button` (round white button with a "+"
+ * made of two `.circle-button-line`s; on card hover the plus rotates 45°
+ * into an arrow-like mark — IX2 behavior reproduced with CSS).
+ * Source: reference/components/badge.html (card overlay), CSS .circle-button*.
+ * Exact source values: 48px (40px ≤991px), bg neutral-100, radius 50%,
+ * shadow 0 1px 1px #0e0e0e0f, 0 4px 4px #d3d3d30f; lines 12px × 1.5px,
+ * radius 2px, bg neutral-800.
+ */
+interface Props {
+  label?: string;
+  /** light = neutral-200 background, no shadow */
+  variant?: "default" | "light";
+  class?: string;
+}
+
+const { label = "Open", variant = "default", class: className } = Astro.props;
+---
+
+<span
+  role="img"
+  aria-label={label}
+  class:list={[
+    "relative z-10 flex size-12 min-h-12 min-w-12 cursor-pointer items-center justify-center self-start overflow-hidden rounded-full max-lg:size-10 max-lg:min-h-10 max-lg:min-w-10",
+    variant === "light"
+      ? "bg-neutral-200"
+      : "bg-neutral-100 shadow-[0_1px_1px_#0e0e0e0f,0_4px_4px_#d3d3d30f]",
+    className,
+  ]}
+>
+  <span
+    aria-hidden="true"
+    class="absolute h-[1.5px] w-3 rounded-sm bg-neutral-800 transition-transform duration-300 group-hover/card:rotate-45"
+  ></span>
+  <span
+    aria-hidden="true"
+    class="absolute h-[1.5px] w-3 rotate-90 rounded-sm bg-neutral-800 transition-transform duration-300 group-hover/card:rotate-[135deg]"
+  ></span>
+</span>

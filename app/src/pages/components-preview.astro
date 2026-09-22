@@ -1,0 +1,63 @@
+---
+/**
+ * Internal component preview — development-only verification target for the
+ * Phase 1 primitives (used with Playwright MCP visual-diff checks).
+ * Delete before launch or keep as the migrated `styles-components` page base.
+ */
+import "@/styles/global.css";
+import Link from "@/components/site/Link.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
+import Badge from "@/components/site/Badge.astro";
+import CircleButton from "@/components/site/CircleButton.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>Component preview — Archipro migration</title>
+  </head>
+  <body class="mx-auto max-w-[1228px] space-y-10 p-10">
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Link (hover text-swap)</h2>
+      <div class="flex gap-6">
+        <Link href="/company-pages/about" label="About" />
+        <Link href="/home-pages/home-v1" label="Home" current />
+      </div>
+      <div class="bg-neutral-800 p-4">
+        <Link href="/" label="Footer link" variant="light" />
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">SiteButton</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+        <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="small" />
+        <span class="bg-neutral-800 p-4">
+          <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" />
+        </span>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Badge</h2>
+      <div class="flex flex-wrap items-center gap-3">
+        <Badge label="Architecture" />
+        <Badge label="Construction" variant="tertiary" />
+        <Badge label="Remodeling" variant="secondary" />
+        <Badge label="Small" size="small" />
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">CircleButton (hover card to rotate plus)</h2>
+      <div class="group/card relative h-40 w-64 rounded-2xl bg-neutral-200 p-4">
+        <span class="absolute right-5 bottom-5">
+          <CircleButton label="Open project" />
+        </span>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+---
+/**
+ * Link — Webflow `.link` + `.link-rows-wrapper` hover text-swap.
+ * Source: reference/components/link.html
+ * Two stacked copies of the label; on hover the top copy slides up and the
+ * absolute copy slides in from below (pure CSS, no JS). Exact source values:
+ * 16px / 1.25 / weight inherit, color neutral-800, transition .3s.
+ */
+interface Props {
+  href: string;
+  label: string;
+  /** light = for dark backgrounds (footer) */
+  variant?: "default" | "light" | "light-mid";
+  class?: string;
+  external?: boolean;
+  current?: boolean;
+}
+
+const {
+  href,
+  label,
+  variant = "default",
+  class: className,
+  external = false,
+  current = false,
+} = Astro.props;
+
+const colorClass =
+  variant === "light"
+    ? "text-neutral-100 hover:text-neutral-100"
+    : variant === "light-mid"
+      ? "text-neutral-100/60 hover:text-neutral-100"
+      : "text-neutral-800 hover:text-neutral-800";
+---
+
+<a
+  href={href}
+  class:list={[
+    "group/link inline-block align-top text-base leading-[1.25em] no-underline transition-colors duration-300",
+    colorClass,
+    className,
+  ]}
+  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+  {...(current ? { "aria-current": "page" } : {})}
+>
+  <span class="relative flex flex-col items-start justify-center overflow-hidden p-0">
+    <span class="flex items-center gap-2 transition-all duration-300 group-hover/link:-translate-y-full group-hover/link:opacity-0">
+      <span>{label}</span>
+    </span>
+    <span
+      aria-hidden="true"
+      class="absolute inset-0 flex translate-y-full items-center gap-2 opacity-0 transition-all duration-300 group-hover/link:translate-y-0 group-hover/link:opacity-100"
+    >
+      <span>{label}</span>
+    </span>
+  </span>
+</a>

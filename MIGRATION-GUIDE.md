@@ -311,7 +311,8 @@ Keep original filenames (they contain the content hash — stable and unique).
 
 ## Component checklist
 
-- [ ] Link (hover text-swap) · [ ] SiteButton · [ ] Badge · [ ] Icon mapping
+- [x] Link (hover text-swap) — `components/site/Link.astro` · [x] SiteButton — `components/site/SiteButton.astro` · [x] Badge — `components/site/Badge.astro` · [x] Icon mapping — `lib/icons.ts`
+- [x] CircleButton — `components/site/CircleButton.astro` (bonus, needed by cards) · [x] marquee/reveal-up keyframes + reduced-motion guard in `global.css`
 - [ ] Header + mega menu · [ ] Mobile menu · [ ] Footer + SubscribeForm
 - [ ] Input/Textarea/Select/Checkbox/Radio (ShadCN) · [ ] ContactForm · [ ] QuoteForm
 - [ ] ServiceCard · [ ] PortfolioCard · [ ] PostCard · [ ] TeamCard · [ ] TestimonialCard

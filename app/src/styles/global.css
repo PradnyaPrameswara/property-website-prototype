@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter-tight";
@@ -122,6 +122,22 @@
 
   --breakpoint-container: 1228px;
 
+  /* Animations migrated from Webflow IX2/GSAP (MIGRATION-GUIDE 2.12â€“2.15) */
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-reveal-up: reveal-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(1em);
+    }
+  }
   --font-heading: var(--font-sans);
 
   --color-sidebar-ring: var(--sidebar-ring);
@@ -155,6 +171,29 @@
   --radius-3xl: calc(var(--radius) * 2.2);
 
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  animation: var(--animate-marquee);
+}
+
+@utility marquee-track-paused-on-hover {
+  &:hover * {
+    animation-play-state: paused;
+  }
+}
+
+/* Respect reduced motion for every migrated animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer base {

@@ -1,0 +1,32 @@
+---
+/**
+ * Badge — Webflow `.badge` (+ .tertiary / .secondary / .small variants).
+ * Source: reference/components/badge.html
+ * Exact source values: padding 8px 24px (small: 4px 12px, 14px), gap 16px,
+ * radius 300px, line-height 1.25.
+ *   default   → bg primary #f6694b, text neutral-100, shadow 0 1px 3px #19213d1a
+ *   tertiary  → bg neutral-200, text neutral-800, 1px border neutral-200
+ *   secondary → transparent bg, 1px border + text neutral-800
+ */
+interface Props {
+  label: string;
+  variant?: "default" | "tertiary" | "secondary";
+  size?: "default" | "small";
+  class?: string;
+}
+
+const { label, variant = "default", size = "default", class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    "inline-flex items-center justify-center gap-4 rounded-full leading-[1.25em]",
+    size === "small" ? "gap-1 px-3 py-1 text-sm" : "px-6 py-2",
+    variant === "default" && "bg-brand-primary text-neutral-100 shadow-[0_1px_3px_#19213d1a]",
+    variant === "tertiary" && "border border-neutral-200 bg-neutral-200 text-neutral-800",
+    variant === "secondary" && "border border-neutral-800 bg-transparent text-neutral-800 shadow-[0_1px_3px_#19213d1a]",
+    className,
+  ]}
+>
+  {label}
+</span>

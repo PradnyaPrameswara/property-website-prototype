@@ -149,6 +149,12 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   (69 pages × sections × widgets), `cms-inventory.md` (5 collections),
   `assets-inventory.txt` (595 CDN URLs), `css-facts.md` (breakpoints, type
   scale, runtime facts), `components/*.html` (21 canonical snippets)
+- [x] **Phase 1 — foundational primitives** (`app/src/`): `Link.astro` (hover
+  text-swap), `SiteButton.astro` (pill + dot/arrow hover), `Badge.astro`
+  (3 variants × 2 sizes), `CircleButton.astro`, `lib/icons.ts` (icon-font →
+  lucide map), marquee/reveal-up keyframes + reduced-motion guard in
+  `global.css`; verification page `src/pages/components-preview.astro`
+  (dev-only, delete before launch)
 - [ ] Shared layout: `Base.astro`, `Header.astro`, `Footer.astro`
 - [ ] Page migration (69 pages; start with `home-v1` → `src/pages/index.astro`)
 - [ ] Content Collections for services, portfolio, blog, team, categories
