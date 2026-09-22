@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.82"]
+    },
+    "lexa": {
+      "command": "C:\\Users\\agung\\AppData\\Local\\Lexa\\bin\\lexa.exe",
+      "args": ["mcp", "."]
+    },
+    "codedb": {
+      "command": "C:\\Users\\agung\\AppData\\Local\\Programs\\codedb\\codedb.exe",
+      "args": ["mcp"]
+    }
+  }
+}

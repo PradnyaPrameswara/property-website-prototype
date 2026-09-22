@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+app/dist/
+app/.astro/
+
+# Tooling state
+.lexa/
+.codedb/
+codedb.snapshot
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/extensions.json
+
+# Env / secrets
+.env
+.env.*
