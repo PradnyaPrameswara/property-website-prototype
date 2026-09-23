@@ -1,0 +1,32 @@
+---
+/** Changelog — template-pages/changelog.html (version history list). */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+
+const entries = [
+  {
+    version: "1.0.0",
+    date: "April 22, 2026",
+    notes: "Initial release — 69 pages: 3 home variants, company, services, portfolio, blog, contact, landing, and utility pages.",
+  },
+];
+---
+
+<Base title="Changelog" description="Version history of the Archipro template.">
+  <PageHero title="Changelog" intro="What changed in each Archipro template release." />
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[860px] space-y-6">
+      {
+        entries.map((entry) => (
+          <article class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
+            <div class="mb-3 flex flex-wrap items-baseline gap-4">
+              <h2 class="text-xl font-medium tracking-tightest text-neutral-800">Version {entry.version}</h2>
+              <time class="text-sm text-neutral-500">{entry.date}</time>
+            </div>
+            <p class="text-base leading-[1.5em] text-neutral-600">{entry.notes}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Base>

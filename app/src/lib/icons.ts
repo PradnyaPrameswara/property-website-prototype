@@ -10,6 +10,9 @@ import {
   Play,
   Check,
   Plus,
+  Mail,
+  Phone,
+  MapPin,
 } from "lucide-react";
 
 export const iconMap = {
@@ -23,6 +26,12 @@ export const iconMap = {
   check: Check,
   /** `.circle-button` plus mark */
   plus: Plus,
+  /** contact pages: email channel glyph */
+  email: Mail,
+  /** contact pages: phone channel glyph */
+  phone: Phone,
+  /** contact pages: office/location glyph */
+  location: MapPin,
 } as const;
 
 export type IconName = keyof typeof iconMap;

@@ -1,0 +1,17 @@
+---
+/** Team index — company-pages/team.html (w-dyn-list → TeamGrid). */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import TeamGrid from "@/components/sections/TeamGrid.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+---
+
+<Base title="Team" description="Meet the architects and designers behind Archipro.">
+  <PageHero title="Team" intro="The creative minds behind our architecture practice." />
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      <TeamGrid />
+    </div>
+  </section>
+  <QuoteCta />
+</Base>

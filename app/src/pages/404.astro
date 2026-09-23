@@ -1,0 +1,22 @@
+---
+/** 404 — root 404.html equivalent. Astro serves this for unmatched routes. */
+import Base from "@/layouts/Base.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
+---
+
+<Base title="Page not found" description="The page you are looking for doesn’t exist or has been moved.">
+  <section class="flex min-h-[70vh] items-center px-6 pt-40 pb-24 max-lg:pt-32">
+    <div class="mx-auto max-w-[1228px] text-center">
+      <p class="mb-4 text-sm font-medium tracking-wide text-brand-primary uppercase">404</p>
+      <h1 class="mx-auto max-w-[16ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+        Page not found
+      </h1>
+      <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
+        The page you are looking for doesn’t exist or has been moved.
+      </p>
+      <div class="mt-10 flex justify-center">
+        <SiteButton href="/" label="Back to home" />
+      </div>
+    </div>
+  </section>
+</Base>

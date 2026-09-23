@@ -1,0 +1,30 @@
+---
+/**
+ * PortfolioGrid — portfolio collection grid (replaces w-dyn-list).
+ */
+import { getCollection } from "astro:content";
+import PortfolioCard from "@/components/site/cards/PortfolioCard.astro";
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const all = await getCollection("portfolio");
+
+const projects = limit ? all.slice(0, limit) : all;
+---
+
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+  {
+    projects.map((project) => (
+      <PortfolioCard
+        href={`/portfolio/${project.id}`}
+        title={project.data.title}
+        imageSrc={project.data.heroImage || undefined}
+        imageAlt={project.data.title}
+      />
+    ))
+  }
+</div>

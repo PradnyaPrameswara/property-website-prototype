@@ -1,0 +1,76 @@
+---
+/**
+ * About — company-pages/about.html. Section order from the raw page:
+ * hero → What guides every step we take (values) → Inside the firm →
+ * Our creative minds (team) → Tour our office space → testimonials.
+ */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import TeamGrid from "@/components/sections/TeamGrid.astro";
+import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+import { iconMap } from "@/lib/icons";
+
+const CheckIcon = iconMap.check;
+
+const values = [
+  { title: "Human-centered design", text: "Spaces shaped around the people who live and work in them." },
+  { title: "Craft and detail", text: "From structure to finishes, every junction is considered." },
+  { title: "Sustainability", text: "Responsible materials and energy-conscious solutions as standard." },
+];
+---
+
+<Base
+  title="About"
+  description="About Archipro — an architecture firm designing places that feel as good as they look."
+>
+  <PageHero
+    title="About our architecture firm"
+    intro="We are Archipro — a collective of architects and designers delivering residential, commercial, and urban projects worldwide."
+  />
+
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-[1228px]">
+      <SectionHeader eyebrow="Values" title="What guides every step we take" />
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {
+          values.map((v) => (
+            <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
+              <span class="mb-4 flex size-10 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
+                <CheckIcon className="size-5" aria-hidden />
+              </span>
+              <h3 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{v.title}</h3>
+              <p class="text-base leading-[1.5em] text-neutral-600">{v.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-neutral-200 px-6 py-24">
+    <div class="mx-auto max-w-[1228px]">
+      <SectionHeader eyebrow="Studio" title="Inside the firm" />
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="h-[360px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro studio interior" />
+        <div class="h-[360px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro team at work" />
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-24">
+    <div class="mx-auto max-w-[1228px]">
+      <SectionHeader
+        eyebrow="Team"
+        title="Our creative minds"
+        linkHref="/company-pages/team"
+        linkLabel="Meet the team"
+      />
+      <TeamGrid limit={4} />
+    </div>
+  </section>
+
+  <TestimonialsSection />
+  <QuoteCta />
+</Base>

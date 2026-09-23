@@ -1,0 +1,29 @@
+---
+/**
+ * ServicesGrid — services collection grid (replaces w-dyn-list).
+ */
+import { getCollection } from "astro:content";
+import ServiceCard from "@/components/site/cards/ServiceCard.astro";
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const all = (await getCollection("services")).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+const services = limit ? all.slice(0, limit) : all;
+---
+
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    services.map((service) => (
+      <ServiceCard
+        href={`/services/${service.id}`}
+        title={service.data.title}
+        excerpt={service.data.excerpt}
+      />
+    ))
+  }
+</div>

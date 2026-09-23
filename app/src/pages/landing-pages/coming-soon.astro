@@ -1,0 +1,36 @@
+---
+/**
+ * Coming soon — landing-pages/coming-soon.html: centered countdown-free
+ * landing with subscribe band (raw page has no Header/Footer — keep the
+ * standalone layout but reuse the design system).
+ */
+import "@/styles/global.css";
+import SubscribeForm from "@/components/islands/SubscribeForm";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coming soon - Archipro</title>
+    <meta name="description" content="Something new is coming from the Archipro architecture studio." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="flex min-h-screen items-center justify-center bg-neutral-800 px-6 py-16 font-sans tracking-tightest">
+    <main class="w-full max-w-[560px] text-center">
+      <p class="mb-4 text-sm font-medium tracking-wide text-brand-primary uppercase">Archipro</p>
+      <h1 class="text-5xl leading-[1.1em] font-medium tracking-tightest text-neutral-100 max-lg:text-4xl">
+        Something new is coming soon
+      </h1>
+      <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-400">
+        We’re working on a new project. Leave your email and we’ll let you know when it launches.
+      </p>
+      <div class="mx-auto mt-10 max-w-[420px]">
+        <SubscribeForm client:visible />
+      </div>
+      <a href="/" class="mt-10 inline-block text-sm font-medium text-neutral-300 underline underline-offset-4 hover:text-brand-primary">
+        Back to archipro.com
+      </a>
+    </main>
+  </body>
+</html>

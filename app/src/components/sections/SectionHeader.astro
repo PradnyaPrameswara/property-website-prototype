@@ -1,0 +1,45 @@
+---
+/**
+ * SectionHeader — Webflow `.section-header`: optional eyebrow badge,
+ * display heading, optional intro text and trailing action link.
+ */
+import Link from "@/components/site/Link.astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  linkHref?: string;
+  linkLabel?: string;
+  /** light = on dark backgrounds */
+  variant?: "default" | "light";
+  class?: string;
+}
+
+const { eyebrow, title, intro, linkHref, linkLabel, variant = "default", class: className } = Astro.props;
+
+const dark = variant === "light";
+---
+
+<div class:list={["mb-12 flex flex-wrap items-end justify-between gap-6", className]}>
+  <div class="max-w-[640px]">
+    {
+      eyebrow && (
+        <span class:list={[
+          "mb-4 inline-block rounded-full px-4 py-1.5 text-sm font-medium",
+          dark ? "bg-neutral-700 text-neutral-100" : "bg-neutral-200 text-neutral-800",
+        ]}>
+          {eyebrow}
+        </span>
+      )
+    }
+    <h2 class:list={[
+      "text-4xl leading-[1.15em] font-medium tracking-tightest max-lg:text-3xl",
+      dark ? "text-neutral-100" : "text-neutral-800",
+    ]}>
+      {title}
+    </h2>
+    {intro && <p class:list={["mt-4 text-base leading-[1.5em]", dark ? "text-neutral-400" : "text-neutral-600"]}>{intro}</p>}
+  </div>
+  {linkHref && linkLabel && <Link href={linkHref} label={linkLabel} variant={dark ? "light" : "default"} />}
+</div>

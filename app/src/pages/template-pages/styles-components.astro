@@ -1,0 +1,73 @@
+---
+/**
+ * Styles & components — template-pages/styles-components.html:
+ * living style guide of the migrated design system (tokens + primitives).
+ */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
+import Link from "@/components/site/Link.astro";
+import Badge from "@/components/site/Badge.astro";
+import CircleButton from "@/components/site/CircleButton.astro";
+
+const neutrals = [
+  ["neutral-100", "#ffffff"], ["neutral-200", "#f6f6f6"], ["neutral-300", "#e7e7e7"],
+  ["neutral-400", "#d0d0d0"], ["neutral-500", "#a0a0a0"], ["neutral-600", "#717171"],
+  ["neutral-700", "#424242"], ["neutral-800", "#121212"],
+];
+
+const accents = [
+  ["brand-primary", "#f6694b"], ["brand-secondary-100", "#80896d"],
+  ["brand-secondary-200", "#fef9f3"], ["brand-secondary-300", "#c4afa1"],
+  ["brand-secondary-400", "#ffa693"], ["brand-secondary-500", "#ced8ba"],
+];
+---
+
+<Base title="Styles & components" description="Design tokens and core components of the Archipro template.">
+  <PageHero title="Styles & components" intro="The design system behind every Archipro page — tokens, typography, and primitives." />
+
+  <section class="px-6 pb-16">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 class="mb-8 text-3xl font-medium tracking-tightest text-neutral-800">Typography</h2>
+      <div class="space-y-4 rounded-3xl border border-neutral-300 p-8">
+        <p class="text-6xl font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">Display — Inter Tight 500</p>
+        <p class="text-4xl font-medium tracking-tightest text-neutral-800 max-lg:text-3xl">Heading — Inter Tight 500</p>
+        <p class="text-lg leading-[1.5em] text-neutral-600">Body — Inter Tight 400, 18px / 1.5em, letter-spacing -0.03em</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-16">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 class="mb-8 text-3xl font-medium tracking-tightest text-neutral-800">Colors</h2>
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+        {
+          [...neutrals, ...accents].map(([name, hex]) => (
+            <div class="overflow-hidden rounded-2xl border border-neutral-300">
+              <div class="h-20" style={`background-color: ${hex}`}></div>
+              <div class="p-3">
+                <p class="text-sm font-medium text-neutral-800">{name}</p>
+                <p class="text-xs text-neutral-500">{hex}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 class="mb-8 text-3xl font-medium tracking-tightest text-neutral-800">Components</h2>
+      <div class="flex flex-wrap items-center gap-6 rounded-3xl border border-neutral-300 p-8">
+        <SiteButton href="#" label="Primary button" />
+        <SiteButton href="#" label="Light button" variant="light" />
+        <Link href="#" label="Text link" />
+        <Badge label="Default badge" />
+        <Badge label="Tertiary badge" variant="tertiary" />
+        <Badge label="Secondary badge" variant="secondary" />
+        <CircleButton label="Circle button" />
+      </div>
+    </div>
+  </section>
+</Base>

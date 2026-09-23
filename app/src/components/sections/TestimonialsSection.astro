@@ -1,0 +1,54 @@
+---
+/**
+ * TestimonialsSection — "A global reputation for client satisfaction" /
+ * "Trusted by 10k+ happy clients worldwide" (home variants).
+ * Quotes extracted 1:1 from the raw export (home-v1 testimonial cards).
+ */
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import Slider from "@/components/site/Slider.astro";
+import TestimonialCard from "@/components/site/cards/TestimonialCard.astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "A global reputation for client satisfaction" } = Astro.props;
+
+const testimonials = [
+  {
+    quote: "The best architectural experience we’ve had—professional, creative, and incredibly responsive from beginning to end.",
+    author: "John Carter",
+    role: "Homeowner",
+  },
+  {
+    quote: "Remarkable service, thoughtful process, and a final result that speaks for itself—refined, timeless, and functional.",
+    author: "Sophie Moore",
+    role: "Interior client",
+  },
+  {
+    quote: "They understood our vision perfectly and delivered a design beyond our expectations—efficient, elegant, and inspiring.",
+    author: "Matt Cannon",
+    role: "Developer",
+  },
+  {
+    quote: "They combined artistic vision with practical function—an exceptional architectural collaboration throughout our entire project.",
+    author: "Lilly Woods",
+    role: "Hotel owner",
+  },
+];
+---
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Testimonials" title={title} />
+    <Slider label="Client testimonials">
+      {
+        testimonials.map((t) => (
+          <div class="snap-start">
+            <TestimonialCard quote={t.quote} author={t.author} role={t.role} />
+          </div>
+        ))
+      }
+    </Slider>
+  </div>
+</section>

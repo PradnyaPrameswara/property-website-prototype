@@ -1,0 +1,55 @@
+---
+/**
+ * Team member detail — team/[slug].html (8 CMS pages): photo, role,
+ * bio, social links (guide Phase 4 step 4).
+ */
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import Base from "@/layouts/Base.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import TeamGrid from "@/components/sections/TeamGrid.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+
+export const getStaticPaths = (async () => {
+  const members = await getCollection("team");
+
+  return members.map((member) => ({
+    params: { slug: member.id },
+    props: { member },
+  }));
+}) satisfies GetStaticPaths;
+
+const { member } = Astro.props;
+
+const { name, role, bio, photo } = member.data;
+---
+
+<Base title={name} description={bio ?? `${name}, ${role ?? "team member"} at Archipro`} ogImage={photo || undefined}>
+  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-12 lg:grid-cols-2">
+      {
+        photo ? (
+          <img src={photo} alt={`Portrait of ${name}`} class="aspect-square w-full rounded-3xl object-cover" loading="eager" />
+        ) : (
+          <div class="aspect-square w-full rounded-3xl bg-neutral-300" role="img" aria-label={`Portrait of ${name}`} />
+        )
+      }
+      <div>
+        <h1 class="text-5xl leading-[1.1em] font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">{name}</h1>
+        <p class="mt-2 text-lg text-neutral-500">{role}</p>
+        <p class="mt-6 max-w-[52ch] text-lg leading-[1.6em] text-neutral-600">
+          {bio ?? `${name} is part of the Archipro team.`}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      <SectionHeader eyebrow="Team" title="Our creative minds" linkHref="/company-pages/team" linkLabel="Meet the team" />
+      <TeamGrid limit={4} />
+    </div>
+  </section>
+
+  <QuoteCta />
+</Base>

@@ -1,0 +1,54 @@
+---
+/**
+ * Contact V1 — contact-pages/contact-v1.html: hero split with contact
+ * info list + ContactForm island (guide Phase 4 step 7).
+ */
+import Base from "@/layouts/Base.astro";
+import ContactForm from "@/components/islands/ContactForm";
+import { iconMap } from "@/lib/icons";
+
+const MailIcon = iconMap.email;
+
+const PhoneIcon = iconMap.phone;
+
+const PinIcon = iconMap.location;
+
+const channels = [
+  { icon: MailIcon, label: "Email", value: "contact@archipro.com" },
+  { icon: PhoneIcon, label: "Phone", value: "(414) 840 - 2602" },
+  { icon: PinIcon, label: "Office", value: "San Francisco, CA" },
+];
+---
+
+<Base title="Contact" description="Get in touch with the Archipro architecture studio.">
+  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
+    <div class="mx-auto grid max-w-[1228px] gap-16 lg:grid-cols-2">
+      <div>
+        <h1 class="text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+          Contact us
+        </h1>
+        <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
+          Tell us about your project — we usually reply within one business day.
+        </p>
+        <ul class="mt-10 space-y-6">
+          {
+            channels.map((channel) => (
+              <li class="flex items-center gap-4">
+                <span class="flex size-12 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
+                  <channel.icon className="size-5" aria-hidden />
+                </span>
+                <div>
+                  <p class="text-sm text-neutral-500">{channel.label}</p>
+                  <p class="text-base font-medium text-neutral-800">{channel.value}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
+        <ContactForm client:visible />
+      </div>
+    </div>
+  </section>
+</Base>

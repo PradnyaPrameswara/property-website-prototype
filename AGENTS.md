@@ -168,8 +168,17 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   categories 3, team 8) extracted from the raw export by
   `app/scripts/extract-content.mjs` (Node, idempotent — reads raw HTML
   read-only). Image fields still point at the Webflow CDN until Phase 5.
-- [ ] Shared layout: `Base.astro`, `Header.astro`, `Footer.astro`
-- [ ] Page migration (69 pages; start with `home-v1` → `src/pages/index.astro`)
+- [x] Shared layout: `Base.astro` (SEO props + Header + Footer + global.css),
+  used by every page except the standalone `coming-soon`
+- [x] **Phase 4 — page migration**: 60 pages build (23 static routes + 37 CMS
+  pages). Section components in `app/src/components/sections/` (PageHero,
+  SectionHeader, QuoteCta, ServicesGrid, PortfolioGrid, PostsGrid, TeamGrid,
+  ProcessTabs, TestimonialsSection); page compositions in
+  `app/src/components/pages/` (HomeV1–V3). Real headings/copy extracted from
+  the raw export (h1/h2s, testimonials, process tabs). Known fidelity gaps for
+  the Phase 6 visual-parity pass: CMS detail bodies render excerpt text only
+  (rich body sections not extracted in Phase 3), some decorative images are
+  placeholder blocks, home-v3/office-tour videos pending Phase 5 assets.
 - [ ] Content Collections for services, portfolio, blog, team, categories
 - [ ] Asset localization from Webflow CDN to `app/public/assets/`
 - [ ] Visual-parity pass per page via Playwright MCP

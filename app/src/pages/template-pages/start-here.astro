@@ -1,0 +1,87 @@
+---
+/**
+ * Start here — template-pages/start-here.html: directory of all template
+ * pages, grouped by section (kept as a design-system utility page).
+ */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import Link from "@/components/site/Link.astro";
+
+const groups = [
+  {
+    label: "Home",
+    links: [
+      { href: "/home-pages/home-v1", label: "Home V1" },
+      { href: "/home-pages/home-v2", label: "Home V2" },
+      { href: "/home-pages/home-v3", label: "Home V3" },
+    ],
+  },
+  {
+    label: "Company",
+    links: [
+      { href: "/company-pages/about", label: "About" },
+      { href: "/company-pages/team", label: "Team" },
+    ],
+  },
+  {
+    label: "Work",
+    links: [
+      { href: "/service-pages/services", label: "Services" },
+      { href: "/portfolio-pages/portfolio", label: "Portfolio" },
+    ],
+  },
+  {
+    label: "Blog",
+    links: [
+      { href: "/blog-pages/blog-v1", label: "Blog V1" },
+      { href: "/blog-pages/blog-v2", label: "Blog V2" },
+      { href: "/blog-pages/blog-v3", label: "Blog V3" },
+    ],
+  },
+  {
+    label: "Contact",
+    links: [
+      { href: "/contact-pages/contact-v1", label: "Contact V1" },
+      { href: "/contact-pages/contact-v2", label: "Contact V2" },
+      { href: "/contact-pages/contact-v3", label: "Contact V3" },
+    ],
+  },
+  {
+    label: "Landing",
+    links: [
+      { href: "/landing-pages/request-a-quote", label: "Request a quote" },
+      { href: "/landing-pages/coming-soon", label: "Coming soon" },
+    ],
+  },
+  {
+    label: "Template",
+    links: [
+      { href: "/template-pages/styles-components", label: "Styles & components" },
+      { href: "/template-pages/changelog", label: "Changelog" },
+      { href: "/template-pages/licenses", label: "Licenses" },
+    ],
+  },
+];
+---
+
+<Base title="Start here" description="Overview of every page in the Archipro template.">
+  <PageHero title="Start here" intro="Every page included in the Archipro template, grouped by section." />
+  <section class="px-6 pb-24">
+    <div class="mx-auto grid max-w-[1228px] gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        groups.map((group) => (
+          <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
+            <h2 class="mb-5 text-xl font-medium tracking-tightest text-neutral-800">{group.label}</h2>
+            <ul class="space-y-3">
+              {group.links.map((link) => (
+                <li>
+                  <Link href={link.href} label={link.label} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,28 @@
+---
+/**
+ * PageHero — inner-page hero (Webflow `.section-hero-wrapper` for subpages):
+ * large display title + intro paragraph, padded below the absolute header.
+ */
+interface Props {
+  title: string;
+  intro?: string;
+  /** smaller display size for long titles (CMS detail pages) */
+  size?: "large" | "medium";
+}
+
+const { title, intro, size = "large" } = Astro.props;
+---
+
+<section class="px-6 pt-40 pb-16 max-lg:pt-32">
+  <div class="mx-auto max-w-[1228px]">
+    <h1
+      class:list={[
+        "max-w-[16ch] font-medium tracking-tightest text-neutral-800",
+        size === "large" ? "text-6xl leading-[1.1em] max-lg:text-5xl" : "text-5xl leading-[1.15em] max-lg:text-4xl",
+      ]}
+    >
+      {title}
+    </h1>
+    {intro && <p class="mt-6 max-w-[560px] text-lg leading-[1.5em] text-neutral-600">{intro}</p>}
+  </div>
+</section>

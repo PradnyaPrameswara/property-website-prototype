@@ -1,0 +1,75 @@
+---
+/**
+ * HomeV2 composition — mirrors home-pages/home-v2.html section order:
+ * hero (split layout) → Inside the firm → Selected works →
+ * From concept to completion → quote CTA → process tabs →
+ * testimonials ("Trusted by 10k+ happy clients worldwide") → latest articles.
+ */
+import SiteButton from "@/components/site/SiteButton.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+import ProcessTabs from "@/components/sections/ProcessTabs.astro";
+import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+
+const heroImage =
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg";
+---
+
+{/* Split hero */}
+<section class="px-6 pt-40 pb-24 max-lg:pt-32">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-12 lg:grid-cols-2">
+    <div>
+      <h1 class="text-5xl leading-[1.08em] font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">
+        Crafting spaces with purpose and personality
+      </h1>
+      <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
+        Architecture studio designing homes, workplaces, and public spaces
+        that balance beauty with everyday function.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <SiteButton href="/landing-pages/request-a-quote" label="Request a quote" />
+        <SiteButton href="/service-pages/services" label="Our services" variant="light" />
+      </div>
+    </div>
+    <img
+      src={heroImage}
+      alt="House architecture design by Archipro"
+      class="h-[520px] w-full rounded-3xl object-cover max-lg:h-[360px]"
+      loading="eager"
+    />
+  </div>
+</section>
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="About us" title="Inside the firm" linkHref="/company-pages/about" linkLabel="About us" />
+  </div>
+</section>
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Portfolio" title="Selected works" linkHref="/portfolio-pages/portfolio" linkLabel="All projects" />
+    <PortfolioGrid limit={4} />
+  </div>
+</section>
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Services" title="From concept to completion" linkHref="/service-pages/services" linkLabel="All services" />
+    <ServicesGrid limit={6} />
+  </div>
+</section>
+
+<QuoteCta />
+<ProcessTabs />
+<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" />
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Blog" title="Read our latest articles" linkHref="/blog-pages/blog-v2" linkLabel="All articles" />
+    <PostsGrid limit={3} />
+  </div>
+</section>

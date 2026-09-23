@@ -1,0 +1,48 @@
+---
+/**
+ * Contact V3 — contact-pages/contact-v3.html: process steps band
+ * ("Get in touch / Let's talk / We start creating") + form + map placeholder.
+ * Process labels extracted from the raw export.
+ */
+import Base from "@/layouts/Base.astro";
+import ContactForm from "@/components/islands/ContactForm";
+
+const steps = [
+  { n: "01", title: "Get in touch", text: "Send us your project brief through the form below." },
+  { n: "02", title: "Let’s talk", text: "We schedule a call to align on scope, budget, and timeline." },
+  { n: "03", title: "We start creating", text: "Our team kicks off concept design within days." },
+];
+---
+
+<Base title="Contact V3" description="Get in touch with the Archipro architecture studio.">
+  <section class="px-6 pt-40 pb-16 max-lg:pt-32">
+    <div class="mx-auto max-w-[1228px]">
+      <h1 class="max-w-[16ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+        Contact us
+      </h1>
+      <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
+        Three simple steps from first message to a project in motion.
+      </p>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {
+          steps.map((step) => (
+            <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
+              <span class="mb-4 inline-block text-sm font-medium text-brand-primary">{step.n}</span>
+              <h2 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{step.title}</h2>
+              <p class="text-base leading-[1.5em] text-neutral-600">{step.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto grid max-w-[1228px] gap-12 lg:grid-cols-2">
+      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
+        <ContactForm client:visible />
+      </div>
+      <div class="min-h-[420px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro office location map" />
+    </div>
+  </section>
+</Base>

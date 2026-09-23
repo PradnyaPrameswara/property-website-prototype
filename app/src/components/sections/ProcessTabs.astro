@@ -1,0 +1,39 @@
+---
+/**
+ * ProcessTabs — "Check how our process is done" (home variants) — Webflow
+ * w-tabs / tab-link---location → SiteTabs island (guide 2.8).
+ * Tab labels extracted from the raw export.
+ */
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import SiteTabs from "@/components/islands/SiteTabs";
+
+const tabs = [
+  {
+    value: "exterior-design",
+    label: "Exterior design",
+    content: "We shape facades and outdoor spaces that blend form, materials, and context into a coherent whole.",
+  },
+  {
+    value: "decoration",
+    label: "Decoration",
+    content: "Finishing layers, furniture, fixtures, and art direction that make each space feel complete.",
+  },
+  {
+    value: "construction",
+    label: "Construction",
+    content: "Documentation, site supervision, and coordination with contractors through delivery.",
+  },
+  {
+    value: "interior-design",
+    label: "Interior design",
+    content: "Interior architecture from concept layouts to material palettes and lighting plans.",
+  },
+];
+---
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Our process" title="Check how our process is done" />
+    <SiteTabs client:visible items={tabs} />
+  </div>
+</section>

@@ -1,0 +1,34 @@
+---
+/**
+ * Blog V3 — blog-pages/blog-v3.html: hero + posts grid + newsletter
+ * subscribe band (SubscribeForm island, guide Phase 4 step 7).
+ */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
+import SubscribeForm from "@/components/islands/SubscribeForm";
+---
+
+<Base title="Blog V3" description="Articles and news about architecture, design, and remodeling by Archipro.">
+  <PageHero title="Read our latest articles" intro="Insights, project stories, and design thinking from the Archipro studio." />
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      <PostsGrid />
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px] rounded-3xl bg-neutral-800 px-8 py-16 text-center">
+      <h2 class="mb-4 text-4xl leading-[1.15em] font-medium tracking-tightest text-neutral-100 max-lg:text-3xl">
+        Subscribe to our newsletter
+      </h2>
+      <p class="mx-auto mb-8 max-w-[46ch] text-base leading-[1.5em] text-neutral-400">
+        Get the latest articles and project stories in your inbox.
+      </p>
+      <div class="mx-auto max-w-[480px]">
+        <SubscribeForm client:visible />
+      </div>
+    </div>
+  </section>
+</Base>

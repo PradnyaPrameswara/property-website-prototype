@@ -1,0 +1,111 @@
+---
+/**
+ * HomeV1 composition — mirrors home-pages/home-v1.html section order:
+ * hero → logo marquee → From concept to completion (services) →
+ * Inside the firm (about teaser) → Selected works (portfolio) →
+ * quote CTA → process tabs → testimonials → latest articles.
+ * Images: CDN URLs until Phase 5 localization.
+ */
+import SiteButton from "@/components/site/SiteButton.astro";
+import Marquee from "@/components/site/Marquee.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+import ProcessTabs from "@/components/sections/ProcessTabs.astro";
+import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+
+const heroImage =
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg";
+
+const brands = ["Vireon", "Google", "Snapchat", "Podcast", "Airbnb", "Spotify"];
+---
+
+{/* Hero */}
+<section class="px-6 pt-40 pb-16 max-lg:pt-32">
+  <div class="mx-auto max-w-[1228px]">
+    <h1 class="max-w-[18ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+      Designing places that feel as good as they look
+    </h1>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+      <SiteButton href="/portfolio-pages/portfolio" label="View our work" variant="light" />
+    </div>
+    <div class="relative mt-16 overflow-hidden rounded-3xl">
+      <img
+        src={heroImage}
+        alt="Modern architecture project by Archipro"
+        class="parallax-layer h-[560px] w-full object-cover max-lg:h-[380px]"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>
+
+{/* Brand marquee */}
+<section class="bg-brand-secondary-200 px-6 py-16">
+  <div class="mx-auto max-w-[1228px]">
+    <Marquee duration={25}>
+      {brands.map((brand) => <span class="text-2xl font-medium text-neutral-500">{brand}</span>)}
+    </Marquee>
+  </div>
+</section>
+
+{/* Services */}
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader
+      eyebrow="Services"
+      title="From concept to completion"
+      linkHref="/service-pages/services"
+      linkLabel="All services"
+    />
+    <ServicesGrid limit={6} />
+  </div>
+</section>
+
+{/* Inside the firm */}
+<section class="bg-neutral-200 px-6 py-24">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-12 lg:grid-cols-2">
+    <div>
+      <SectionHeader eyebrow="About us" title="Inside the firm" class="mb-6" />
+      <p class="mb-8 text-lg leading-[1.5em] text-neutral-600">
+        We are a team of architects, designers, and planners crafting residential
+        and commercial spaces across the globe.
+      </p>
+      <SiteButton href="/company-pages/about" label="About us" />
+    </div>
+    <div class="h-[420px] rounded-3xl bg-neutral-300" role="img" aria-label="Inside the Archipro studio" />
+  </div>
+</section>
+
+{/* Selected works */}
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader
+      eyebrow="Portfolio"
+      title="Selected works"
+      linkHref="/portfolio-pages/portfolio"
+      linkLabel="All projects"
+    />
+    <PortfolioGrid limit={4} />
+  </div>
+</section>
+
+<QuoteCta />
+<ProcessTabs />
+<TestimonialsSection />
+
+{/* Latest articles */}
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader
+      eyebrow="Blog"
+      title="Read our latest articles"
+      linkHref="/blog-pages/blog-v1"
+      linkLabel="All articles"
+    />
+    <PostsGrid limit={3} />
+  </div>
+</section>

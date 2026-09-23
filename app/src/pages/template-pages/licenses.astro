@@ -1,0 +1,36 @@
+---
+/** Licenses — template-pages/licenses.html (asset/font license notes). */
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+
+const licenses = [
+  {
+    title: "Fonts",
+    text: "Inter Tight is used under the SIL Open Font License 1.1 and served via @fontsource-variable/inter-tight.",
+  },
+  {
+    title: "Icons",
+    text: "Interface icons are from Lucide (ISC License). Brand icons are inline SVGs of the respective trademarks.",
+  },
+  {
+    title: "Images & video",
+    text: "Preview images and videos ship with the template license for use in the end product; replace them with your own assets before commercial launch.",
+  },
+];
+---
+
+<Base title="Licenses" description="Licenses for the assets used in the Archipro template.">
+  <PageHero title="Licenses" intro="Licensing information for fonts, icons, images, and video used in this template." />
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[860px] space-y-6">
+      {
+        licenses.map((license) => (
+          <article class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
+            <h2 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{license.title}</h2>
+            <p class="text-base leading-[1.5em] text-neutral-600">{license.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Base>

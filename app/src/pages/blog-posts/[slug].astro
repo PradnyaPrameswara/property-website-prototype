@@ -1,0 +1,70 @@
+---
+/**
+ * Blog post detail — blog-posts/[slug].html (7 CMS pages): category badge +
+ * date, title, hero image, body excerpt, more articles.
+ */
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection("posts");
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+
+const { title, excerpt, category, date, heroImage } = post.data;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+---
+
+<Base title={title} description={excerpt} ogImage={heroImage || undefined}>
+  <section class="px-6 pt-40 pb-8 max-lg:pt-32">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mb-4 flex flex-wrap items-center gap-3 text-sm">
+        <a
+          href={`/blog-categories/${category.toLowerCase()}`}
+          class="rounded-full bg-neutral-200 px-4 py-1.5 font-medium text-neutral-800 transition-colors hover:bg-brand-primary hover:text-neutral-100"
+        >
+          {category}
+        </a>
+        <time datetime={date.toISOString()} class="text-neutral-500">{formatDate(date)}</time>
+      </div>
+    </div>
+  </section>
+  <PageHero title={title} intro={excerpt} size="medium" />
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      {
+        heroImage && (
+          <img
+            src={heroImage}
+            alt={title}
+            class="mb-12 h-[520px] w-full rounded-3xl object-cover max-lg:h-[320px]"
+            loading="eager"
+          />
+        )
+      }
+      <div class="mx-auto max-w-[720px] text-lg leading-[1.6em] text-neutral-600">
+        <p>{excerpt}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-24">
+    <div class="mx-auto max-w-[1228px]">
+      <SectionHeader eyebrow="Blog" title="Read our latest articles" linkHref="/blog-pages/blog-v1" linkLabel="All articles" />
+      <PostsGrid limit={3} />
+    </div>
+  </section>
+</Base>

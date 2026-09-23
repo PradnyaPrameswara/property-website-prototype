@@ -1,0 +1,59 @@
+---
+/**
+ * Blog V2 — blog-pages/blog-v2.html: hero + featured first post,
+ * then remaining posts grid (guide Phase 4 step 7).
+ */
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import PageHero from "@/components/sections/PageHero.astro";
+import PostCard from "@/components/site/cards/PostCard.astro";
+
+const posts = (await getCollection("posts")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const [featured, ...rest] = posts;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+---
+
+<Base title="Blog V2" description="Articles and news about architecture, design, and remodeling by Archipro.">
+  <PageHero title="Read our latest articles" intro="Insights, project stories, and design thinking from the Archipro studio." />
+
+  {
+    featured && (
+      <section class="px-6 pb-16">
+        <div class="mx-auto max-w-[1228px]">
+          <PostCard
+            href={`/blog-posts/${featured.id}`}
+            title={featured.data.title}
+            category={featured.data.category}
+            date={formatDate(featured.data.date)}
+            imageSrc={featured.data.heroImage || undefined}
+            imageAlt={featured.data.title}
+          />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    rest.length > 0 && (
+      <section class="px-6 pb-24">
+        <div class="mx-auto max-w-[1228px]">
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {rest.map((post) => (
+              <PostCard
+                href={`/blog-posts/${post.id}`}
+                title={post.data.title}
+                category={post.data.category}
+                date={formatDate(post.data.date)}
+                imageSrc={post.data.heroImage || undefined}
+                imageAlt={post.data.title}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Base>

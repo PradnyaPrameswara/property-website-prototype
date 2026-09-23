@@ -1,0 +1,38 @@
+---
+/**
+ * PostsGrid — blog posts collection grid (replaces w-dyn-list).
+ */
+import { getCollection } from "astro:content";
+import PostCard from "@/components/site/cards/PostCard.astro";
+
+interface Props {
+  limit?: number;
+  category?: string;
+}
+
+const { limit, category } = Astro.props;
+
+const all = (await getCollection("posts")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const filtered = category ? all.filter((p) => p.data.category.toLowerCase() === category.toLowerCase()) : all;
+
+const posts = limit ? filtered.slice(0, limit) : filtered;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+---
+
+<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+  {
+    posts.map((post) => (
+      <PostCard
+        href={`/blog-posts/${post.id}`}
+        title={post.data.title}
+        category={post.data.category}
+        date={formatDate(post.data.date)}
+        imageSrc={post.data.heroImage || undefined}
+        imageAlt={post.data.title}
+      />
+    ))
+  }
+</div>

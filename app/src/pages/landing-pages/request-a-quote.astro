@@ -1,0 +1,24 @@
+---
+/** Request a quote — landing-pages/request-a-quote.html: hero + QuoteForm. */
+import Base from "@/layouts/Base.astro";
+import QuoteForm from "@/components/islands/QuoteForm";
+---
+
+<Base title="Request a quote" description="Request a tailored quote for your architecture or interior design project.">
+  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
+    <div class="mx-auto grid max-w-[1228px] gap-16 lg:grid-cols-2">
+      <div>
+        <h1 class="text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+          Let’s work together. Get a quote today.
+        </h1>
+        <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
+          Share your project type, budget range, and details — we’ll send a
+          tailored proposal within two business days.
+        </p>
+      </div>
+      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
+        <QuoteForm client:visible />
+      </div>
+    </div>
+  </section>
+</Base>

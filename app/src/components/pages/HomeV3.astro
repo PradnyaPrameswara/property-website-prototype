@@ -1,0 +1,88 @@
+---
+/**
+ * HomeV3 composition — mirrors home-pages/home-v3.html section order:
+ * background-video hero → From concept to completion → Tour our office
+ * (lightbox) → process tabs → quote CTA → testimonials → Follow our work
+ * (marquee) → latest articles.
+ * Video asset lands in Phase 5 (reference/components/background-video.html).
+ */
+import SiteButton from "@/components/site/SiteButton.astro";
+import Marquee from "@/components/site/Marquee.astro";
+import BackgroundVideo from "@/components/site/BackgroundVideo.astro";
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
+import ProcessTabs from "@/components/sections/ProcessTabs.astro";
+import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+import Lightbox from "@/components/islands/Lightbox";
+import { iconMap } from "@/lib/icons";
+
+const PlayIcon = iconMap.play;
+
+const followImages = [
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg",
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg",
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/6883fec1daafa038da7629de_modern-bedroom-with-large-window-archipro-webflow-template-archipro-webflow-template.jpg",
+  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/6883ff2cefd36f2ec72221d9_cozy-modern-living-room-archipro-webflow-template-archipro-webflow-template.jpg",
+];
+---
+
+{/* Video hero */}
+<section class="relative flex min-h-[80vh] items-end overflow-hidden px-6 pt-40 pb-16">
+  <BackgroundVideo src="/assets/video/hero-home-v3" />
+  <div class="absolute inset-0 -z-10 bg-neutral-800/50"></div>
+  <div class="mx-auto w-full max-w-[1228px]">
+    <h1 class="max-w-[18ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-100 max-lg:text-5xl">
+      Crafting spaces with purpose and personality
+    </h1>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <SiteButton href="/landing-pages/request-a-quote" label="Request a quote" />
+      <SiteButton href="/portfolio-pages/portfolio" label="View our work" variant="light" />
+    </div>
+  </div>
+</section>
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Services" title="From concept to completion" linkHref="/service-pages/services" linkLabel="All services" />
+    <ServicesGrid limit={6} />
+  </div>
+</section>
+
+{/* Tour our office — video lightbox */}
+<section class="bg-neutral-200 px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Studio" title="Tour our office space" />
+    <Lightbox client:visible label="Office tour video" videoSrc="/assets/video/office-tour.mp4">
+      <span class="group/card relative flex h-[420px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-800">
+        <span class="flex size-16 items-center justify-center rounded-full bg-neutral-100 text-neutral-800 transition-transform duration-300 group-hover/card:scale-110">
+          <PlayIcon className="size-6 fill-current" aria-hidden />
+        </span>
+      </span>
+    </Lightbox>
+  </div>
+</section>
+
+<ProcessTabs />
+<QuoteCta />
+<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" />
+
+{/* Follow our work — image marquee */}
+<section class="overflow-hidden px-0 py-24">
+  <div class="mx-auto max-w-[1228px] px-6">
+    <SectionHeader eyebrow="Social" title="Follow our work" />
+  </div>
+  <Marquee duration={35} pauseOnHover>
+    {followImages.map((src, i) => (
+      <img src={src} alt={`Archipro work ${i + 1}`} loading="lazy" class="h-64 w-80 rounded-2xl object-cover" />
+    ))}
+  </Marquee>
+</section>
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[1228px]">
+    <SectionHeader eyebrow="Blog" title="Read our latest articles" linkHref="/blog-pages/blog-v3" linkLabel="All articles" />
+    <PostsGrid limit={3} />
+  </div>
+</section>
