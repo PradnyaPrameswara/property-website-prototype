@@ -30,7 +30,7 @@
 
 | Layer | Choice | Version |
 | --- | --- | --- |
-| Framework | Astro (static output) | ^7.3.3 |
+| Framework | Astro (prerendered pages + `@astrojs/node` standalone adapter for `/api/*` endpoints) | ^7.3.3 |
 | Language | TypeScript (`astro/tsconfigs/strict`) | — |
 | Islands | React | ^19.3.0 |
 | Components | ShadCN UI, style `base-nova` (Base UI, **no Radix**) | CLI ^4.21 |
@@ -122,7 +122,8 @@ letter-spacing **-0.03em**, radius scale 8/16/24/32px.
 ```powershell
 cd app
 npm run dev                 # Astro dev server (use `astro dev --background` for agents)
-npm run build               # production build → app/dist
+npm run build               # production build → app/dist/{client,server}
+node dist/server/entry.mjs  # serve the production build (pages + /api/*)
 npm run lint                # oxlint + vendored anti-slop rules
 npm run build:lint-plugin   # re-bundle anti-slop plugin after editing vendored rules
 ```
@@ -167,7 +168,7 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   `content.config.ts`; 37 entries (services 15, portfolio 4, posts 7,
   categories 3, team 8) extracted from the raw export by
   `app/scripts/extract-content.mjs` (Node, idempotent — reads raw HTML
-  read-only). Image fields still point at the Webflow CDN until Phase 5.
+  read-only).
 - [x] Shared layout: `Base.astro` (SEO props + Header + Footer + global.css),
   used by every page except the standalone `coming-soon`
 - [x] **Phase 4 — page migration**: 60 pages build (23 static routes + 37 CMS
@@ -178,7 +179,28 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   the raw export (h1/h2s, testimonials, process tabs). Known fidelity gaps for
   the Phase 6 visual-parity pass: CMS detail bodies render excerpt text only
   (rich body sections not extracted in Phase 3), some decorative images are
-  placeholder blocks, home-v3/office-tour videos pending Phase 5 assets.
-- [ ] Content Collections for services, portfolio, blog, team, categories
-- [ ] Asset localization from Webflow CDN to `app/public/assets/`
-- [ ] Visual-parity pass per page via Playwright MCP
+  placeholder blocks.
+- [x] **Phase 5 — asset localization + form endpoints**:
+  - `app/scripts/localize-assets.mjs` (idempotent) downloaded the 28 CDN
+    assets actually referenced by `app/src` — 18 images →
+    `app/public/assets/img/`, 2 videos × (mp4+webm+poster) →
+    `assets/video/` (`hero-home-v3`, `office-tour`), brand SVGs →
+    `assets/brand/` (`logo-light`, `logo-dark`, `webclip`) + real
+    `public/favicon.svg` — then rewrote all 64 references in 37 files
+    (map: `app/scripts/asset-map.json`). Regenerate the URL list with the
+    grep in `app/scripts/used-cdn-urls.txt`'s git history. `-p-*` responsive
+    variants, icon fonts, and BRIX marketing assets intentionally skipped.
+  - `content.config.ts` image fields now validate `/assets/` paths
+    (`assetImage`, was `cdnImage`).
+  - Header/Footer wordmarks swapped for the original logo SVGs (144×32);
+    webclip added as `apple-touch-icon` in `Base.astro`.
+  - Form endpoints `app/src/pages/api/{subscribe,contact,quote}.ts` with
+    zod boundary validation via `app/src/lib/forms.ts`. They are
+    **server-rendered** (`prerender = false` — Astro's router 400s POST to
+    prerendered endpoints), so **`@astrojs/node` (standalone) adapter is
+    configured** in `astro.config.mjs`: all 59 pages stay prerendered, only
+    the 3 endpoints run on demand. Production: `node dist/server/entry.mjs`
+    (dist = `client/` + `server/`). Handlers currently validate + log +
+    `{"ok":true}`; wire a real ESP/CRM at deploy time (guide 2.6).
+  - `components-preview.astro` deleted (was dev-only).
+- [ ] **Phase 6 — visual-parity pass** per page via Playwright MCP

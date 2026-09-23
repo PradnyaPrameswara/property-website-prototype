@@ -4,7 +4,7 @@
  * Source: reference/components/footer.html
  * Dark section: CTA heading + SubscribeForm island, 4-column link grid,
  * logo + copyright + social icons. BRIX promo badge intentionally dropped
- * (guide 2.18). TODO (Phase 5): wordmark → light logo SVG.
+ * (guide 2.18). Logo = dark-mode SVG localized in Phase 5.
  */
 import Link from "@/components/site/Link.astro";
 import SubscribeForm from "@/components/islands/SubscribeForm";
@@ -91,8 +91,8 @@ const socials: { label: string; href: string; icon: "facebook" | "instagram" | "
     {/* Bottom bar */}
     <div class="flex flex-col items-start justify-between gap-6 border-t border-neutral-700 pt-8 min-[767px]:flex-row min-[767px]:items-center">
       <div>
-        <a href="/" aria-label="Archipro — home" class="text-2xl font-semibold tracking-tightest text-neutral-100 no-underline">
-          Archipro
+        <a href="/" aria-label="Archipro — home">
+          <img src="/assets/brand/logo-dark.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto" />
         </a>
         <p class="mt-2 text-sm text-neutral-500">Copyright © Archipro — Architecture Studio</p>
       </div>

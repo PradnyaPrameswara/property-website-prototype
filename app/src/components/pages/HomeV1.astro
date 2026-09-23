@@ -4,7 +4,7 @@
  * hero → logo marquee → From concept to completion (services) →
  * Inside the firm (about teaser) → Selected works (portfolio) →
  * quote CTA → process tabs → testimonials → latest articles.
- * Images: CDN URLs until Phase 5 localization.
+ * Images: localized to /assets/img/ in Phase 5.
  */
 import SiteButton from "@/components/site/SiteButton.astro";
 import Marquee from "@/components/site/Marquee.astro";
@@ -17,7 +17,7 @@ import ProcessTabs from "@/components/sections/ProcessTabs.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 
 const heroImage =
-  "https://cdn.prod.website-files.com/6883a66d1ebb4685edc545d4/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg";
+  "/assets/img/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg";
 
 const brands = ["Vireon", "Google", "Snapchat", "Podcast", "Airbnb", "Spotify"];
 ---

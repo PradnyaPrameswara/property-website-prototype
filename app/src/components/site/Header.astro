@@ -6,7 +6,7 @@
  *   `focus-within`), matching Webflow `data-hover="true" data-delay="0"`.
  * - Mobile (<991px): hamburger toggles `data-open` via a tiny framework-free
  *   script (no React island, no useEffect).
- * TODO (Phase 5): replace the wordmark with /assets/logo SVGs (light/dark).
+ * Wordmark = the original logo SVG, localized in Phase 5.
  */
 import Link from "@/components/site/Link.astro";
 import SiteButton from "@/components/site/SiteButton.astro";
@@ -71,9 +71,9 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
 <header id="site-header" class="absolute top-0 right-0 left-0 z-50">
   <div class="mx-auto flex max-w-[1228px] items-center gap-4 px-6 py-4">
-    {/* Wordmark placeholder — swap for the logo SVGs in Phase 5 */}
-    <a href="/" aria-label="Archipro — home" class="text-2xl font-semibold tracking-tightest text-neutral-800 no-underline">
-      Archipro
+    {/* Brand — original light-mode logo SVG (Phase 5) */}
+    <a href="/" aria-label="Archipro — home">
+      <img src="/assets/brand/logo-light.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto" />
     </a>
 
     {/* Desktop nav (≥991px) */}
