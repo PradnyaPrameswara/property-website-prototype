@@ -1,0 +1,59 @@
+---
+/**
+ * Slider — Webflow `.w-slider` (guide 2.9).
+ * CSS scroll-snap track + prev/next buttons wired by a tiny framework-free
+ * script. No carousel dependency, no useEffect.
+ * Slides are passed via the default slot.
+ */
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+
+const id = `slider-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={["slider", className]} data-slider={id}>
+  <div
+    class="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    data-slider-track
+    role="region"
+    aria-label={label}
+    tabindex="0"
+  >
+    <slot />
+  </div>
+  <div class="mt-6 flex gap-3">
+    <button
+      type="button"
+      data-slider-prev
+      aria-label="Previous slide"
+      class="flex size-12 cursor-pointer items-center justify-center rounded-full border border-neutral-800 bg-transparent text-neutral-800 transition-transform duration-300 hover:scale-95"
+    >
+      ←
+    </button>
+    <button
+      type="button"
+      data-slider-next
+      aria-label="Next slide"
+      class="flex size-12 cursor-pointer items-center justify-center rounded-full border border-neutral-800 bg-transparent text-neutral-800 transition-transform duration-300 hover:scale-95"
+    >
+      →
+    </button>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-slider]").forEach((root) => {
+    const track = root.querySelector("[data-slider-track]");
+    const step = () => (track?.firstElementChild?.clientWidth ?? 300) + 24;
+    root.querySelector("[data-slider-prev]")?.addEventListener("click", () => {
+      track?.scrollBy({ left: -step(), behavior: "smooth" });
+    });
+    root.querySelector("[data-slider-next]")?.addEventListener("click", () => {
+      track?.scrollBy({ left: step(), behavior: "smooth" });
+    });
+  });
+</script>

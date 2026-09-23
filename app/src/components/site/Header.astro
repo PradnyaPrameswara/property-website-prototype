@@ -1,0 +1,163 @@
+---
+/**
+ * Header — Webflow `.header-wrapper.w-nav` (guide 2.3).
+ * Source: reference/components/header-nav.html
+ * - Desktop mega dropdown: hover-open with CSS only (`group-hover` +
+ *   `focus-within`), matching Webflow `data-hover="true" data-delay="0"`.
+ * - Mobile (<991px): hamburger toggles `data-open` via a tiny framework-free
+ *   script (no React island, no useEffect).
+ * TODO (Phase 5): replace the wordmark with /assets/logo SVGs (light/dark).
+ */
+import Link from "@/components/site/Link.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
+import { iconMap } from "@/lib/icons";
+
+const DropdownArrow = iconMap.dropdownArrow;
+
+const topLevel = [
+  { href: "/home-pages/home-v1", label: "Home" },
+  { href: "/company-pages/about", label: "About" },
+];
+
+/** Mega menu columns, extracted 1:1 from the raw header dropdown */
+const megaMenu: { heading: string; links: { href: string; label: string }[] }[] = [
+  {
+    heading: "Main pages",
+    links: [
+      { href: "/home-pages/home-v1", label: "Home V1" },
+      { href: "/home-pages/home-v2", label: "Home V2" },
+      { href: "/home-pages/home-v3", label: "Home V3" },
+      { href: "/company-pages/about", label: "About" },
+      { href: "/company-pages/team", label: "Team" },
+      { href: "/team/john-carter", label: "Team member" },
+    ],
+  },
+  {
+    heading: "Services & portfolio",
+    links: [
+      { href: "/service-pages/services", label: "Services" },
+      { href: "/services/exterior-design", label: "Service single" },
+      { href: "/portfolio-pages/portfolio", label: "Portfolio" },
+      { href: "/portfolio/house-architecture-design-in-los-angeles-ca", label: "Portfolio single" },
+    ],
+  },
+  {
+    heading: "Blog",
+    links: [
+      { href: "/blog-pages/blog-v1", label: "Blog V1" },
+      { href: "/blog-pages/blog-v2", label: "Blog V2" },
+      { href: "/blog-pages/blog-v3", label: "Blog V3" },
+      { href: "/blog-posts/how-to-give-maintenance-to-your-wooden-furniture-the-full-guide", label: "Blog post" },
+    ],
+  },
+  {
+    heading: "Utility",
+    links: [
+      { href: "/contact-pages/contact-v1", label: "Contact V1" },
+      { href: "/contact-pages/contact-v2", label: "Contact V2" },
+      { href: "/contact-pages/contact-v3", label: "Contact V3" },
+      { href: "/landing-pages/request-a-quote", label: "Request a quote" },
+      { href: "/landing-pages/coming-soon", label: "Coming soon" },
+      { href: "/template-pages/start-here", label: "Start here" },
+      { href: "/template-pages/styles-components", label: "Style guide" },
+      { href: "/template-pages/licenses", label: "Licenses" },
+      { href: "/template-pages/changelog", label: "Changelog" },
+    ],
+  },
+];
+
+const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
+---
+
+<header id="site-header" class="absolute top-0 right-0 left-0 z-50">
+  <div class="mx-auto flex max-w-[1228px] items-center gap-4 px-6 py-4">
+    {/* Wordmark placeholder — swap for the logo SVGs in Phase 5 */}
+    <a href="/" aria-label="Archipro — home" class="text-2xl font-semibold tracking-tightest text-neutral-800 no-underline">
+      Archipro
+    </a>
+
+    {/* Desktop nav (≥991px) */}
+    <nav aria-label="Main navigation" class="ml-auto hidden items-center gap-6 min-[991px]:flex">
+      <ul class="flex list-none items-center gap-6 p-0">
+        {topLevel.map((item) => (
+          <li><Link href={item.href} label={item.label} /></li>
+        ))}
+        <li class="group/drop relative">
+          <button
+            type="button"
+            aria-expanded="false"
+            class="group/link flex cursor-pointer items-center gap-2 bg-transparent p-0 text-base leading-[1.25em] text-neutral-800"
+          >
+            <span class="relative flex flex-col overflow-hidden">
+              <span class="flex items-center gap-2 transition-all duration-300 group-hover/link:-translate-y-full group-hover/link:opacity-0">
+                Pages <DropdownArrow className="size-4 transition-transform duration-300 group-hover/drop:rotate-180" aria-hidden />
+              </span>
+              <span aria-hidden="true" class="absolute inset-0 flex translate-y-full items-center gap-2 opacity-0 transition-all duration-300 group-hover/link:translate-y-0 group-hover/link:opacity-100">
+                Pages <DropdownArrow className="size-4 transition-transform duration-300 group-hover/drop:rotate-180" aria-hidden />
+              </span>
+            </span>
+          </button>
+          {/* Mega menu panel — hover/focus-within open, no JS */}
+          <div class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-300 group-hover/drop:visible group-hover/drop:opacity-100 group-focus-within/drop:visible group-focus-within/drop:opacity-100">
+            <div class="grid w-[860px] grid-cols-4 gap-6 rounded-3xl border border-neutral-300 bg-neutral-100 p-8 shadow-[0_24px_64px_#12121214]">
+              {megaMenu.map((col) => (
+                <nav aria-label={col.heading} class="flex flex-col gap-3">
+                  <span class="text-sm font-medium text-neutral-500">{col.heading}</span>
+                  {col.links.map((l) => <Link href={l.href} label={l.label} />)}
+                </nav>
+              ))}
+            </div>
+          </div>
+        </li>
+      </ul>
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+    </nav>
+
+    {/* Hamburger (<991px) — lines morph into an X via [data-open] */}
+    <button
+      id="nav-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      class="ml-auto flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-full bg-neutral-800 min-[991px]:hidden"
+    >
+      <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-transform duration-300 [[data-open]_&]:translate-y-[6.5px] [[data-open]_&]:rotate-45"></span>
+      <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-opacity duration-300 [[data-open]_&]:opacity-0"></span>
+      <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-transform duration-300 [[data-open]_&]:-translate-y-[6.5px] [[data-open]_&]:-rotate-45"></span>
+    </button>
+  </div>
+
+  {/* Mobile menu panel */}
+  <nav
+    id="mobile-menu"
+    aria-label="Mobile navigation"
+    class="invisible fixed inset-x-4 top-20 z-40 max-h-[70vh] translate-y-2 overflow-y-auto rounded-3xl bg-neutral-800 p-6 opacity-0 transition-all duration-300 min-[991px]:hidden [[data-open]>&]:visible [[data-open]>&]:translate-y-0 [[data-open]>&]:opacity-100"
+  >
+    <ul class="flex list-none flex-col gap-4 p-0">
+      {allLinks.map((item) => (
+        <li><Link href={item.href} label={item.label} variant="light" /></li>
+      ))}
+      <li class="pt-2"><SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" /></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const header = document.getElementById("site-header");
+
+  const toggle = document.getElementById("nav-toggle");
+
+  toggle?.addEventListener("click", () => {
+    const open = header?.hasAttribute("data-open") ?? false;
+
+    if (open) {
+      header?.removeAttribute("data-open");
+    } else {
+      header?.setAttribute("data-open", "");
+    }
+
+    toggle.setAttribute("aria-expanded", String(!open));
+    toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+  });
+</script>

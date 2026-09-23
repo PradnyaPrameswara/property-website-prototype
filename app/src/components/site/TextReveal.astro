@@ -1,0 +1,34 @@
+---
+/**
+ * TextReveal — Webflow `.text-reveal-paragraph` (SplitText) (guide 2.14).
+ * Words are split AT BUILD TIME here — no runtime SplitText, no JS.
+ * Each word animates with `reveal-up` and a per-word delay when the element
+ * scrolls into view, via CSS scroll-driven animations
+ * (`animation-timeline: view()`); browsers without support show plain text
+ * (opposite of the raw site's hidden-until-JS guard — content-first).
+ */
+interface Props {
+  text: string;
+  /** ms between each word's reveal */
+  stagger?: number;
+  class?: string;
+}
+
+const { text, stagger = 40, class: className } = Astro.props;
+
+const words = text.split(" ");
+---
+
+<p class:list={["text-reveal", className]} aria-label={text}>
+  {
+    words.map((word, i) => (
+      <span
+        aria-hidden="true"
+        class="inline-block animate-[reveal-up_0.6s_cubic-bezier(0.4,0,0.2,1)_both] [animation-timeline:view()] [animation-range:entry_0%_entry_60%] supports-[not_(animation-timeline:view())]:animate-none"
+        style={`animation-delay: ${i * stagger}ms`}
+      >
+        {word}{i < words.length - 1 ? " " : ""}
+      </span>
+    ))
+  }
+</p>

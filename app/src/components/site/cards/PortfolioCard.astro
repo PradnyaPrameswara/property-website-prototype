@@ -1,0 +1,46 @@
+---
+/**
+ * PortfolioCard — project card (guide 2.7).
+ * Image with hover zoom + CircleButton overlay, title + meta below.
+ * Exact paddings verified during portfolio page migration (Phase 4).
+ */
+import CircleButton from "@/components/site/CircleButton.astro";
+
+interface Props {
+  href: string;
+  title: string;
+  location?: string;
+  year?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  class?: string;
+}
+
+const { href, title, location, year, imageSrc, imageAlt = "", class: className } = Astro.props;
+---
+
+<a href={href} class:list={["group/card block w-full no-underline", className]}>
+  <div class="relative mb-6 h-[420px] overflow-hidden rounded-3xl max-lg:h-[300px]">
+    {
+      imageSrc ? (
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+        />
+      ) : (
+        <div class="h-full w-full bg-neutral-300 transition-transform duration-500 group-hover/card:scale-105" role="img" aria-label={imageAlt || title} />
+      )
+    }
+    <span class="absolute right-5 bottom-5">
+      <CircleButton label={`View project: ${title}`} />
+    </span>
+  </div>
+  <h3 class="mb-2 text-2xl leading-[1.25em] font-medium tracking-tightest text-neutral-800">{title}</h3>
+  {
+    (location || year) && (
+      <p class="text-base text-neutral-600">{[location, year].filter(Boolean).join(" · ")}</p>
+    )
+  }
+</a>

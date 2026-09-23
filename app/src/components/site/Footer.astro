@@ -1,0 +1,116 @@
+---
+/**
+ * Footer — Webflow `.footer-wrapper` (guide 2.4).
+ * Source: reference/components/footer.html
+ * Dark section: CTA heading + SubscribeForm island, 4-column link grid,
+ * logo + copyright + social icons. BRIX promo badge intentionally dropped
+ * (guide 2.18). TODO (Phase 5): wordmark → light logo SVG.
+ */
+import Link from "@/components/site/Link.astro";
+import SubscribeForm from "@/components/islands/SubscribeForm";
+import SocialIcon from "@/components/site/SocialIcon.astro";
+
+const columns: { heading: string; links: { href: string; label: string }[] }[] = [
+  {
+    heading: "Pages",
+    links: [
+      { href: "/home-pages/home-v1", label: "Home" },
+      { href: "/company-pages/about", label: "About" },
+      { href: "/service-pages/services", label: "Services" },
+      { href: "/services/exterior-design", label: "Service single" },
+      { href: "/portfolio-pages/portfolio", label: "Portfolio" },
+    ],
+  },
+  {
+    heading: "More",
+    links: [
+      { href: "/portfolio/house-architecture-design-in-los-angeles-ca", label: "Portfolio single" },
+      { href: "/blog-pages/blog-v1", label: "Blog" },
+      { href: "/blog-posts/how-to-give-maintenance-to-your-wooden-furniture-the-full-guide", label: "Blog post" },
+      { href: "/company-pages/team", label: "Team" },
+      { href: "/team/john-carter", label: "Team member" },
+    ],
+  },
+  {
+    heading: "Contact",
+    links: [
+      { href: "/contact-pages/contact-v1", label: "Contact V1" },
+      { href: "/contact-pages/contact-v2", label: "Contact V2" },
+      { href: "/contact-pages/contact-v3", label: "Contact V3" },
+      { href: "/landing-pages/request-a-quote", label: "Request a quote" },
+      { href: "/landing-pages/coming-soon", label: "Coming soon" },
+    ],
+  },
+  {
+    heading: "Template",
+    links: [
+      { href: "/template-pages/start-here", label: "Start here" },
+      { href: "/template-pages/styles-components", label: "Style guide" },
+      { href: "/template-pages/licenses", label: "Licenses" },
+      { href: "/template-pages/changelog", label: "Changelog" },
+      { href: "/404", label: "404 not found" },
+    ],
+  },
+];
+
+const socials: { label: string; href: string; icon: "facebook" | "instagram" | "linkedin" | "pinterest" }[] = [
+  { label: "Facebook", href: "https://www.facebook.com/", icon: "facebook" },
+  { label: "Instagram", href: "https://instagram.com/", icon: "instagram" },
+  { label: "LinkedIn", href: "https://linkedin.com/", icon: "linkedin" },
+  { label: "Pinterest", href: "https://www.pinterest.com/", icon: "pinterest" },
+];
+---
+
+<footer class="bg-neutral-800 text-neutral-100">
+  <div class="mx-auto max-w-[1228px] px-6 py-16">
+    {/* CTA + subscribe */}
+    <div class="mb-16 flex flex-col items-start justify-between gap-8 min-[991px]:flex-row min-[991px]:items-end">
+      <div class="max-w-[426px]">
+        <h2 class="mb-3 text-4xl leading-[1.25em] font-medium tracking-tightest text-neutral-100">
+          Bringing your vision to life
+        </h2>
+        <p class="text-base leading-[1.5em] text-neutral-400">
+          Subscribe to our newsletter for the latest projects and studio news.
+        </p>
+      </div>
+      <div class="w-full max-w-[402px]">
+        <SubscribeForm client:visible />
+      </div>
+    </div>
+
+    {/* Link grid */}
+    <nav aria-label="Footer" class="mb-16 grid grid-cols-2 gap-8 border-t border-neutral-700 pt-12 min-[767px]:grid-cols-4">
+      {columns.map((col) => (
+        <div class="flex flex-col gap-3">
+          <span class="mb-1 text-sm font-medium text-neutral-500">{col.heading}</span>
+          {col.links.map((l) => <Link href={l.href} label={l.label} variant="light" />)}
+        </div>
+      ))}
+    </nav>
+
+    {/* Bottom bar */}
+    <div class="flex flex-col items-start justify-between gap-6 border-t border-neutral-700 pt-8 min-[767px]:flex-row min-[767px]:items-center">
+      <div>
+        <a href="/" aria-label="Archipro — home" class="text-2xl font-semibold tracking-tightest text-neutral-100 no-underline">
+          Archipro
+        </a>
+        <p class="mt-2 text-sm text-neutral-500">Copyright © Archipro — Architecture Studio</p>
+      </div>
+      <ul class="flex list-none gap-3 p-0">
+        {socials.map(({ label, href, icon }) => (
+          <li>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              class="flex size-10 items-center justify-center rounded-full text-neutral-100 transition-colors duration-300 hover:text-brand-primary"
+            >
+              <SocialIcon name={icon} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>

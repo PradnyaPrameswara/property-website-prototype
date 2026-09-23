@@ -1,0 +1,52 @@
+---
+/**
+ * PostCard — blog grid card (guide 2.7).
+ * Source: reference/components/badge.html (w-dyn-item card).
+ * Image (452px tall, zoom on hover) + CircleButton overlay bottom-right,
+ * then title (display-6), badge + date row.
+ */
+import Badge from "@/components/site/Badge.astro";
+import CircleButton from "@/components/site/CircleButton.astro";
+
+interface Props {
+  href: string;
+  title: string;
+  category: string;
+  date: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  class?: string;
+}
+
+const { href, title, category, date, imageSrc, imageAlt = "", class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={["group/card block w-full no-underline", className]}
+>
+  <div class="relative mb-6 h-[452px] overflow-hidden rounded-3xl max-lg:h-[320px]">
+    {
+      imageSrc ? (
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+        />
+      ) : (
+        <div class="h-full w-full bg-neutral-300 transition-transform duration-500 group-hover/card:scale-105" role="img" aria-label={imageAlt || title} />
+      )
+    }
+    <span class="absolute right-5 bottom-5">
+      <CircleButton label={`Read: ${title}`} />
+    </span>
+  </div>
+  <div class="max-w-[456px] max-lg:max-w-full">
+    <h3 class="mb-3 text-[30px] leading-[1.25em] font-medium tracking-tightest text-neutral-800">{title}</h3>
+    <div class="flex items-center justify-start gap-3">
+      <Badge label={category} variant="tertiary" />
+      <span class="text-base font-medium text-neutral-800">{date}</span>
+    </div>
+  </div>
+</a>

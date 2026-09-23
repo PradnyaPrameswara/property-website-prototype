@@ -155,6 +155,14 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   lucide map), marquee/reveal-up keyframes + reduced-motion guard in
   `global.css`; verification page `src/pages/components-preview.astro`
   (dev-only, delete before launch)
+- [x] **Phase 2 — all components** (`app/src/`): `Header.astro` (CSS hover
+  mega menu + `[data-open]` mobile menu), `Footer.astro`, `Marquee`,
+  `TextReveal`, `Slider`, `Pagination`, `BackgroundVideo`, `SocialIcon`
+  (inline brand SVGs — lucide v1 dropped brand icons), 5 cards
+  (`cards/`), ShadCN Base UI primitives (input, textarea, select, checkbox,
+  radio-group, label, accordion, tabs, dialog) + islands `SubscribeForm`,
+  `ContactForm`, `QuoteForm`, `FaqAccordion`, `SiteTabs`, `Lightbox`;
+  parallax via `parallax-layer` utility. Counter skipped (unused in source).
 - [ ] Shared layout: `Base.astro`, `Header.astro`, `Footer.astro`
 - [ ] Page migration (69 pages; start with `home-v1` → `src/pages/index.astro`)
 - [ ] Content Collections for services, portfolio, blog, team, categories

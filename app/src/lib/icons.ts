@@ -10,10 +10,6 @@ import {
   Play,
   Check,
   Plus,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Youtube,
 } from "lucide-react";
 
 export const iconMap = {
@@ -27,11 +23,10 @@ export const iconMap = {
   check: Check,
   /** `.circle-button` plus mark */
   plus: Plus,
-  /** `.icon-font-social-media` glyphs */
-  socialFacebook: Facebook,
-  socialInstagram: Instagram,
-  socialLinkedin: Linkedin,
-  socialYoutube: Youtube,
 } as const;
 
 export type IconName = keyof typeof iconMap;
+
+// NOTE: brand/social glyphs (`.icon-font-social-media`) are NOT in lucide
+// (brand icons were removed in lucide v1) — use `components/site/SocialIcon.astro`
+// with inline SVG paths (Simple Icons, CC0) instead.

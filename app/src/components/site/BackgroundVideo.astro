@@ -1,0 +1,28 @@
+---
+/**
+ * BackgroundVideo — Webflow `.w-background-video` (guide 2.11).
+ * Source: reference/components/background-video.html
+ * Native <video>, zero JS. Assets localized in Phase 5 (mp4 + webm + poster).
+ */
+interface Props {
+  /** path under /assets/video/ without extension, e.g. "hero" → hero.webm/hero.mp4 */
+  src: string;
+  poster?: string;
+  class?: string;
+}
+
+const { src, poster, class: className } = Astro.props;
+---
+
+<video
+  class:list={["absolute inset-0 -z-10 h-full w-full object-cover", className]}
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="metadata"
+  poster={poster}
+>
+  <source src={`${src}.webm`} type="video/webm" />
+  <source src={`${src}.mp4`} type="video/mp4" />
+</video>

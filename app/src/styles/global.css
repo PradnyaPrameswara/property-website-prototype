@@ -112,6 +112,10 @@
   --color-brand-secondary-400: var(--brand-secondary-400);
   --color-brand-secondary-500: var(--brand-secondary-500);
 
+  --color-system-green: var(--system-green);
+  --color-system-red: var(--system-red);
+  --color-system-blue: var(--system-blue);
+
   --font-sans: "Inter Tight Variable", "Inter Tight", sans-serif;
   --tracking-tightest: -0.03em;
 
@@ -182,6 +186,23 @@
 @utility marquee-track-paused-on-hover {
   &:hover * {
     animation-play-state: paused;
+  }
+}
+
+/* Parallax background layer (guide 2.15) — CSS scroll-driven, static fallback */
+@utility parallax-layer {
+  @supports (animation-timeline: scroll()) {
+    animation: parallax-drift linear both;
+    animation-timeline: scroll();
+  }
+}
+
+@keyframes parallax-drift {
+  from {
+    transform: translateY(-8%);
+  }
+  to {
+    transform: translateY(8%);
   }
 }
 

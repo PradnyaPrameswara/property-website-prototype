@@ -9,6 +9,24 @@ import Link from "@/components/site/Link.astro";
 import SiteButton from "@/components/site/SiteButton.astro";
 import Badge from "@/components/site/Badge.astro";
 import CircleButton from "@/components/site/CircleButton.astro";
+import Marquee from "@/components/site/Marquee.astro";
+import BackgroundVideo from "@/components/site/BackgroundVideo.astro";
+import TextReveal from "@/components/site/TextReveal.astro";
+import Slider from "@/components/site/Slider.astro";
+import Pagination from "@/components/site/Pagination.astro";
+import Footer from "@/components/site/Footer.astro";
+import Header from "@/components/site/Header.astro";
+import PostCard from "@/components/site/cards/PostCard.astro";
+import PortfolioCard from "@/components/site/cards/PortfolioCard.astro";
+import ServiceCard from "@/components/site/cards/ServiceCard.astro";
+import TeamCard from "@/components/site/cards/TeamCard.astro";
+import TestimonialCard from "@/components/site/cards/TestimonialCard.astro";
+import SubscribeForm from "@/components/islands/SubscribeForm";
+import ContactForm from "@/components/islands/ContactForm";
+import QuoteForm from "@/components/islands/QuoteForm";
+import FaqAccordion from "@/components/islands/FaqAccordion";
+import SiteTabs from "@/components/islands/SiteTabs";
+import Lightbox from "@/components/islands/Lightbox";
 ---
 
 <html lang="en">
@@ -19,6 +37,12 @@ import CircleButton from "@/components/site/CircleButton.astro";
     <title>Component preview — Archipro migration</title>
   </head>
   <body class="mx-auto max-w-[1228px] space-y-10 p-10">
+    <section class="relative space-y-3">
+      <h2 class="text-xl font-medium">Header (desktop nav + hover mega menu; hamburger <991px)</h2>
+      <div class="relative h-20 rounded-2xl bg-neutral-200">
+        <Header />
+      </div>
+    </section>
     <section class="space-y-3">
       <h2 class="text-xl font-medium">Link (hover text-swap)</h2>
       <div class="flex gap-6">
@@ -59,5 +83,58 @@ import CircleButton from "@/components/site/CircleButton.astro";
         </span>
       </div>
     </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Marquee</h2>
+      <Marquee duration={20} pauseOnHover>
+        <span class="text-2xl font-medium text-neutral-500">Vireon</span>
+        <span class="text-2xl font-medium text-neutral-500">Google</span>
+        <span class="text-2xl font-medium text-neutral-500">Snapchat</span>
+        <span class="text-2xl font-medium text-neutral-500">Podcast</span>
+      </Marquee>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Cards</h2>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <PostCard href="#" title="Front door design ideas: 6 great concepts" category="Construction" date="Dec 3, 2025" />
+        <PortfolioCard href="#" title="House architecture design" location="Los Angeles, CA" year="2026" />
+        <ServiceCard href="#" title="Architectural design" excerpt="Custom architectural design from concept to documentation." />
+        <TeamCard href="#" name="Sophie Moore" role="Principal Architect" socials={[{ label: "linkedin", href: "https://linkedin.com/" }, { label: "instagram", href: "https://instagram.com/" }]} />
+        <TestimonialCard quote="They turned our vague ideas into a home we love." author="John Carter" role="Homeowner" />
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">TextReveal (scroll into view)</h2>
+      <TextReveal text="Designing places that feel as good as they look" class="text-3xl font-medium" />
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Tabs / Accordion / Lightbox / Slider / Pagination</h2>
+      <SiteTabs client:visible items={[{ value: "t1", label: "Tab 1", content: "First tab content." }, { value: "t2", label: "Tab 2", content: "Second tab content." }]} />
+      <FaqAccordion client:visible items={[{ question: "What services do you offer?", answer: "Architecture, interiors, renovation and more." }, { question: "Where are you located?", answer: "New York, London, Amsterdam and Ottawa." }]} />
+      <Lightbox client:visible label="Sample image"><span class="inline-block rounded-2xl bg-neutral-300 px-6 py-10">Open lightbox</span></Lightbox>
+      <Slider label="Testimonials">
+        <div class="snap-start"><TestimonialCard quote="First" author="A" /></div>
+        <div class="snap-start"><TestimonialCard quote="Second" author="B" /></div>
+        <div class="snap-start"><TestimonialCard quote="Third" author="C" /></div>
+      </Slider>
+      <Pagination nextUrl="?page=2" />
+      <div class="relative h-40 overflow-hidden rounded-3xl bg-neutral-700">
+        <BackgroundVideo src="/assets/video/hero" />
+        <span class="absolute bottom-4 left-4 text-neutral-100">BackgroundVideo layer (asset lands in Phase 5)</span>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-xl font-medium">Forms</h2>
+      <div class="bg-neutral-800 p-6 rounded-3xl max-w-md"><SubscribeForm client:visible /></div>
+      <ContactForm client:visible />
+      <QuoteForm client:visible />
+    </section>
+
+    <Footer />
   </body>
 </html>
+

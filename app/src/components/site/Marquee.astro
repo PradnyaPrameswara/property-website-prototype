@@ -1,0 +1,32 @@
+---
+/**
+ * Marquee — Webflow `.marquee---*` strips (guide 2.12).
+ * Source: reference/components/marquee.html (+ marquee-script.html).
+ * The raw site animates `.marquee-scroll-item` with an inline GSAP script;
+ * migrated to the pure-CSS `marquee` keyframes (global.css). The track is
+ * duplicated in markup (second copy aria-hidden) so translateX(-50%) loops
+ * seamlessly. Honors prefers-reduced-motion via the global guard.
+ */
+interface Props {
+  /** seconds per loop — match the raw page's px/s feel (default 30) */
+  duration?: number;
+  /** pause the loop on hover (testimonial marquees in the raw site) */
+  pauseOnHover?: boolean;
+  class?: string;
+}
+
+const { duration = 30, pauseOnHover = false, class: className } = Astro.props;
+---
+
+<div
+  class:list={["marquee overflow-hidden", pauseOnHover && "marquee-track-paused-on-hover", className]}
+>
+  <div class="marquee-track" style={`animation-duration: ${duration}s`}>
+    <div class="flex flex-none items-center gap-9 pr-9">
+      <slot />
+    </div>
+    <div class="flex flex-none items-center gap-9 pr-9" aria-hidden="true">
+      <slot />
+    </div>
+  </div>
+</div>

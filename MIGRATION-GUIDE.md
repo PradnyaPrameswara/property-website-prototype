@@ -311,13 +311,13 @@ Keep original filenames (they contain the content hash — stable and unique).
 
 ## Component checklist
 
-- [x] Link (hover text-swap) — `components/site/Link.astro` · [x] SiteButton — `components/site/SiteButton.astro` · [x] Badge — `components/site/Badge.astro` · [x] Icon mapping — `lib/icons.ts`
+- [x] Link (hover text-swap) — `components/site/Link.astro` · [x] SiteButton — `components/site/SiteButton.astro` · [x] Badge — `components/site/Badge.astro` · [x] Icon mapping — `lib/icons.ts` + `SocialIcon.astro` (brand icons as inline SVG)
 - [x] CircleButton — `components/site/CircleButton.astro` (bonus, needed by cards) · [x] marquee/reveal-up keyframes + reduced-motion guard in `global.css`
-- [ ] Header + mega menu · [ ] Mobile menu · [ ] Footer + SubscribeForm
-- [ ] Input/Textarea/Select/Checkbox/Radio (ShadCN) · [ ] ContactForm · [ ] QuoteForm
-- [ ] ServiceCard · [ ] PortfolioCard · [ ] PostCard · [ ] TeamCard · [ ] TestimonialCard
-- [ ] Tabs · [ ] Accordion/FAQ · [ ] Slider · [ ] Lightbox · [ ] BackgroundVideo
-- [ ] Marquee · [ ] Counter · [ ] TextReveal · [ ] Parallax · [ ] Pagination
+- [x] Header + mega menu — `site/Header.astro` (CSS hover dropdown, 4-column mega grid) · [x] Mobile menu — `[data-open]` script + morphing hamburger · [x] Footer + SubscribeForm — `site/Footer.astro` + `islands/SubscribeForm.tsx`
+- [x] Input/Textarea/Select/Checkbox/Radio (ShadCN Base UI) · [x] ContactForm — `islands/ContactForm.tsx` · [x] QuoteForm — `islands/QuoteForm.tsx`
+- [x] ServiceCard · [x] PortfolioCard · [x] PostCard · [x] TeamCard · [x] TestimonialCard — all in `components/site/cards/`
+- [x] Tabs — `islands/SiteTabs.tsx` · [x] Accordion/FAQ — `islands/FaqAccordion.tsx` · [x] Slider — `site/Slider.astro` (scroll-snap + script) · [x] Lightbox — `islands/Lightbox.tsx` · [x] BackgroundVideo — `site/BackgroundVideo.astro`
+- [x] Marquee — `site/Marquee.astro` · [x] Counter — SKIPPED (unused in raw export, Phase 0 finding) · [x] TextReveal — `site/TextReveal.astro` · [x] Parallax — `parallax-layer` utility · [x] Pagination — `site/Pagination.astro`
 - [ ] Collections: services, portfolio, posts, categories, team
 - [ ] Pages: 69/69 (track per-page status in AGENTS.md migration status)
 
