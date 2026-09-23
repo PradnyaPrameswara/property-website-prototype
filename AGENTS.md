@@ -163,6 +163,11 @@ Select-String -Path app\src\**\* -Pattern 'useEffect','radix-ui','webflow.js' # 
   radio-group, label, accordion, tabs, dialog) + islands `SubscribeForm`,
   `ContactForm`, `QuoteForm`, `FaqAccordion`, `SiteTabs`, `Lightbox`;
   parallax via `parallax-layer` utility. Counter skipped (unused in source).
+- [x] **Phase 3 — Content Collections** (`app/src/content/`): zod schemas in
+  `content.config.ts`; 37 entries (services 15, portfolio 4, posts 7,
+  categories 3, team 8) extracted from the raw export by
+  `app/scripts/extract-content.mjs` (Node, idempotent — reads raw HTML
+  read-only). Image fields still point at the Webflow CDN until Phase 5.
 - [ ] Shared layout: `Base.astro`, `Header.astro`, `Footer.astro`
 - [ ] Page migration (69 pages; start with `home-v1` → `src/pages/index.astro`)
 - [ ] Content Collections for services, portfolio, blog, team, categories
