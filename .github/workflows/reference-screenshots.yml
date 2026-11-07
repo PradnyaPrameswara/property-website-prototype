@@ -54,6 +54,7 @@ jobs:
         run: node scripts/check-nav-smoke.mjs
 
       - name: Capture four widths for three home variants
+        if: always()
         run: |
           mkdir -p visual/reference visual/astro
           for page in home-v1 home-v2 home-v3; do
