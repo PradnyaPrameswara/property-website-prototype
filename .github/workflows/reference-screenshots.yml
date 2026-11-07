@@ -1,0 +1,76 @@
+name: Capture original vs Astro screenshots
+
+on:
+  pull_request:
+    paths:
+      - "app/src/**"
+      - "app/scripts/check-nav-smoke.mjs"
+      - ".github/workflows/reference-screenshots.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install application dependencies
+        run: npm ci
+
+      - name: Install QA browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.0
+          npx playwright install --with-deps chromium
+
+      - name: Start Astro and HTML reference servers
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/astro-parity.log 2>&1 &
+          python3 -m http.server 4401 --bind 127.0.0.1 --directory .. > /tmp/reference-parity.log 2>&1 &
+          for attempt in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/home-pages/home-v1 > /dev/null &&
+               curl -fsS http://127.0.0.1:4401/home-pages/home-v1.html > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/astro-parity.log /tmp/reference-parity.log
+          exit 1
+
+      - name: Verify keyboard and mobile navigation
+        run: node scripts/check-nav-smoke.mjs
+
+      - name: Capture four widths for three home variants
+        run: |
+          mkdir -p visual/reference visual/astro
+          for page in home-v1 home-v2 home-v3; do
+            for viewport in 390,844 768,1024 991,900 1440,900; do
+              width=$(echo "$viewport" | cut -d, -f1)
+              npx playwright screenshot --browser chromium --full-page --wait-for-timeout=2500 --viewport-size="$viewport" \
+                "http://127.0.0.1:4401/home-pages/$page.html" "visual/reference/$page-$width.png"
+              npx playwright screenshot --browser chromium --full-page --wait-for-timeout=2500 --viewport-size="$viewport" \
+                "http://127.0.0.1:4321/home-pages/$page" "visual/astro/$page-$width.png"
+            done
+          done
+
+      - name: Upload review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-pages-reference-vs-astro
+          path: app/visual
+          if-no-files-found: warn
+          retention-days: 14
