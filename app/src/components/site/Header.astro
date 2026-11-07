@@ -72,21 +72,24 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 <header id="site-header" class="absolute top-0 right-0 left-0 z-50">
   <div class="mx-auto flex max-w-[1228px] items-center gap-4 px-6 py-4">
     {/* Brand — original light-mode logo SVG (Phase 5) */}
-    <a href="/" aria-label="Archipro — home">
-      <img src="/assets/brand/logo-light.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto" />
+    <a href="/" aria-label="Archipro — home" class="block h-8 w-8 shrink-0 overflow-hidden">
+      <img src="/assets/brand/logo-light.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto max-w-none" />
     </a>
 
     {/* Desktop nav (≥991px) */}
-    <nav aria-label="Main navigation" class="ml-auto hidden items-center gap-6 min-[991px]:flex">
-      <ul class="flex list-none items-center gap-6 p-0">
+    <nav aria-label="Main navigation" class="ml-4 hidden flex-1 items-center gap-6 min-[991px]:flex">
+      <ul class="mr-auto flex list-none items-center gap-6 p-0">
         {topLevel.map((item) => (
           <li><Link href={item.href} label={item.label} /></li>
         ))}
-        <li class="group/drop relative">
+        <li class="group/drop relative" data-pages-dropdown>
           <button
             type="button"
             aria-expanded="false"
-            class="group/link flex cursor-pointer items-center gap-2 bg-transparent p-0 text-base leading-[1.25em] text-neutral-800"
+            aria-controls="pages-menu"
+            aria-haspopup="true"
+            id="pages-toggle"
+            class="group/link focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary flex cursor-pointer items-center gap-2 bg-transparent p-0 text-base leading-[1.25em] text-neutral-800"
           >
             <span class="relative flex flex-col overflow-hidden">
               <span class="flex items-center gap-2 transition-all duration-300 group-hover/link:-translate-y-full group-hover/link:opacity-0">
@@ -98,8 +101,8 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
             </span>
           </button>
           {/* Mega menu panel — hover/focus-within open, no JS */}
-          <div class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-300 group-hover/drop:visible group-hover/drop:opacity-100 group-focus-within/drop:visible group-focus-within/drop:opacity-100">
-            <div class="grid w-[860px] grid-cols-4 gap-6 rounded-3xl border border-neutral-300 bg-neutral-100 p-8 shadow-[0_24px_64px_#12121214]">
+          <div id="pages-menu" class="invisible fixed left-1/2 top-[64px] z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-300 group-hover/drop:visible group-hover/drop:opacity-100 group-focus-within/drop:visible group-focus-within/drop:opacity-100">
+            <div class="grid w-[860px] max-w-[calc(100vw-2rem)] grid-cols-4 gap-6 rounded-3xl border border-neutral-300 bg-neutral-100 p-8 shadow-[0_24px_64px_#12121214]">
               {megaMenu.map((col) => (
                 <nav aria-label={col.heading} class="flex flex-col gap-3">
                   <span class="text-sm font-medium text-neutral-500">{col.heading}</span>
@@ -120,7 +123,7 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
       aria-label="Open menu"
       aria-controls="mobile-menu"
       aria-expanded="false"
-      class="ml-auto flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-full bg-neutral-800 min-[991px]:hidden"
+      class="ml-auto flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-lg bg-brand-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary min-[991px]:hidden"
     >
       <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-transform duration-300 [[data-open]_&]:translate-y-[6.5px] [[data-open]_&]:rotate-45"></span>
       <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-opacity duration-300 [[data-open]_&]:opacity-0"></span>
@@ -132,7 +135,7 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
   <nav
     id="mobile-menu"
     aria-label="Mobile navigation"
-    class="invisible fixed inset-x-4 top-20 z-40 max-h-[70vh] translate-y-2 overflow-y-auto rounded-3xl bg-neutral-800 p-6 opacity-0 transition-all duration-300 min-[991px]:hidden [[data-open]>&]:visible [[data-open]>&]:translate-y-0 [[data-open]>&]:opacity-100"
+    class="invisible fixed inset-x-4 top-20 z-40 max-h-[70vh] translate-y-2 overflow-y-auto rounded-3xl bg-neutral-800 p-6 opacity-0 transition-all duration-300 min-[991px]:hidden data-[open]:visible data-[open]:translate-y-0 data-[open]:opacity-100"
   >
     <ul class="flex list-none flex-col gap-4 p-0">
       {allLinks.map((item) => (
@@ -146,18 +149,174 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 <script>
   const header = document.getElementById("site-header");
 
-  const toggle = document.getElementById("nav-toggle");
+  const mobileToggle = document.getElementById("nav-toggle");
 
-  toggle?.addEventListener("click", () => {
-    const open = header?.hasAttribute("data-open") ?? false;
+  const mobileMenu = document.getElementById("mobile-menu");
 
-    if (open) {
-      header?.removeAttribute("data-open");
-    } else {
-      header?.setAttribute("data-open", "");
+  const pagesDropdown = header?.querySelector("[data-pages-dropdown]");
+
+  const pagesToggle = document.getElementById("pages-toggle");
+
+  let pagesPinned = false;
+
+  let pagesDismissed = false;
+
+  function setMobileOpen(open: boolean) {
+    header?.toggleAttribute("data-open", open);
+
+    mobileMenu?.toggleAttribute("data-open", open);
+
+    if (mobileMenu) {
+      mobileMenu.style.display = open ? "block" : "";
+
+      mobileMenu.style.visibility = open ? "visible" : "";
+
+      mobileMenu.style.opacity = open ? "1" : "";
+
+      mobileMenu.style.transform = open ? "translateY(0)" : "";
     }
 
-    toggle.setAttribute("aria-expanded", String(!open));
-    toggle.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+    mobileToggle?.setAttribute("aria-expanded", String(open));
+
+    mobileToggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  function setPagesExpanded(open: boolean) {
+    pagesToggle?.setAttribute("aria-expanded", String(open));
+
+    pagesDropdown?.toggleAttribute("data-pages-active", open);
+  }
+
+  function syncPages() {
+    const hover = pagesDropdown?.matches(":hover") ?? false;
+
+    const focus = pagesDropdown?.contains(document.activeElement) ?? false;
+
+    pagesDropdown?.toggleAttribute("data-dismissed", pagesDismissed);
+
+    setPagesExpanded(!pagesDismissed && (pagesPinned || hover || focus));
+  }
+
+  mobileToggle?.addEventListener("click", () => {
+    const opening = !header?.hasAttribute("data-open");
+
+    setMobileOpen(opening);
+
+    if (opening) mobileMenu?.querySelector("a")?.focus();
+  });
+
+  pagesDropdown?.addEventListener("pointerenter", () => {
+    pagesDismissed = false;
+
+    syncPages();
+  });
+
+  pagesDropdown?.addEventListener("pointerleave", () => {
+    pagesPinned = false;
+
+    pagesDismissed = false;
+
+    syncPages();
+  });
+
+  pagesDropdown?.addEventListener("focusin", () => {
+    pagesDismissed = false;
+
+    syncPages();
+  });
+
+  pagesDropdown?.addEventListener("focusout", (event) => {
+    const next = event.relatedTarget;
+
+    if (!(next instanceof Node) || !pagesDropdown.contains(next)) {
+      pagesPinned = false;
+
+      setPagesExpanded(!pagesDismissed && pagesDropdown.matches(":hover"));
+    }
+  });
+
+  pagesToggle?.addEventListener("click", () => {
+    const wasOpen = pagesToggle.getAttribute("aria-expanded") === "true";
+
+    pagesPinned = !wasOpen;
+
+    pagesDismissed = wasOpen;
+
+    syncPages();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+
+    if (header?.hasAttribute("data-open")) {
+      setMobileOpen(false);
+
+      mobileToggle?.focus();
+    }
+
+    if (pagesToggle?.getAttribute("aria-expanded") === "true") {
+      pagesPinned = false;
+
+      pagesDismissed = true;
+
+      pagesDropdown?.setAttribute("data-dismissed", "");
+
+      setPagesExpanded(false);
+
+      header?.querySelector<HTMLElement>('a[href="/company-pages/about"]')?.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (!(target instanceof Node)) return;
+
+    if (header?.hasAttribute("data-open") && !header.contains(target)) {
+      setMobileOpen(false);
+    }
+
+    if (pagesPinned && !pagesDropdown?.contains(target)) {
+      pagesPinned = false;
+
+      syncPages();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 991 && header?.hasAttribute("data-open")) {
+      setMobileOpen(false);
+    }
   });
 </script>
+<style is:global>
+  #site-header [data-pages-dropdown][data-dismissed] #pages-menu {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  @media (max-width: 990px) {
+    #site-header #mobile-menu[data-open] {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:first-child {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+  }
+</style>
+
