@@ -1,0 +1,66 @@
+name: Audit every Webflow page against Astro
+
+on:
+  pull_request:
+    paths:
+      - "app/src/**"
+      - "app/scripts/audit-full-site.mjs"
+      - ".github/workflows/full-site-visual-parity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-site-parity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install application dependencies
+        run: npm ci
+
+      - name: Install Chromium QA tooling
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.0
+          npx playwright install --with-deps chromium
+
+      - name: Start Astro and reference export
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 4321 > /tmp/astro-audit.log 2>&1 &
+          python3 -m http.server 4401 --bind 127.0.0.1 --directory .. > /tmp/webflow-audit.log 2>&1 &
+          for attempt in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4321/home-pages/home-v1 > /dev/null &&
+               curl -fsS http://127.0.0.1:4401/home-pages/home-v1.html > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/astro-audit.log /tmp/webflow-audit.log
+          exit 1
+
+      - name: Compare routes, content and screenshot evidence
+        run: node scripts/audit-full-site.mjs --shard ${{ matrix.shard }}
+
+      - name: Retain complete route-level evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-site-parity-shard-${{ matrix.shard }}
+          path: app/visual/full-site/shard-${{ matrix.shard }}
+          if-no-files-found: warn
+          retention-days: 14
