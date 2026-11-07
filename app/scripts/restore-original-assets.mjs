@@ -18,6 +18,7 @@ const selected = [
   ["home-pages/home-v1.html", "688a50cbfbe8559898958990_construction-archipro-webflow-template.png"],
   ["home-pages/home-v1.html", "688a50cc8c4226dcdd1fe747_decoration-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a93b259161daf15717fec_cozy-seating-area-archipro-webflow-template.png"],
+  ["home-pages/home-v3.html", "688b9d50b83ea2f28adb8d92_modern-mountain-house-archipro-webflow-template.jpg"],
   ["home-pages/home-v2.html", "688a8f736ba3faadf02781f4_minimalist-bedroom-hero-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a8f73c7632f2e0ff7b0b3_modern-living-room-hero-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a8f734866d06a9c67bd1d_wooden-dining-table-hero-archipro-webflow-template.png"],
