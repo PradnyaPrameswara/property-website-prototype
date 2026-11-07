@@ -135,7 +135,7 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
   <nav
     id="mobile-menu"
     aria-label="Mobile navigation"
-    class="invisible fixed inset-x-4 top-20 z-40 max-h-[70vh] translate-y-2 overflow-y-auto rounded-3xl bg-neutral-800 p-6 opacity-0 transition-all duration-300 min-[991px]:hidden [[data-open]>&]:visible [[data-open]>&]:translate-y-0 [[data-open]>&]:opacity-100"
+    class="invisible fixed inset-x-4 top-20 z-40 max-h-[70vh] translate-y-2 overflow-y-auto rounded-3xl bg-neutral-800 p-6 opacity-0 transition-all duration-300 min-[991px]:hidden data-[open]:visible data-[open]:translate-y-0 data-[open]:opacity-100"
   >
     <ul class="flex list-none flex-col gap-4 p-0">
       {allLinks.map((item) => (
@@ -161,6 +161,8 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
   function setMobileOpen(open: boolean) {
     header?.toggleAttribute("data-open", open);
+
+    mobileMenu?.toggleAttribute("data-open", open);
 
     mobileToggle?.setAttribute("aria-expanded", String(open));
 
