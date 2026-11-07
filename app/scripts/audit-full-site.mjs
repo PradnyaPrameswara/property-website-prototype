@@ -3,7 +3,7 @@
  * Visual QA for every source HTML page except Webflow's generated
  * email/telephone aliases. Does not certify pixel parity.
  */
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
@@ -72,15 +72,22 @@ function inspect() {
   const heading = source.querySelector("h1");
 
   const headings = [...source.querySelectorAll("h1, h2, h3")]
-    .map((element) => element.textContent?.replace(/\s+/g, " ").trim() ?? "")
-    .filter(Boolean);
+    .flatMap((element) => {
+      const text = element.textContent?.replace(/\s+/g, " ").trim() ?? "";
+
+      return text ? [text] : [];
+    });
 
   const images = [...source.querySelectorAll("section img")];
 
   const brokenImages = images
-    .filter((img) => img.complete && img.naturalWidth === 0)
-    .map((img) => img.getAttribute("src"))
-    .filter(Boolean)
+    .flatMap((img) => {
+      if (!img.complete || img.naturalWidth !== 0) return [];
+
+      const source = img.getAttribute("src");
+
+      return source ? [source] : [];
+    })
     .slice(0, 10);
 
   const h1Style = heading ? getComputedStyle(heading) : null;
