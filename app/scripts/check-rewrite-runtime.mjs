@@ -9,15 +9,21 @@ import { extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const appRoot = fileURLToPath(new URL("../", import.meta.url));
+
 const requireBuild = process.argv.includes("--require-build");
+
 const sourceTypes = new Set([".astro", ".ts", ".tsx", ".js", ".jsx", ".css"]);
+
 const emittedTypes = new Set([".html", ".js", ".css", ".svg"]);
+
 const violations = [];
 
 function* walk(directory) {
   if (!existsSync(directory)) return;
+
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const fullPath = join(directory, entry.name);
+
     if (entry.isDirectory()) {
       yield* walk(fullPath);
     } else if (entry.isFile()) {
@@ -27,6 +33,7 @@ function* walk(directory) {
 }
 
 const forbiddenPackages = /^(?:@radix-ui\/|@webflow\/|jquery$|gsap$|webflow$|webflow-js$)/i;
+
 const dependencies = JSON.parse(readFileSync(join(appRoot, "package.json"), "utf8"));
 
 for (const group of ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"]) {
@@ -54,8 +61,10 @@ const sourcePatterns = [
 
 function checkFile(file, patterns) {
   const content = readFileSync(file, "utf8");
+
   for (const [label, pattern] of patterns) {
     const hit = pattern.exec(content);
+
     if (hit) {
       const line = content.slice(0, hit.index).split("\n").length;
       violations.push(relative(appRoot, file) + ":" + line + ": " + label);
@@ -64,6 +73,7 @@ function checkFile(file, patterns) {
 }
 
 let sourceCount = 0;
+
 for (const file of walk(join(appRoot, "src"))) {
   if (!sourceTypes.has(extname(file))) continue;
   sourceCount++;
@@ -71,22 +81,27 @@ for (const file of walk(join(appRoot, "src"))) {
 }
 
 let publicCount = 0;
+
 for (const file of walk(join(appRoot, "public"))) {
   const ext = extname(file);
+
   if (ext === ".html") {
     violations.push(relative(appRoot, file) + ": exported HTML must not be served by Astro");
   }
+
   if (!emittedTypes.has(ext)) continue;
   publicCount++;
   checkFile(file, runtimePatterns);
 }
 
 const clientDirectory = join(appRoot, "dist", "client");
+
 if (requireBuild && !existsSync(clientDirectory)) {
   violations.push("dist/client: missing build output; run npm run build first");
 }
 
 let outputCount = 0;
+
 for (const file of walk(clientDirectory)) {
   if (!emittedTypes.has(extname(file))) continue;
   outputCount++;
