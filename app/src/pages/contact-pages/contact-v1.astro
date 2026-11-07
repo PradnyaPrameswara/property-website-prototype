@@ -1,54 +1,103 @@
 ---
-/**
- * Contact V1 — contact-pages/contact-v1.html: hero split with contact
- * info list + ContactForm island (guide Phase 4 step 7).
- */
+/** Contact V1 rebuilt from contact-pages/contact-v1.html. */
 import Base from "@/layouts/Base.astro";
 import ContactForm from "@/components/islands/ContactForm";
-import { iconMap } from "@/lib/icons";
+import OfficeLocations from "@/components/islands/OfficeLocations";
+import FaqAccordion from "@/components/islands/FaqAccordion";
+import Marquee from "@/components/site/Marquee.astro";
+import QuoteCta from "@/components/sections/QuoteCta.astro";
 
-const MailIcon = iconMap.email;
+const description =
+  "Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed et sit nisl tempor.";
 
-const PhoneIcon = iconMap.phone;
+const faqs = [
+  { question: "Do you offer virtual meetings or consultations?", answer: "Contact our team to arrange an initial consultation." },
+  { question: "What types of architecture projects do you specialize in?", answer: "We work on residential, commercial, renovation and interior design projects." },
+  { question: "What information should I include in my initial inquiry?", answer: "Include the location, scope, timeline and goals of your project." },
+  { question: "Do you work on projects outside your city or region?", answer: "Contact our team to discuss project coverage and availability." },
+  { question: "Who should I contact for press or collaboration inquiries?", answer: "Use the contact form and describe the nature of your inquiry." },
+  { question: "Where are your offices located?", answer: "Review our locations below or contact the team for current details." },
+];
 
-const PinIcon = iconMap.location;
-
-const channels = [
-  { icon: MailIcon, label: "Email", value: "contact@archipro.com" },
-  { icon: PhoneIcon, label: "Phone", value: "(414) 840 - 2602" },
-  { icon: PinIcon, label: "Office", value: "San Francisco, CA" },
+const gallery = [
+  "/assets/img/6890c4e82ae78e79eb36f57e_our-work-gallery-v2-archipro-webflow-template.png",
+  "/assets/img/6890c4e748959810d151280e_our-work-gallery-v1-archipro-webflow-template.png",
+  "/assets/img/6890c4e7f9f8eddbe1e5cc09_our-work-gallery-v3-archipro-webflow-template.png",
+  "/assets/img/6890c4e8e6da5a01d347d511_our-work-gallery-v4-archipro-webflow-template.png",
 ];
 ---
 
 <Base title="Contact" description="Get in touch with the Archipro architecture studio.">
-  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
-    <div class="mx-auto grid max-w-[1228px] gap-16 lg:grid-cols-2">
-      <div>
-        <h1 class="text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
-          Contact us
-        </h1>
-        <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
-          Tell us about your project — we usually reply within one business day.
-        </p>
-        <ul class="mt-10 space-y-6">
-          {
-            channels.map((channel) => (
-              <li class="flex items-center gap-4">
-                <span class="flex size-12 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
-                  <channel.icon className="size-5" aria-hidden />
-                </span>
-                <div>
-                  <p class="text-sm text-neutral-500">{channel.label}</p>
-                  <p class="text-base font-medium text-neutral-800">{channel.value}</p>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
+  <section id="get-in-touch" class="px-6 pt-28 pb-20 md:pt-36" aria-labelledby="contact-v1-heading">
+    <div class="mx-auto grid max-w-[1228px] items-stretch gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.88fr)] lg:gap-12">
+      <div class="flex flex-col gap-8">
+        <div>
+          <h1 id="contact-v1-heading" class="mb-5 text-[clamp(2.4rem,4.5vw,5.2rem)] font-medium leading-[1.08] tracking-tightest text-neutral-800">
+            Let’s work together
+          </h1>
+          <p class="max-w-[480px] text-base leading-[1.6] text-neutral-600">{description}</p>
+        </div>
         <ContactForm client:visible />
+      </div>
+      <div class="relative min-h-[470px] overflow-hidden rounded-3xl bg-neutral-200 lg:min-h-[730px]">
+        <img
+          src="/assets/img/6890c4e864be09da847d095d_slider-image-v1-archipro-webflow-template.png"
+          alt="Warm interior seating with a curved sofa and modern furniture"
+          width="940"
+          height="1230"
+          loading="eager"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="absolute left-6 top-8 z-10 max-w-[340px] px-2 text-neutral-100 sm:left-10 sm:top-12">
+          <blockquote>
+            <p class="mb-4 text-2xl font-medium leading-[1.2] tracking-tightest sm:text-3xl">
+              From concept to build, every step was smooth and thoughtful.
+            </p>
+            <footer class="text-sm font-medium">John Carter | New York, NY</footer>
+          </blockquote>
+        </div>
       </div>
     </div>
   </section>
+
+  <section class="px-6 py-24" aria-labelledby="contact-v1-offices">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mx-auto mb-10 max-w-[520px] text-center">
+        <h2 id="contact-v1-offices" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+          Tour our office space
+        </h2>
+        <p class="text-base leading-[1.6] text-neutral-600">{description}</p>
+      </div>
+      <OfficeLocations client:visible />
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-labelledby="contact-v1-faq">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-10 lg:grid-cols-[0.8fr_1fr]">
+      <h2 id="contact-v1-faq" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+        You ask, we answer
+      </h2>
+      <FaqAccordion client:visible items={faqs} />
+    </div>
+  </section>
+
+  <section class="overflow-hidden py-20" aria-labelledby="contact-v1-follow">
+    <div class="mx-auto max-w-[1228px] px-6">
+      <h2 id="contact-v1-follow" class="mb-8 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+    </div>
+    <Marquee duration={35} pauseOnHover>
+      {gallery.map((source, index) => (
+        <img
+          src={source}
+          alt={"Archipro studio gallery " + (index + 1)}
+          width="400"
+          height="360"
+          loading="lazy"
+          class="h-[260px] w-[320px] rounded-3xl object-cover"
+        />
+      ))}
+    </Marquee>
+  </section>
+
+  <QuoteCta />
 </Base>
