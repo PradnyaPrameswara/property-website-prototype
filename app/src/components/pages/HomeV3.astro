@@ -56,7 +56,14 @@ const followImages = [
     <SectionHeader eyebrow="Studio" title="Tour our office space" />
     <Lightbox client:visible label="Office tour video" videoSrc="/assets/video/office-tour.mp4">
       <span class="group/card relative flex h-[420px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-800">
-        <span class="flex size-16 items-center justify-center rounded-full bg-neutral-100 text-neutral-800 transition-transform duration-300 group-hover/card:scale-110">
+        <img
+          src="/assets/video/office-tour-poster.jpg"
+          alt=""
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <span class="absolute inset-0 bg-neutral-800/30" aria-hidden="true"></span>
+        <span class="relative z-10 flex size-16 items-center justify-center rounded-full bg-neutral-100 text-neutral-800 transition-transform duration-300 group-hover/card:scale-110">
           <PlayIcon className="size-6 fill-current" aria-hidden />
         </span>
       </span>
