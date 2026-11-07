@@ -8,8 +8,7 @@ node app/scripts/restore-original-assets.mjs
 ```
 
 The importer reads URLs only from original, immutable HTML references. It
-downloads the specifically identified Home V1/V2 hero and studio imagery, eight
-partner SVG logos, and inline blog figures. Downloads are limited to the
+downloads the specifically identified Home V1/V2 hero and studio imagery, the four Home V2 capsule portraits, Home V1's three service-card images, eight partner SVG logos, and inline blog figures. Downloads are limited to the
 original Webflow asset host and allowed image types. Files are committed under
 `app/public/assets/` and served locally, without runtime CDN requests.
 
