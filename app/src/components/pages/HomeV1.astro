@@ -9,7 +9,7 @@
 import SiteButton from "@/components/site/SiteButton.astro";
 import Marquee from "@/components/site/Marquee.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
-import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import SourceServiceCard from "@/components/sections/SourceServiceCard.astro";
 import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
@@ -31,7 +31,9 @@ const partners = [
   { name: "Socium", file: "6883d9dc48a8579a5efd16f3_socium-logo-company-archipro-webflow-template.svg", width: 148 },
   { name: "Bridgr", file: "6883d9dc4717347feac9ab9b_bridgr-logo-company-archipro-webflow-template.svg", width: 148 },
   { name: "Netspire", file: "6883d9dd971331992c54bd48_netspire-logo-company-archipro-webflow-template.svg", width: 148 },
-];
+]; 
+
+const serviceDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
 ---
 
 {/* Original Home V1 hero: centered heading over the local house and gradient assets. */}
@@ -74,16 +76,47 @@ const partners = [
   </div>
 </section>
 
-{/* Services */}
-<section class="px-6 py-24">
+{/* Source-matched service cards: title first on mobile, first image left on desktop. */}
+<section class="px-6 py-20 lg:py-24">
   <div class="mx-auto max-w-[1228px]">
-    <SectionHeader
-      eyebrow="Services"
-      title="From concept to completion"
-      linkHref="/service-pages/services"
-      linkLabel="All services"
-    />
-    <ServicesGrid limit={6} />
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,0.85fr)] lg:gap-14">
+      <SourceServiceCard
+        href="/service-pages/services"
+        title="Exterior design"
+        image="/assets/img/688a50ccb8be7acefbef0b1b_exterior-design-archipro-webflow-template.png"
+        alt="Outdoor seating and natural wood exterior design"
+        description={serviceDescription}
+        class="order-2 lg:order-1"
+      />
+      <div class="order-1 flex flex-col justify-center lg:order-2">
+        <h2 class="mb-4 text-3xl leading-[1.08] font-medium tracking-tightest text-neutral-800 sm:text-4xl lg:text-5xl">
+          From concept to completion
+        </h2>
+        <p class="mb-6 max-w-[420px] leading-[1.6] text-neutral-600">
+          {serviceDescription}
+        </p>
+        <a href="/service-pages/services" class="inline-flex w-fit rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors hover:bg-brand-primary">
+          Browse all services
+        </a>
+      </div>
+    </div>
+    <div class="mt-6 grid items-start gap-6 sm:grid-cols-2">
+      <SourceServiceCard
+        href="/service-pages/services"
+        title="Decoration"
+        image="/assets/img/688a50cbfbe8559898958990_construction-archipro-webflow-template.png"
+        alt="Decorative ceramic vases and candles"
+        description={serviceDescription}
+      />
+      <SourceServiceCard
+        href="/service-pages/services"
+        title="Construction"
+        image="/assets/img/688a50cc8c4226dcdd1fe747_decoration-archipro-webflow-template.png"
+        alt="Contemporary residential architecture"
+        description={serviceDescription}
+        tall
+      />
+    </div>
   </div>
 </section>
 
