@@ -1,0 +1,38 @@
+name: Verify Astro rewrite
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build lint plugin
+        run: npm run build:lint-plugin
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build Astro
+        run: npm run build
+
+      - name: Reject legacy runtime dependencies
+        run: npm run check:rewrite -- --require-build
