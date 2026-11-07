@@ -1,14 +1,14 @@
 ---
 /**
- * Team member detail — team/[slug].html (8 CMS pages): photo, role,
- * bio, social links (guide Phase 4 step 4).
+ * Team member detail rebuilt against team/[slug].html.
+ * Source hero contains the portrait and "About me" copy; articles follow.
  */
 import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import Base from "@/layouts/Base.astro";
 import RichText from "@/components/sections/RichText.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
-import TeamGrid from "@/components/sections/TeamGrid.astro";
+import PostsGrid from "@/components/sections/PostsGrid.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
 
 export const getStaticPaths = (async () => {
@@ -27,20 +27,24 @@ const { name, role, bio, photo } = member.data;
 const { Content } = await render(member);
 ---
 
-<Base title={name} description={bio ?? `${name}, ${role ?? "team member"} at Archipro`} ogImage={photo || undefined}>
-  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
-    <div class="mx-auto grid max-w-[1228px] items-start gap-12 lg:grid-cols-2">
-      {
-        photo ? (
-          <img src={photo} alt={`Portrait of ${name}`} class="aspect-square w-full rounded-3xl object-cover" loading="eager" />
-        ) : (
-          <div class="aspect-square w-full rounded-3xl bg-neutral-300" role="img" aria-label={`Portrait of ${name}`} />
-        )
-      }
+<Base title={name} description={bio ?? "About " + name + ", " + (role ?? "team member") + " at Archipro"} ogImage={photo || undefined}>
+  <section class="px-6 pt-36 pb-24 max-md:pt-28">
+    <div class="mx-auto grid max-w-[1228px] items-start justify-between gap-10 lg:grid-cols-[minmax(0,490px)_minmax(0,564px)] lg:gap-16">
+      {photo ? (
+        <img
+          src={photo}
+          alt={"Portrait of " + name}
+          width="490"
+          height="512"
+          loading="eager"
+          class="aspect-[490/512] w-full rounded-3xl object-cover"
+        />
+      ) : (
+        <div class="aspect-[490/512] w-full rounded-3xl bg-neutral-200" role="img" aria-label={"Portrait of " + name} />
+      )}
       <div>
-        <h1 class="text-5xl leading-[1.1em] font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">{name}</h1>
-        <p class="mt-2 text-lg text-neutral-500">{role}</p>
-        <RichText class="mt-6 max-w-[52ch]">
+        <h1 class="mb-6 text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 max-lg:text-4xl">About me</h1>
+        <RichText class="max-w-[564px]">
           <Content />
         </RichText>
       </div>
@@ -49,8 +53,13 @@ const { Content } = await render(member);
 
   <section class="px-6 pb-24">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="Team" title="Our creative minds" linkHref="/company-pages/team" linkLabel="Meet the team" />
-      <TeamGrid limit={4} />
+      <SectionHeader
+        eyebrow="Journal"
+        title={"Articles by " + name}
+        linkHref="/blog-pages/blog-v1"
+        linkLabel="Browse all articles"
+      />
+      <PostsGrid limit={2} />
     </div>
   </section>
 
