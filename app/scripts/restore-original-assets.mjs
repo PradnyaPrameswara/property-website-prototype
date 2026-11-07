@@ -88,6 +88,18 @@ for (const [page, name] of selected) {
   assets.set(name, url);
 }
 
+// The source root is a template preview, not Home V1. Localize its
+// page-preview screenshots from the immutable index.html export.
+const previewHtml = await readFile(join(root, "index.html"), "utf8");
+
+for (const url of imageSources(previewHtml)) {
+  const name = filename(url);
+
+  if (name.includes("-architecture-firm-webflow-template.")) {
+    assets.set(name, url);
+  }
+}
+
 for (const name of (await readdir(join(root, "blog-posts"))).filter((item) => item.endsWith(".html"))) {
   const html = await readFile(join(root, "blog-posts", name), "utf8");
 
