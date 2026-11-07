@@ -4,9 +4,10 @@
  * layout: hero title → meta row (location/year/service/area) → hero image →
  * description → gallery → quote CTA.
  */
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import Base from "@/layouts/Base.astro";
+import RichText from "@/components/sections/RichText.astro";
 import PageHero from "@/components/sections/PageHero.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
@@ -24,6 +25,8 @@ export const getStaticPaths = (async () => {
 const { project } = Astro.props;
 
 const { title, description, heroImage, gallery } = project.data;
+
+const { Content } = await render(project);
 ---
 
 <Base title={title} description={description} ogImage={heroImage || undefined}>
@@ -42,7 +45,9 @@ const { title, description, heroImage, gallery } = project.data;
         )
       }
 
-      <p class="mx-auto mb-12 max-w-[720px] text-lg leading-[1.6em] text-neutral-600">{description}</p>
+      <RichText class="mx-auto mb-12 max-w-[720px]">
+        <Content />
+      </RichText>
 
       {
         gallery.length > 0 && (

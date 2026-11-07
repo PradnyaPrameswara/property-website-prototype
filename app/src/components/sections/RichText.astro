@@ -1,0 +1,21 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<article
+  class:list={[
+    "text-lg leading-[1.65] text-neutral-600",
+    "[&_h2]:mb-5 [&_h2]:mt-10 [&_h2]:text-3xl [&_h2]:font-medium [&_h2]:leading-tight [&_h2]:tracking-tightest [&_h2]:text-neutral-800",
+    "[&_h3]:mb-4 [&_h3]:mt-8 [&_h3]:text-2xl [&_h3]:font-medium [&_h3]:text-neutral-800",
+    "[&_p]:mb-6 [&_ul]:mb-6 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:mb-6 [&_ol]:list-decimal [&_ol]:pl-6",
+    "[&_blockquote]:border-l-2 [&_blockquote]:border-brand-primary [&_blockquote]:pl-6",
+    "[&_img]:my-10 [&_img]:w-full [&_img]:rounded-3xl [&_img]:object-cover",
+    className,
+  ]}
+>
+  <slot />
+</article>
