@@ -19,6 +19,24 @@ try {
   }
 
   if (!(await mobileMenu.isVisible())) {
+    const diagnostics = await mobileMenu.evaluate((menu) => {
+      const style = getComputedStyle(menu);
+
+      const rect = menu.getBoundingClientRect();
+
+      return {
+        open: menu.hasAttribute("data-open"),
+        display: style.display,
+        visibility: style.visibility,
+        opacity: style.opacity,
+        width: rect.width,
+        height: rect.height,
+        headerOpen: menu.closest("header")?.hasAttribute("data-open"),
+      };
+    });
+
+    console.error("Mobile menu diagnostics:", JSON.stringify(diagnostics));
+
     throw new Error("Mobile menu did not become visible");
   }
 
