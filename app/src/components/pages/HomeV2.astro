@@ -14,39 +14,66 @@ import QuoteCta from "@/components/sections/QuoteCta.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 
-const heroImage =
-  "/assets/img/69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg";
+const capsules = [
+  { src: "/assets/img/688a8f736ba3faadf02781f4_minimalist-bedroom-hero-archipro-webflow-template.png", alt: "Minimalist bedroom", offset: "mt-[68px]" },
+  { src: "/assets/img/688a8f73c7632f2e0ff7b0b3_modern-living-room-hero-archipro-webflow-template.png", alt: "Modern living room", offset: "mt-0" },
+  { src: "/assets/img/688a8f734866d06a9c67bd1d_wooden-dining-table-hero-archipro-webflow-template.png", alt: "Wooden dining table", offset: "mt-[125px]" },
+  { src: "/assets/img/688a8f7371c3c0dcf19aa5a7_minimalist-bathroom-hero-archipro-webflow-template.png", alt: "Minimalist bathroom", offset: "mt-[66px]" },
+];
+
+const studioImage = "/assets/img/688a93b259161daf15717fec_cozy-seating-area-archipro-webflow-template.png";
 ---
 
-{/* Split hero */}
-<section class="px-6 pt-40 pb-24 max-lg:pt-32">
-  <div class="mx-auto grid max-w-[1228px] items-center gap-12 lg:grid-cols-2">
+{/* Original Home V2 hero: four staggered image capsules beside the introduction. */}
+<section class="px-6 pt-36 pb-20 sm:pt-40 lg:pb-28">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-10 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
+    <div class="grid grid-cols-4 items-start gap-2 overflow-hidden sm:gap-4" aria-label="Four featured interior spaces">
+      {capsules.map((capsule) => (
+        <div class:list={["min-w-0 overflow-hidden rounded-full bg-neutral-200", capsule.offset]}>
+          <img
+            src={capsule.src}
+            alt={capsule.alt}
+            width="360"
+            height="900"
+            loading="eager"
+            class="aspect-[2/5] w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
     <div>
-      <h1 class="text-5xl leading-[1.08em] font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">
+      <h1 class="text-[clamp(2.75rem,4vw,4.6rem)] leading-[1.08] font-medium tracking-tightest text-neutral-800">
         Crafting spaces with purpose and personality
       </h1>
-      <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
-        Architecture studio designing homes, workplaces, and public spaces
-        that balance beauty with everyday function.
+      <p class="mt-6 max-w-[392px] text-lg leading-[1.55] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse adipiscing cras nec.
       </p>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <SiteButton href="/landing-pages/request-a-quote" label="Request a quote" />
-        <SiteButton href="/service-pages/services" label="Our services" variant="light" />
+      <div class="mt-8">
+        <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
       </div>
     </div>
-    <img
-      src={heroImage}
-      alt="House architecture design by Archipro"
-      class="h-[520px] w-full rounded-3xl object-cover max-lg:h-[360px]"
-      loading="eager"
-    />
   </div>
 </section>
 
-<section class="px-6 py-24">
-  <div class="mx-auto max-w-[1228px]">
-    <SectionHeader eyebrow="About us" title="Inside the firm" linkHref="/company-pages/about" linkLabel="About us" />
+<section class="overflow-hidden rounded-3xl bg-brand-secondary-200 pt-24">
+  <div class="mx-auto grid max-w-[1228px] items-start gap-8 px-6 pb-12 lg:grid-cols-[1fr_1fr_auto]">
+    <h2 class="text-4xl leading-[1.08] font-medium tracking-tightest text-neutral-800 sm:text-5xl">Inside the firm</h2>
+    <p class="max-w-[430px] text-lg leading-[1.55] text-neutral-600">
+      The way we live, work, and connect keeps changing—and so should the spaces around us.
+      At Archipro, we design adaptable, thoughtful environments that grow with you.
+      Easy to shape, a pleasure to be in, and made to bring out the best in people.
+      Because great spaces don’t just look good—they make life better.
+    </p>
+    <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
   </div>
+  <img
+    src={studioImage}
+    alt="Warmly furnished studio seating area"
+    width="1680"
+    height="485"
+    loading="lazy"
+    class="mx-auto w-full max-w-[1680px] object-cover"
+  />
 </section>
 
 <section class="px-6 py-24">

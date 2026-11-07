@@ -16,38 +16,58 @@ import QuoteCta from "@/components/sections/QuoteCta.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 
-const heroImage =
-  "/assets/img/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg";
+const heroImage = "/assets/img/68894269d79943dcb4fbee77_designing-places-archipro-webflow-template.png";
+const heroOverlay = "/assets/img/688942340e598afe2c3207bf_hero-linear-bg-archipro-webflow-template.png";
+const studioImage = "/assets/img/688a5b011779274c81245d83_inside-firm-archipro-webflow-template.jpg";
 
-const brands = ["Vireon", "Linkora", "Converra", "Nexora", "Syncell", "Socium", "Bridgr", "Netspire"];
+const partners = [
+  { name: "Vireon", file: "6883d9dcf978a79188aaafeb_vireon-logo-company-archipro-webflow-template.svg", width: 124 },
+  { name: "Linkora", file: "6883d9dc8be2d0a7690019e7_linkora-logo-company-archipro-webflow-template.svg", width: 145 },
+  { name: "Converra", file: "6883d9dc74f4793a5b09b481_converra-logo-company-archipro-webflow-template.svg", width: 156 },
+  { name: "Nexora", file: "6883d9dc0175aafefd64b4f6_nexora-logo-company-archipro-webflow-template.svg", width: 130 },
+  { name: "Syncell", file: "6883d9dc31f0406c374e6c3f_syncell-logo-company-archipro-webflow-template.svg", width: 139 },
+  { name: "Socium", file: "6883d9dc48a8579a5efd16f3_socium-logo-company-archipro-webflow-template.svg", width: 148 },
+  { name: "Bridgr", file: "6883d9dc4717347feac9ab9b_bridgr-logo-company-archipro-webflow-template.svg", width: 148 },
+  { name: "Netspire", file: "6883d9dd971331992c54bd48_netspire-logo-company-archipro-webflow-template.svg", width: 148 },
+];
 ---
 
-{/* Hero */}
-<section class="px-6 pt-40 pb-16 max-lg:pt-32">
-  <div class="mx-auto max-w-[1228px]">
-    <h1 class="max-w-[18ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+{/* Original Home V1 hero: centered heading over the local house and gradient assets. */}
+<section class="relative isolate mx-4 mt-24 min-h-[680px] overflow-hidden rounded-3xl bg-brand-secondary-200 sm:mx-6 lg:min-h-[770px]" aria-labelledby="home-v1-title">
+  <img src={heroOverlay} alt="" aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+  <img
+    src={heroImage}
+    alt="Minimalist architecture exterior"
+    width="1584"
+    height="900"
+    fetchpriority="high"
+    loading="eager"
+    class="pointer-events-none absolute inset-0 h-full w-full object-contain object-bottom"
+  />
+  <div class="relative z-10 mx-auto flex max-w-[670px] flex-col items-center px-6 pt-16 text-center sm:pt-24 lg:pt-36">
+    <h1 id="home-v1-title" class="text-[clamp(2.75rem,5.2vw,5.5rem)] leading-[1.05] font-medium tracking-tightest text-neutral-800">
       Designing places that feel as good as they look
     </h1>
-    <div class="mt-8 flex flex-wrap gap-4">
+    <div class="mt-8">
       <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
-      <SiteButton href="/portfolio-pages/portfolio" label="View our work" variant="light" />
-    </div>
-    <div class="relative mt-16 overflow-hidden rounded-3xl">
-      <img
-        src={heroImage}
-        alt="Modern architecture project by Archipro"
-        class="parallax-layer h-[560px] w-full object-cover max-lg:h-[380px]"
-        loading="eager"
-      />
     </div>
   </div>
 </section>
 
-{/* Brand marquee */}
-<section class="bg-brand-secondary-200 px-6 py-16">
+{/* Original partner logos, rather than plain-text substitutes. */}
+<section class="overflow-hidden px-4 py-12 sm:px-6" aria-label="Our partners">
   <div class="mx-auto max-w-[1228px]">
-    <Marquee duration={25}>
-      {brands.map((brand) => <span class="text-2xl font-medium text-neutral-500">{brand}</span>)}
+    <Marquee duration={35} pauseOnHover>
+      {partners.map((partner) => (
+        <img
+          src={"/assets/brand/partners/" + partner.file}
+          alt={partner.name}
+          width={partner.width}
+          height="40"
+          loading="lazy"
+          class="h-10 w-auto max-w-none object-contain"
+        />
+      ))}
     </Marquee>
   </div>
 </section>
@@ -65,18 +85,18 @@ const brands = ["Vireon", "Linkora", "Converra", "Nexora", "Syncell", "Socium", 
   </div>
 </section>
 
-{/* Inside the firm */}
-<section class="bg-neutral-200 px-6 py-24">
-  <div class="mx-auto grid max-w-[1228px] items-center gap-12 lg:grid-cols-2">
-    <div>
-      <SectionHeader eyebrow="About us" title="Inside the firm" class="mb-6" />
-      <p class="mb-8 text-lg leading-[1.5em] text-neutral-600">
-        We are a team of architects, designers, and planners crafting residential
-        and commercial spaces across the globe.
+{/* Original studio photo background, replacing the previous empty placeholder. */}
+<section class="relative isolate mx-4 overflow-hidden rounded-3xl bg-neutral-800 sm:mx-6">
+  <img src={studioImage} alt="" width="2800" height="1308" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+  <div class="absolute inset-0 bg-gradient-to-r from-neutral-800/90 via-neutral-800/45 to-transparent" aria-hidden="true"></div>
+  <div class="relative z-10 mx-auto max-w-[1228px] px-6 py-24 sm:py-36 lg:py-48">
+    <div class="max-w-[350px]">
+      <h2 class="mb-5 text-4xl leading-[1.08] font-medium tracking-tightest text-neutral-100 sm:text-5xl">Inside the firm</h2>
+      <p class="mb-8 text-lg leading-[1.55] text-neutral-200">
+        Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
       </p>
-      <SiteButton href="/company-pages/about" label="About us" />
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" />
     </div>
-    <div class="h-[420px] rounded-3xl bg-neutral-300" role="img" aria-label="Inside the Archipro studio" />
   </div>
 </section>
 
