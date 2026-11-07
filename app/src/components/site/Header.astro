@@ -72,13 +72,13 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 <header id="site-header" class="absolute top-0 right-0 left-0 z-50">
   <div class="mx-auto flex max-w-[1228px] items-center gap-4 px-6 py-4">
     {/* Brand — original light-mode logo SVG (Phase 5) */}
-    <a href="/" aria-label="Archipro — home">
-      <img src="/assets/brand/logo-light.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto" />
+    <a href="/" aria-label="Archipro — home" class="block h-8 w-8 shrink-0 overflow-hidden">
+      <img src="/assets/brand/logo-light.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto max-w-none" />
     </a>
 
     {/* Desktop nav (≥991px) */}
-    <nav aria-label="Main navigation" class="ml-auto hidden items-center gap-6 min-[991px]:flex">
-      <ul class="flex list-none items-center gap-6 p-0">
+    <nav aria-label="Main navigation" class="ml-4 hidden flex-1 items-center gap-6 min-[991px]:flex">
+      <ul class="mr-auto flex list-none items-center gap-6 p-0">
         {topLevel.map((item) => (
           <li><Link href={item.href} label={item.label} /></li>
         ))}
@@ -123,7 +123,7 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
       aria-label="Open menu"
       aria-controls="mobile-menu"
       aria-expanded="false"
-      class="ml-auto flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-full bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary min-[991px]:hidden"
+      class="ml-auto flex size-10 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-lg bg-brand-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-primary min-[991px]:hidden"
     >
       <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-transform duration-300 [[data-open]_&]:translate-y-[6.5px] [[data-open]_&]:rotate-45"></span>
       <span class="block h-[1.5px] w-4 rounded-sm bg-neutral-100 transition-opacity duration-300 [[data-open]_&]:opacity-0"></span>
