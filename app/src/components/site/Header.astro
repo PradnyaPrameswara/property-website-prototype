@@ -159,6 +159,8 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
   let pagesPinned = false;
 
+  let pagesDismissed = false;
+
   function setMobileOpen(open: boolean) {
     header?.toggleAttribute("data-open", open);
 
@@ -192,7 +194,9 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
     const focus = pagesDropdown?.contains(document.activeElement) ?? false;
 
-    setPagesExpanded(pagesPinned || hover || focus);
+    pagesDropdown?.toggleAttribute("data-dismissed", pagesDismissed);
+
+    setPagesExpanded(!pagesDismissed && (pagesPinned || hover || focus));
   }
 
   mobileToggle?.addEventListener("click", () => {
@@ -203,15 +207,25 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
     if (opening) mobileMenu?.querySelector("a")?.focus();
   });
 
-  pagesDropdown?.addEventListener("pointerenter", syncPages);
-
-  pagesDropdown?.addEventListener("pointerleave", () => {
-    pagesPinned = false;
+  pagesDropdown?.addEventListener("pointerenter", () => {
+    pagesDismissed = false;
 
     syncPages();
   });
 
-  pagesDropdown?.addEventListener("focusin", syncPages);
+  pagesDropdown?.addEventListener("pointerleave", () => {
+    pagesPinned = false;
+
+    pagesDismissed = false;
+
+    syncPages();
+  });
+
+  pagesDropdown?.addEventListener("focusin", () => {
+    pagesDismissed = false;
+
+    syncPages();
+  });
 
   pagesDropdown?.addEventListener("focusout", (event) => {
     const next = event.relatedTarget;
@@ -219,12 +233,16 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
     if (!(next instanceof Node) || !pagesDropdown.contains(next)) {
       pagesPinned = false;
 
-      setPagesExpanded(pagesDropdown.matches(":hover"));
+      setPagesExpanded(!pagesDismissed && pagesDropdown.matches(":hover"));
     }
   });
 
   pagesToggle?.addEventListener("click", () => {
-    pagesPinned = !pagesPinned;
+    const wasOpen = pagesToggle.getAttribute("aria-expanded") === "true";
+
+    pagesPinned = !wasOpen;
+
+    pagesDismissed = wasOpen;
 
     syncPages();
   });
@@ -240,6 +258,10 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
     if (pagesToggle?.getAttribute("aria-expanded") === "true") {
       pagesPinned = false;
+
+      pagesDismissed = true;
+
+      pagesDropdown?.setAttribute("data-dismissed", "");
 
       setPagesExpanded(false);
 
@@ -270,6 +292,12 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
   });
 </script>
 <style is:global>
+  #site-header [data-pages-dropdown][data-dismissed] #pages-menu {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
   @media (max-width: 990px) {
     #site-header #mobile-menu[data-open] {
       visibility: visible;
