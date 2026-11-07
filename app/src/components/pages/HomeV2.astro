@@ -25,9 +25,9 @@ const studioImage = "/assets/img/688a93b259161daf15717fec_cozy-seating-area-arch
 ---
 
 {/* Original Home V2 hero: four staggered image capsules beside the introduction. */}
-<section class="px-6 pt-36 pb-20 sm:pt-40 lg:pb-28">
+<section class="px-6 pt-28 pb-20 sm:pt-40 lg:pb-28">
   <div class="mx-auto grid max-w-[1228px] items-center gap-10 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
-    <div class="grid grid-cols-4 items-start gap-2 overflow-hidden sm:gap-4" aria-label="Four featured interior spaces">
+    <div class="order-2 grid grid-cols-4 items-start gap-2 overflow-hidden sm:gap-4 lg:order-1" aria-label="Four featured interior spaces">
       {capsules.map((capsule) => (
         <div class:list={["min-w-0 overflow-hidden rounded-full bg-neutral-200", capsule.offset]}>
           <img
@@ -41,14 +41,14 @@ const studioImage = "/assets/img/688a93b259161daf15717fec_cozy-seating-area-arch
         </div>
       ))}
     </div>
-    <div>
-      <h1 class="text-[clamp(2.75rem,4vw,4.6rem)] leading-[1.08] font-medium tracking-tightest text-neutral-800">
+    <div class="order-1 lg:order-2">
+      <h1 class="text-[clamp(2rem,4vw,4.6rem)] leading-[1.08] font-medium tracking-tightest text-neutral-800">
         Crafting spaces with purpose and personality
       </h1>
-      <p class="mt-6 max-w-[392px] text-lg leading-[1.55] text-neutral-600">
+      <p class="mt-3 max-w-[392px] text-lg leading-[1.55] text-neutral-600">
         Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse adipiscing cras nec.
       </p>
-      <div class="mt-8">
+      <div class="mt-5">
         <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
       </div>
     </div>
