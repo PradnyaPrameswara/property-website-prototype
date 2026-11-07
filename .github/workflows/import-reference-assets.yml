@@ -3,6 +3,8 @@ name: Import reference images
 on:
   push:
     branches: [feat/restore-original-assets]
+  pull_request:
+    types: [opened, synchronize]
 
 permissions:
   contents: write
