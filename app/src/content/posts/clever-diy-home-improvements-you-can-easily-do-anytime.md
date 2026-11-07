@@ -30,6 +30,8 @@ Blog Caption Archipro Webflow Template | BRIX Template
 
 Quis faucibus massa sit egestas. Sit fermentum est ac pulvinar et sagittis sed sit ut. Quis faucibus aenean nibh vestibulum enim mi sit. Sollicitudin ultrices ultrices in ipsum urna fringilla massa leo. Sapien ultricies vitae rhoncus molestie purus. Urna urna dolor euismod porttitor et magna.
 
+![Illustration accompanying the article](/assets/img/6883f7e87e8cd68bd6b40e69_blog-caption-archipro-webflow-template.jpg)
+
 ## Essential tools and products for wood care
 
 Cursus curabitur euismod vel fermentum sapien non dolor odio vel. Tortor lectus mauris in praesent a tincidunt nam. In aenean odio aliquet pretium viverra elit quis magna. Eget ut risus posuere velit purus nisi nec sollicitudin. Tellus enim interdum neque sit vestibulum lacus.
