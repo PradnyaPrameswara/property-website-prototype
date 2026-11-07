@@ -1,43 +1,53 @@
-# Astro Starter Kit: Minimal
+# Archipro — Astro rewrite
+
+The production candidate is in **app/**. The repository root still contains
+the **original Webflow HTML export** and **reference/** materials for
+side-by-side visual comparisons. The root HTML files are **not** the Astro
+application or its deployment entrypoint.
+
+## Stack
+
+- Astro 7 with TypeScript, React 19 islands, and the Astro Node adapter
+- Tailwind CSS 4
+- shadcn/ui components built on Base UI (**no Radix**)
+- Native CSS animations and small browser scripts where React is unnecessary
+
+No new features should depend on Webflow JavaScript, jQuery, GSAP, or React
+`useEffect`. Names inherited from original image assets are not runtime
+dependencies.
+
+## Run and verify
+
+Use Node 22.12 or newer, from the `app/` directory:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm ci
+npm run build:lint-plugin
+npm run lint
+npm run build
+npm run check:rewrite -- --require-build
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+For the standalone Node deployment, build and then start
+`node dist/server/entry.mjs` from `app/`. Do **not** publish the root
+`index.html` or root page folders as the rewritten site.
 
-## 🚀 Project Structure
+## Migration completion gate
 
-Inside of your Astro project, you'll see the following folders and files:
+The rewrite is **not yet certified visually equivalent** to the original
+Webflow export. Compare all actual page routes against their references at
+the source breakpoints, including navigation, forms, animation, keyboard use,
+reduced motion, and responsive imagery.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Some detail pages still have abbreviated content; some sections still have
+image placeholders. Contact, quote, and subscribe endpoints currently
+validate and acknowledge submissions but do not connect to external delivery.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Remove the original export only in a separate final PR **after** route,
+content, asset, interaction, and visual parity have been verified with
+documented evidence. Until then it remains read-only; see ../AGENTS.md.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The runtime guard in `scripts/check-rewrite-runtime.mjs` deliberately checks
+`app/src`, `app/public`, and built Astro output. It does not mistake
+read-only source references for production runtime dependencies.
