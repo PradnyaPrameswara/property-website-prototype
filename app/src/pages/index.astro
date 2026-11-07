@@ -1,12 +1,180 @@
 ---
+/**
+ * Original root landing page, based on the immutable index.html export.
+ * Home V1 remains available at /home-pages/home-v1.
+ */
 import Base from "@/layouts/Base.astro";
-import HomeV1 from "@/components/pages/HomeV1.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
+
+const assets = "/assets/img/";
+
+const heroPreviews = [
+  { title: "Team", href: "/company-pages/team", src: "689145cf4f620244ffe3c4ec_archipro-team-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Home V1", href: "/home-pages/home-v1", src: "689145cf96b68f7774008100_archipro-home-v1-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Home V2", href: "/home-pages/home-v2", src: "689145cf16121bb196bed1bd_archipro-home-v2-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Home V3", href: "/home-pages/home-v3", src: "689145cf266231f1050b928f_archipro-home-v3-hero-page-architecture-firm-webflow-template.png" },
+  { title: "About", href: "/company-pages/about", src: "689145cfca612247b396b02d_archipro-about-hero-page-architecture-firm-webflow-template.png" },
+];
+
+const secondRow = [
+  { title: "Blog V3", href: "/blog-pages/blog-v3", src: "689145cfbb44199c46f34182_archipro-blog-v3-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Team single", href: "/team/john-carter", src: "689145cffcf25b32d4903be5_archipro-team-single-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Blog V2", href: "/blog-pages/blog-v2", src: "689145ce1949ea73701b9d2b_archipro-blog-v2-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Blog V1", href: "/blog-pages/blog-v1", src: "689145ce17be53a8750a410f_archipro-blog-v1-hero-page-architecture-firm-webflow-template.png" },
+  { title: "Contact V2", href: "/contact-pages/contact-v2", src: "689145ce2c8fffb8b95341e0_archipro-contact-v2-hero-page-architecture-firm-webflow-template.png" },
+];
+
+const features = [
+  { title: "20+ pages", image: "68914591d0f8b0a5e3d75568_archipro-20-pages-architecture-firm-webflow-template.png" },
+  { title: "40+ sections", image: "6891459186600e1addcf717a_archipro-40-sections-architecture-firm-webflow-template.png" },
+  { title: "25+ style components", image: "6891459074cc8d5a9b0ae578_archipro-25-style-component-architecture-firm-webflow-template.png" },
+];
+
+const pages = [
+  { title: "Home V1", href: "/home-pages/home-v1", image: "689145dfe238089228805170_archipro-home-v1-main-page-architecture-firm-webflow-template.png" },
+  { title: "Home V2", href: "/home-pages/home-v2", image: "689145df999f186d817f88da_archipro-home-v2-main-page-architecture-firm-webflow-template.png" },
+  { title: "Home V3", href: "/home-pages/home-v3", image: "689145df060fc4bd6a6cf79f_archipro-home-v3-main-page-architecture-firm-webflow-template.png" },
+  { title: "About", href: "/company-pages/about", image: "689145df81040e878f8f083c_archipro-about-main-page-architecture-firm-webflow-template.png" },
+  { title: "Team", href: "/company-pages/team", image: "689145df57063b4458913737_archipro-team-main-page-architecture-firm-webflow-template.png" },
+  { title: "Team single", href: "/team/john-carter", image: "689145dfcbde722a4a8a4118_archipro-team-single-main-page-architecture-firm-webflow-template.png" },
+  { title: "Blog V1", href: "/blog-pages/blog-v1", image: "689145dffae85854203e0b09_archipro-blog-v1-main-page-architecture-firm-webflow-template.png" },
+  { title: "Blog V2", href: "/blog-pages/blog-v2", image: "689145df4214727b634390df_archipro-blog-v2-main-page-architecture-firm-webflow-template.png" },
+  { title: "Blog V3", href: "/blog-pages/blog-v3", image: "689145df877158453a4fde74_archipro-blog-v3-main-page-architecture-firm-webflow-template.png" },
+  { title: "Blog post", href: "/blog-posts/how-to-give-maintenance-to-your-wooden-furniture-the-full-guide", image: "689145df7eb640f24929e43a_archipro-blog-post-main-page-architecture-firm-webflow-template.png" },
+  { title: "Contact V1", href: "/contact-pages/contact-v1", image: "689145df7d42cb50d13ec54b_archipro-contact-v1-main-page-architecture-firm-webflow-template.png" },
+  { title: "Contact V2", href: "/contact-pages/contact-v2", image: "689145df656a3e0a1998ec56_archipro-contact-v2-main-page-architecture-firm-webflow-template.png" },
+  { title: "Contact V3", href: "/contact-pages/contact-v3", image: "689145e07797fb214c8c8b98_archipro-contact-v3-main-page-architecture-firm-webflow-template.png" },
+  { title: "Services", href: "/service-pages/services", image: "689145dfe18a3be6c3e7a8eb_archipro-services-main-page-architecture-firm-webflow-template.png" },
+  { title: "Service single", href: "/services/exterior-design", image: "689145df3092aedba3d616dc_archipro-service-single-main-page-architecture-firm-webflow-template.png" },
+  { title: "Portfolio", href: "/portfolio-pages/portfolio", image: "689145df4cac5e1367ab31c7_archipro-portfolio-main-page-architecture-firm-webflow-template.png" },
+  { title: "Portfolio single", href: "/portfolio/house-architecture-design-in-los-angeles-ca", image: "689145df60eabf10a7c9bf83_archipro-portfolio-single-main-page-architecture-firm-webflow-template.png" },
+  { title: "Request a quote", href: "/landing-pages/request-a-quote", image: "689145df060fc4bd6a6cf781_archipro-request-a-demo-main-page-architecture-firm-webflow-template.png" },
+];
+
+const utilityPages = [
+  { title: "Coming soon", href: "/landing-pages/coming-soon", image: "689145d71ba2d840d7c28611_archipro-coming-soon-utility-page-architecture-firm-webflow-template.png" },
+  { title: "404 not found", href: "/404", image: "689145d6a5732a19e39a4626_archipro-not-found-utility-page-architecture-firm-webflow-template.png" },
+  { title: "Password protected", href: "/401", image: "689145d6ff88a5fd9cc78432_archipro-password-protected-utility-page-architecture-firm-webflow-template.png" },
+];
+
+const extras = [
+  "3 Headers and Footers",
+  "3 Notification Bars",
+  "Custom Icon Set",
+  "Social Media Assets",
+  "Email Signature",
+];
 ---
 
 <Base
-  title="Architecture Studio"
-  description="Archipro is an architecture firm crafting minimalist, high-impact residential and commercial spaces."
+  title="Webflow Template"
+  description="Presenting Archipro, the ultimate Architecture Firm Webflow Template."
 >
-  <HomeV1 />
-</Base>
+  <section class="relative mx-4 mt-4 overflow-hidden rounded-3xl bg-brand-secondary-200 px-6 pt-20 pb-48 text-center sm:mx-6 sm:pt-28" aria-labelledby="template-title">
+    <div class="mx-auto max-w-[600px]">
+      <h1 id="template-title" class="text-[clamp(2.8rem,6vw,6.5rem)] font-medium leading-[1.05] tracking-tightest text-neutral-800">
+        Archipro Webflow Template
+      </h1>
+      <p class="mx-auto mt-5 max-w-[480px] text-base leading-[1.6] text-neutral-600">
+        Presenting Archipro, the ultimate Architecture Firm Webflow Template.
+      </p>
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <SiteButton href="https://webflow.com/templates/html/archipro-website-template" label="Buy template" />
+        <a href="#main-pages" class="inline-flex items-center rounded-full border border-neutral-800 bg-neutral-800 px-7 py-3 text-base font-medium text-neutral-100 transition-colors hover:bg-brand-primary hover:border-brand-primary">
+          Explore pages
+        </a>
+      </div>
+    </div>
+  </section>
 
+  <section class="relative z-10 -mt-32 overflow-hidden px-4 pb-20" aria-label="Page previews">
+    <div class="mx-auto flex max-w-[1440px] justify-center gap-3 sm:gap-5">
+      {heroPreviews.map((preview) => (
+        <a href={preview.href} aria-label={"Explore " + preview.title} class="group w-[43vw] max-w-[270px] min-w-0 shrink-0 overflow-hidden rounded-2xl bg-neutral-200 shadow-sm sm:w-[22vw]">
+          <img src={assets + preview.src} alt={preview.title + " page preview"} loading="eager" width="450" height="590" class="aspect-[3/4] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
+        </a>
+      ))}
+    </div>
+    <div class="mx-auto mt-5 hidden max-w-[1440px] justify-center gap-5 sm:flex">
+      {secondRow.map((preview) => (
+        <a href={preview.href} aria-label={"Explore " + preview.title} class="group w-[18vw] max-w-[235px] min-w-0 shrink-0 overflow-hidden rounded-2xl bg-neutral-200 shadow-sm">
+          <img src={assets + preview.src} alt={preview.title + " page preview"} loading="lazy" width="450" height="590" class="aspect-[3/4] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="px-6 py-20" aria-labelledby="included-title">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 id="included-title" class="mb-10 text-center text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">What is included in Archipro</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {features.map((item) => (
+          <div class="overflow-hidden rounded-3xl bg-brand-secondary-200">
+            <img src={assets + item.image} alt="" width="740" height="640" loading="lazy" class="aspect-[5/4] w-full object-cover" />
+            <h3 class="px-7 py-6 text-2xl font-medium tracking-tightest text-neutral-800">{item.title}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-20">
+    <div class="mx-auto grid max-w-[1228px] items-center gap-8 rounded-3xl bg-brand-secondary-200 p-8 md:grid-cols-2 md:p-12">
+      <div>
+        <h2 class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Figma file included</h2>
+        <p class="max-w-[440px] leading-[1.6] text-neutral-600">Explore the original architecture template's pages, components, and design assets.</p>
+      </div>
+      <img src={assets + "6929f1fb616b78bd3ca84a48_archipro-figma-file-included-architecture-firm-webflow-template.png"} alt="Figma file included preview" width="960" height="640" loading="lazy" class="w-full rounded-2xl object-cover" />
+    </div>
+  </section>
+
+  <section class="px-6 py-20" aria-labelledby="main-pages">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mb-10 text-center">
+        <h2 id="main-pages" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Main pages</h2>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {pages.map((page) => (
+          <a href={page.href} class="group block overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-100">
+            <div class="relative aspect-[4/3] overflow-hidden bg-brand-secondary-200">
+              <img src={assets + page.image} alt={page.title + " screenshot"} width="740" height="560" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+            </div>
+            <h3 class="px-6 py-5 text-xl font-medium tracking-tightest text-neutral-800">{page.title}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-20" aria-labelledby="utility-pages">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 id="utility-pages" class="mb-10 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Utility pages</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {utilityPages.map((page) => (
+          <a href={page.href} class="group block overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-100">
+            <img src={assets + page.image} alt={page.title + " preview"} width="740" height="560" loading="lazy" class="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" />
+            <h3 class="px-6 py-5 text-xl font-medium tracking-tightest text-neutral-800">{page.title}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-24">
+    <div class="mx-auto max-w-[1228px]">
+      <h2 class="mx-auto mb-10 max-w-[650px] text-center text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+        The Archipro Webflow Template also comes with more surprises...
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {extras.map((item) => (
+          <div class="rounded-3xl bg-brand-secondary-200 p-8">
+            <h3 class="text-2xl font-medium tracking-tightest text-neutral-800">{item}</h3>
+          </div>
+        ))}
+      </div>
+      <div class="mt-12 flex justify-center">
+        <SiteButton href="https://webflow.com/templates/html/archipro-website-template" label="Buy now on Webflow" />
+      </div>
+    </div>
+  </section>
+</Base>
