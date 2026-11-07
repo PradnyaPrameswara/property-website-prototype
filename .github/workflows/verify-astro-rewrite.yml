@@ -36,3 +36,6 @@ jobs:
 
       - name: Reject legacy runtime dependencies
         run: npm run check:rewrite -- --require-build
+
+      - name: Check migrated routes and local assets
+        run: npm run check:readiness
