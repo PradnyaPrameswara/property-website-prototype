@@ -112,7 +112,9 @@ try {
 const overflow = report.filter((item) => item.version === "astro" && item.overflow > 2);
 
 if (overflow.length > 0) {
-  console.warn("Astro overflow in " + overflow.length + " screenshots; see layout-report.json");
+  console.error("Astro overflow in " + overflow.length + " screenshots; see layout-report.json");
+
+  process.exitCode = 1;
 }
 
 console.log("Captured " + report.length + " original/Astro screenshots.");
