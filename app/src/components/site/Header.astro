@@ -164,6 +164,16 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
 
     mobileMenu?.toggleAttribute("data-open", open);
 
+    if (mobileMenu) {
+      mobileMenu.style.display = open ? "block" : "";
+
+      mobileMenu.style.visibility = open ? "visible" : "";
+
+      mobileMenu.style.opacity = open ? "1" : "";
+
+      mobileMenu.style.transform = open ? "translateY(0)" : "";
+    }
+
     mobileToggle?.setAttribute("aria-expanded", String(open));
 
     mobileToggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
