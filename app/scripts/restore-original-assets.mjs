@@ -15,6 +15,10 @@ const selected = [
   ["home-pages/home-v1.html", "688942340e598afe2c3207bf_hero-linear-bg-archipro-webflow-template.png"],
   ["home-pages/home-v1.html", "688a5b011779274c81245d83_inside-firm-archipro-webflow-template.jpg"],
   ["home-pages/home-v2.html", "688a93b259161daf15717fec_cozy-seating-area-archipro-webflow-template.png"],
+  ["home-pages/home-v2.html", "688a8f736ba3faadf02781f4_minimalist-bedroom-hero-archipro-webflow-template.png"],
+  ["home-pages/home-v2.html", "688a8f73c7632f2e0ff7b0b3_modern-living-room-hero-archipro-webflow-template.png"],
+  ["home-pages/home-v2.html", "688a8f734866d06a9c67bd1d_wooden-dining-table-hero-archipro-webflow-template.png"],
+  ["home-pages/home-v2.html", "688a8f7371c3c0dcf19aa5a7_minimalist-bathroom-hero-archipro-webflow-template.png"]
   ["home-pages/home-v1.html", "6883d9dcf978a79188aaafeb_vireon-logo-company-archipro-webflow-template.svg"],
   ["home-pages/home-v1.html", "6883d9dc8be2d0a7690019e7_linkora-logo-company-archipro-webflow-template.svg"],
   ["home-pages/home-v1.html", "6883d9dc74f4793a5b09b481_converra-logo-company-archipro-webflow-template.svg"],
