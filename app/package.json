@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "oxlint",
-    "build:lint-plugin": "node node_modules/esbuild/bin/esbuild tools/oxlint/anti-slop/index.ts --bundle --platform=node --format=esm --external:@oxlint/plugins --outfile=tools/oxlint/anti-slop/dist/index.mjs"
+    "build:lint-plugin": "esbuild tools/oxlint/anti-slop/index.ts --bundle --platform=node --format=esm --external:@oxlint/plugins --outfile=tools/oxlint/anti-slop/dist/index.mjs",
+    "check:rewrite": "node scripts/check-rewrite-runtime.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.6",
