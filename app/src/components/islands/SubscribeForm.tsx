@@ -10,8 +10,14 @@ import { Check } from "lucide-react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function SubscribeForm() {
+interface SubscribeFormProps {
+  variant?: "footer" | "hero";
+}
+
+export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps) {
   const [status, setStatus] = useState<Status>("idle");
+
+  const hero = variant === "hero";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -45,7 +51,7 @@ export default function SubscribeForm() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full" noValidate={false}>
-      <div className="relative flex items-center">
+      <div className={hero ? "flex flex-col items-start gap-3 sm:relative sm:flex-row sm:items-center" : "relative flex items-center"}>
         <input
           type="email"
           name="Email"
@@ -53,14 +59,20 @@ export default function SubscribeForm() {
           maxLength={256}
           placeholder="Enter your email"
           aria-label="Email address"
-          className="h-14 w-full rounded-full border border-neutral-700 bg-neutral-700/40 pr-32 pl-6 text-base text-neutral-100 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none"
+          className={hero
+            ? "h-12 w-full rounded-full border border-white bg-white px-5 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none sm:h-14 sm:pr-40"
+            : "h-14 w-full rounded-full border border-neutral-700 bg-neutral-700/40 pr-32 pl-6 text-base text-neutral-100 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none"
+          }
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="absolute right-1.5 cursor-pointer rounded-full border border-brand-primary bg-brand-primary px-6 py-2.5 text-base font-medium text-neutral-100 transition-transform duration-300 hover:scale-[0.98] disabled:opacity-60"
+          className={hero
+            ? "inline-flex cursor-pointer rounded-full border border-brand-primary bg-brand-primary px-6 py-2.5 text-base font-medium text-neutral-100 transition-transform duration-300 hover:scale-[0.98] disabled:opacity-60 sm:absolute sm:right-1.5"
+            : "absolute right-1.5 cursor-pointer rounded-full border border-brand-primary bg-brand-primary px-6 py-2.5 text-base font-medium text-neutral-100 transition-transform duration-300 hover:scale-[0.98] disabled:opacity-60"
+          }
         >
-          {status === "submitting" ? "Please wait..." : "Subscribe"}
+          {status === "submitting" ? "Please wait..." : hero ? "Get in touch" : "Subscribe"}
         </button>
       </div>
       {status === "error" && (

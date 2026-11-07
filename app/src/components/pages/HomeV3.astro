@@ -6,9 +6,8 @@
  * (marquee) → latest articles.
  * Hero video + office-tour lightbox localized in Phase 5 (/assets/video/).
  */
-import SiteButton from "@/components/site/SiteButton.astro";
 import Marquee from "@/components/site/Marquee.astro";
-import BackgroundVideo from "@/components/site/BackgroundVideo.astro";
+import SubscribeForm from "@/components/islands/SubscribeForm";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import ServicesGrid from "@/components/sections/ServicesGrid.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
@@ -28,17 +27,26 @@ const followImages = [
 ];
 ---
 
-{/* Video hero */}
-<section class="relative flex min-h-[80vh] items-end overflow-hidden px-6 pt-40 pb-16">
-  <BackgroundVideo src="/assets/video/hero-home-v3" poster="/assets/video/hero-home-v3-poster.jpg" />
-  <div class="absolute inset-0 -z-10 bg-neutral-800/50"></div>
-  <div class="mx-auto w-full max-w-[1228px]">
-    <h1 class="max-w-[18ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-100 max-lg:text-5xl">
-      Crafting spaces with purpose and personality
-    </h1>
-    <div class="mt-8 flex flex-wrap gap-4">
-      <SiteButton href="/landing-pages/request-a-quote" label="Request a quote" />
-      <SiteButton href="/portfolio-pages/portfolio" label="View our work" variant="light" />
+{/* Original Home V3: photographic card with responsive email CTA. */}
+<section class="relative isolate mx-4 mt-4 min-h-[426px] overflow-hidden rounded-3xl bg-neutral-800 sm:mx-6 sm:min-h-[600px] lg:min-h-[770px]">
+  <img
+    src="/assets/img/688b9d50b83ea2f28adb8d92_modern-mountain-house-archipro-webflow-template.jpg"
+    alt="Modern mountain house with exterior deck"
+    width="2800"
+    height="1576"
+    fetchpriority="high"
+    loading="eager"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+  />
+  <div class="absolute inset-0 bg-gradient-to-r from-neutral-800/35 via-neutral-800/10 to-transparent" aria-hidden="true"></div>
+  <div class="relative z-10 mx-auto flex min-h-[426px] max-w-[1228px] items-end px-5 pb-10 pt-36 sm:min-h-[600px] sm:px-10 lg:min-h-[770px] lg:pb-32">
+    <div class="w-full max-w-[626px]">
+      <h1 class="max-w-[16ch] text-[clamp(2rem,3.8vw,4.8rem)] leading-[1.08] font-medium tracking-tightest text-neutral-100">
+        Crafting spaces with purpose and personality
+      </h1>
+      <div class="mt-5 max-w-[402px]">
+        <SubscribeForm client:load variant="hero" />
+      </div>
     </div>
   </div>
 </section>
