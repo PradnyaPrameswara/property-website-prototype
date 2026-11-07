@@ -259,3 +259,26 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
     }
   });
 </script>
+<style is:global>
+  @media (max-width: 990px) {
+    #site-header #mobile-menu[data-open] {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:first-child {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    #site-header #nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+  }
+</style>
+
