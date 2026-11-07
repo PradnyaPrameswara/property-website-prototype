@@ -18,6 +18,18 @@ try {
     throw new Error("Mobile menu did not report expanded=true");
   }
 
+  // The menu fades in over 300 ms; checking in the same event-loop tick
+  // reports an opacity close to zero even when the open state is correct.
+  await page.waitForFunction(() => {
+    const menu = document.getElementById("mobile-menu");
+
+    if (!menu?.hasAttribute("data-open")) return false;
+
+    const styles = getComputedStyle(menu);
+
+    return styles.visibility === "visible" && Number(styles.opacity) >= 0.95;
+  }, undefined, { timeout: 3000 });
+
   if (!(await mobileMenu.isVisible())) {
     const diagnostics = await mobileMenu.evaluate((menu) => {
       const style = getComputedStyle(menu);
