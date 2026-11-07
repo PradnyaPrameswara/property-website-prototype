@@ -101,8 +101,8 @@ const allLinks = [...topLevel, ...megaMenu.flatMap((c) => c.links)];
             </span>
           </button>
           {/* Mega menu panel — hover/focus-within open, no JS */}
-          <div id="pages-menu" class="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-300 group-hover/drop:visible group-hover/drop:opacity-100 group-focus-within/drop:visible group-focus-within/drop:opacity-100">
-            <div class="grid w-[860px] grid-cols-4 gap-6 rounded-3xl border border-neutral-300 bg-neutral-100 p-8 shadow-[0_24px_64px_#12121214]">
+          <div id="pages-menu" class="invisible fixed left-1/2 top-[64px] z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-300 group-hover/drop:visible group-hover/drop:opacity-100 group-focus-within/drop:visible group-focus-within/drop:opacity-100">
+            <div class="grid w-[860px] max-w-[calc(100vw-2rem)] grid-cols-4 gap-6 rounded-3xl border border-neutral-300 bg-neutral-100 p-8 shadow-[0_24px_64px_#12121214]">
               {megaMenu.map((col) => (
                 <nav aria-label={col.heading} class="flex flex-col gap-3">
                   <span class="text-sm font-medium text-neutral-500">{col.heading}</span>
