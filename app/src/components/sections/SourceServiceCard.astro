@@ -1,0 +1,39 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  image: string;
+  alt: string;
+  description: string;
+  tall?: boolean;
+  class?: string;
+}
+
+const { href, title, image, alt, description, tall = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "group relative block overflow-hidden rounded-3xl bg-neutral-200",
+    tall ? "h-[464px]" : "h-[375px]",
+    className,
+  ]}
+>
+  <img
+    src={image}
+    alt={alt}
+    width="1160"
+    height={tall ? 928 : 748}
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover object-bottom transition-transform duration-500 group-hover:scale-[1.02]"
+  />
+  <div class="relative z-10 max-w-[360px] p-6 sm:p-8">
+    <h3 class="mb-3 text-2xl font-medium tracking-tightest text-neutral-800">
+      {title}
+    </h3>
+    <p class="leading-[1.55] text-neutral-600">
+      {description}
+    </p>
+  </div>
+</a>
