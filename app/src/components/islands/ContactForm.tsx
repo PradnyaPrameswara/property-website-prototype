@@ -77,6 +77,7 @@ export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" 
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <input name="website" type="text" autoComplete="off" tabIndex={-1} aria-hidden="true" className="sr-only" />
       {variant === "v2" ? (
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="Full-Name">Full name</Label>
