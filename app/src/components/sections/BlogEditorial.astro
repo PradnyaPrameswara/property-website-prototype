@@ -6,7 +6,6 @@
 import { getCollection } from "astro:content";
 import PostCard from "@/components/site/cards/PostCard.astro";
 import Badge from "@/components/site/Badge.astro";
-import CircleButton from "@/components/site/CircleButton.astro";
 import SubscribeForm from "@/components/islands/SubscribeForm";
 import BlogNewsletter from "@/components/sections/BlogNewsletter.astro";
 
@@ -120,8 +119,16 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
 
 <section class="px-6 py-20" aria-labelledby="latest-blog-heading">
   <div class="mx-auto max-w-[1228px]">
-    <h2 id="latest-blog-heading" class="mb-10 text-4xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-5xl">Latest articles</h2>
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+      <h2 id="latest-blog-heading" class="text-4xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-5xl">Latest articles</h2>
+      <nav aria-label="Article categories" class="flex flex-wrap items-center gap-2">
+        <a href={"/blog-pages/blog-" + (variant === "v1" ? "v1" : "v2")} aria-current="page" class="rounded-full bg-neutral-800 px-4 py-2 text-sm text-neutral-100">All</a>
+        <a href="/blog-categories/construction" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Construction</a>
+        <a href="/blog-categories/design" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Design</a>
+        <a href="/blog-categories/remodeling" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Remodeling</a>
+      </nav>
+    </div>
+    <div class:list={["grid gap-8 md:grid-cols-2", variant === "v1" && "lg:grid-cols-3"]}>
       {orderedPosts.map((post, index) => (
         <PostCard
           href={"/blog-posts/" + post.id}

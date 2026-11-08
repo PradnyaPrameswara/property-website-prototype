@@ -171,6 +171,23 @@ try {
             ]);
           });
 
+          // Full-page screenshots do not automatically trigger offscreen lazy
+          // images. Force local Astro images to load, with a bounded wait.
+          if (version === "astro" && (viewport.width === 390 || viewport.width === 1440)) {
+            await page.evaluate(async () => {
+              const images = [...document.querySelectorAll("section img")];
+
+              for (const img of images) {
+                if (img.loading === "lazy") img.loading = "eager";
+              }
+
+              await Promise.race([
+                Promise.all(images.map((img) => img.decode().catch(() => undefined))),
+                new Promise((done) => setTimeout(done, 1800)),
+              ]);
+            });
+          }
+
           await page.waitForTimeout(400);
 
           Object.assign(record, await page.evaluate(inspect));

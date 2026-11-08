@@ -61,16 +61,16 @@ const socials: { label: string; href: string; icon: "facebook" | "instagram" | "
 ];
 ---
 
-<footer class="bg-neutral-800 text-neutral-100">
-  <div class="mx-auto max-w-[1228px] px-6 py-16">
+<footer class="mx-4 mb-4 overflow-hidden rounded-3xl bg-neutral-800 text-neutral-100 sm:mx-6 sm:mb-6">
+  <div class="mx-auto max-w-[1228px] px-6 py-20 sm:px-10 sm:py-24">
     {/* CTA + subscribe */}
-    <div class="mb-16 flex flex-col items-start justify-between gap-8 min-[991px]:flex-row min-[991px]:items-end">
+    <div class="mb-20 flex flex-col items-start justify-between gap-8 min-[991px]:flex-row min-[991px]:items-end">
       <div class="max-w-[426px]">
         <h2 class="mb-3 text-4xl leading-[1.25em] font-medium tracking-tightest text-neutral-100">
           Bringing your vision to life
         </h2>
         <p class="text-base leading-[1.5em] text-neutral-400">
-          Subscribe to our newsletter for the latest projects and studio news.
+          Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
         </p>
       </div>
       <div class="w-full max-w-[402px]">
@@ -79,20 +79,24 @@ const socials: { label: string; href: string; icon: "facebook" | "instagram" | "
     </div>
 
     {/* Link grid */}
-    <nav aria-label="Footer" class="mb-16 grid grid-cols-2 gap-8 border-t border-neutral-700 pt-12 min-[767px]:grid-cols-4">
+    <nav aria-label="Footer" class="mb-20 grid grid-cols-2 gap-6 border-t border-neutral-700 pt-12 min-[767px]:grid-cols-4 min-[991px]:gap-12">
       {columns.map((col) => (
-        <div class="flex flex-col gap-3">
-          <span class="mb-1 text-sm font-medium text-neutral-500">{col.heading}</span>
-          {col.links.map((l) => <Link href={l.href} label={l.label} variant="light" />)}
+        <div class="flex flex-col gap-0">
+          <span class="sr-only">{col.heading}</span>
+          {col.links.map((l) => (
+            <div class="border-b border-neutral-700/80 py-3">
+              <Link href={l.href} label={l.label} variant="light" />
+            </div>
+          ))}
         </div>
       ))}
     </nav>
 
     {/* Bottom bar */}
-    <div class="flex flex-col items-start justify-between gap-6 border-t border-neutral-700 pt-8 min-[767px]:flex-row min-[767px]:items-center">
+    <div class="flex flex-col items-start justify-between gap-6 pt-8 min-[767px]:flex-row min-[767px]:items-end">
       <div>
         <a href="/" aria-label="Archipro — home">
-          <img src="/assets/brand/logo-dark.svg" alt="Archipro" width="144" height="32" class="h-8 w-auto" />
+          <img src="/assets/brand/logo-dark.svg" alt="Archipro" width="192" height="44" class="h-11 w-auto" />
         </a>
         <p class="mt-2 text-sm text-neutral-500">Copyright © Archipro — Architecture Studio</p>
       </div>
