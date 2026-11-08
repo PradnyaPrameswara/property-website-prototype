@@ -1,0 +1,126 @@
+---
+/**
+ * Home V1's three original Webflow project tabs, rebuilt with real source
+ * imagery and a small accessible Astro script rather than Webflow IX2.
+ */
+const projects = [
+  {
+    title: "House architecture design in Los Angeles, CA",
+    large: "688a6171d71781a6b334e10a_house-los-angeles-default-archipro-webflow-template.png",
+    thumb: "688a6171841adbdeae71a9fa_house-los-angeles-small-archipro-webflow-template.png",
+  },
+  {
+    title: "Remodelation in Brooklyn Heights, New York",
+    large: "688a61718ec0d002ab83b0ec_remodelation-brooklyn-heights-default-archipro-webflow-template.png",
+    thumb: "688a61710be6a71eadb6e440_remodelation-brooklyn-heights-small-archipro-webflow-template.png",
+  },
+  {
+    title: "Office architecture design in Manhattan, New York",
+    large: "688a6171582e13e9e033a23c_office-architecture-in-manhattan-default-archipro-webflow-template.png",
+    thumb: "688a61711f0f6088a0bd259b_office-architecture-in-manhattan-small-archipro-webflow-template.png",
+  },
+];
+
+const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+---
+
+<section class="px-6 py-24" aria-labelledby="home-v1-portfolio-heading" data-source-portfolio>
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mx-auto mb-12 max-w-[426px] text-center">
+      <h2 id="home-v1-portfolio-heading" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Selected works</h2>
+      <p class="leading-[1.6] text-neutral-600">{intro}</p>
+    </div>
+    <div class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1fr)] lg:gap-12">
+      <div role="tablist" aria-label="Selected architecture projects" class="flex flex-col">
+        {projects.map((project, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`home-v1-portfolio-tab-${index}`}
+            aria-controls="home-v1-portfolio-panel"
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? "0" : "-1"}
+            data-portfolio-tab={index}
+            data-active={index === 0 ? "true" : "false"}
+            class="group w-full cursor-pointer border-b border-neutral-300 px-5 py-7 text-left transition-colors hover:bg-brand-secondary-200 data-[active=true]:bg-brand-secondary-200 sm:px-7"
+          >
+            <span class="block text-2xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-3xl">{project.title}</span>
+            <span class="mt-4 block max-w-[420px] text-sm leading-[1.55] text-neutral-600">{intro}</span>
+          </button>
+        ))}
+      </div>
+      <div id="home-v1-portfolio-panel" role="tabpanel" aria-labelledby="home-v1-portfolio-tab-0" class="min-w-0 overflow-hidden rounded-3xl bg-neutral-200" data-portfolio-panel>
+        <div class="relative aspect-[1062/726] w-full">
+          {projects.map((project, index) => (
+            <img
+              src={"/assets/img/" + project.large}
+              alt={project.title}
+              width="1062"
+              height="726"
+              loading="lazy"
+              hidden={index !== 0}
+              data-portfolio-image={index}
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+          ))}
+        </div>
+        <div class="flex items-center justify-between gap-4 bg-brand-secondary-200 p-4 sm:p-6">
+          <a href="/portfolio-pages/portfolio" class="inline-flex rounded-full border border-neutral-800 px-5 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100">Browse all portfolio</a>
+          <div class="relative size-16 shrink-0 overflow-hidden rounded-2xl sm:size-24">
+            {projects.map((project, index) => (
+              <img
+                src={"/assets/img/" + project.thumb}
+                alt=""
+                width="320"
+                height="320"
+                loading="lazy"
+                hidden={index !== 0}
+                data-portfolio-thumb={index}
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-source-portfolio]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-portfolio-tab]")];
+    const panel = root.querySelector<HTMLElement>("[data-portfolio-panel]");
+
+    function select(index: number) {
+      tabs.forEach((tab, tabIndex) => {
+        const active = tabIndex === index;
+        tab.dataset.active = String(active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      panel?.setAttribute("aria-labelledby", tabs[index]?.id ?? "");
+
+      root.querySelectorAll<HTMLImageElement>("[data-portfolio-image], [data-portfolio-thumb]").forEach((img) => {
+        img.hidden = Number(img.dataset.portfolioImage ?? img.dataset.portfolioThumb) !== index;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+
+        event.preventDefault();
+
+        const next = event.key === "Home" ? 0
+          : event.key === "End" ? tabs.length - 1
+          : event.key === "ArrowRight" || event.key === "ArrowDown" ? (index + 1) % tabs.length
+          : (index + tabs.length - 1) % tabs.length;
+
+        select(next);
+        tabs[next]?.focus();
+      });
+    });
+  });
+</script>
