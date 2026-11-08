@@ -1,48 +1,118 @@
 ---
-/**
- * Contact V3 — contact-pages/contact-v3.html: process steps band
- * ("Get in touch / Let's talk / We start creating") + form + map placeholder.
- * Process labels extracted from the raw export.
- */
+/** Layout and assets compared against contact-pages/contact-v3.html. */
 import Base from "@/layouts/Base.astro";
 import ContactForm from "@/components/islands/ContactForm";
+import ContactOfficeTabs from "@/components/islands/ContactOfficeTabs";
+import FaqAccordion from "@/components/islands/FaqAccordion";
+import SiteButton from "@/components/site/SiteButton.astro";
 
-const steps = [
-  { n: "01", title: "Get in touch", text: "Send us your project brief through the form below." },
-  { n: "02", title: "Let’s talk", text: "We schedule a call to align on scope, budget, and timeline." },
-  { n: "03", title: "We start creating", text: "Our team kicks off concept design within days." },
+const intro = "Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed et sit nisl tempor.";
+
+const questions = [
+  "Do you offer virtual meetings or consultations?",
+  "What types of architecture projects do you specialize in?",
+  "What information should I include in my initial inquiry?",
+  "Do you work on projects outside your city or region?",
+  "Who should I contact for press or collaboration inquiries?",
+  "Where are your offices located?",
+];
+
+const faqs = questions.map((question) => ({
+  question,
+  answer: "Lorem ipsum dolor sit amet consectetur sagittis facilisis neque lectus eget amet morbi tristique metus dolor nulla amet vulputate ullamcorper dui nibh odio.",
+}));
+
+const gallery = [
+  { name: "6891226cfe88763e007c2b1d_our-work-gallery-01-archipro-webflow-template.png", label: "Architectural living room", style: "mt-20 w-full rounded-3xl" },
+  { name: "6891226cd5753dcbf00e6524_our-work-gallery-02-archipro-webflow-template.png", label: "Warm contemporary interior", style: "ml-auto w-[55%] rounded-2xl" },
+  { name: "6891226c5dc27dfb5eed2ea7_our-work-gallery-03-archipro-webflow-template.png", label: "Sculptural armchair and table", style: "w-full rounded-3xl" },
+  { name: "6891226cd24b8ef80dd86676_our-work-gallery-04-archipro-webflow-template.png", label: "Dining room and furnishings", style: "mt-12 w-[65%] rounded-3xl" },
+  { name: "6891226c853598b071a304b8_our-work-gallery-05-archipro-webflow-template.png", label: "Modern bedroom", style: "mt-20 w-full rounded-3xl" },
+  { name: "6891226c5eef108eaf49f8bd_our-work-gallery-06-archipro-webflow-template.png", label: "Modern bathroom", style: "w-full rounded-2xl" },
 ];
 ---
 
 <Base title="Contact V3" description="Get in touch with the Archipro architecture studio.">
-  <section class="px-6 pt-40 pb-16 max-lg:pt-32">
-    <div class="mx-auto max-w-[1228px]">
-      <h1 class="max-w-[16ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
-        Let’s work together
-      </h1>
-      <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
-        Three simple steps from first message to a project in motion.
-      </p>
-      <div class="mt-12 grid gap-6 md:grid-cols-3">
-        {
-          steps.map((step) => (
-            <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
-              <span class="mb-4 inline-block text-sm font-medium text-brand-primary">{step.n}</span>
-              <h2 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{step.title}</h2>
-              <p class="text-base leading-[1.5em] text-neutral-600">{step.text}</p>
-            </div>
-          ))
-        }
+  <section id="get-in-touch" class="px-6 pt-28 pb-24 sm:pt-36" aria-labelledby="contact-v3-title">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-12 md:grid-cols-2 lg:gap-20">
+      <div class="max-w-[555px]">
+        <ContactForm client:visible />
+      </div>
+      <div class="flex min-h-[470px] flex-col justify-between gap-10 md:min-h-[560px]">
+        <div>
+          <h1 id="contact-v3-title" class="mb-5 text-[clamp(2.5rem,4.5vw,5.2rem)] font-medium leading-[1.08] tracking-tightest text-neutral-800">Let’s work together</h1>
+          <p class="max-w-[480px] text-base leading-[1.6] text-neutral-600">{intro}</p>
+        </div>
+        <div class="rounded-3xl bg-neutral-200 px-8 py-9 sm:p-10">
+          <p class="mb-8 text-sm font-medium text-neutral-600">Sales & inquiries</p>
+          <h2 class="mb-3 text-2xl font-medium leading-[1.15] tracking-tightest text-neutral-800">Reach out via email</h2>
+          <p class="mb-4 max-w-[346px] text-base leading-[1.5] text-neutral-600">
+            Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed.
+          </p>
+          <a href="mailto:sales@archipro.com" class="text-base font-medium text-neutral-800 underline-offset-2 hover:underline">
+            sales@archipro.com
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto grid max-w-[1228px] gap-12 lg:grid-cols-2">
-      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
-        <ContactForm client:visible />
+  <section class="mx-4 rounded-3xl bg-brand-secondary-200 px-6 py-24 sm:mx-6" aria-labelledby="contact-v3-faq">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mx-auto mb-10 max-w-[544px] text-center">
+        <h2 id="contact-v3-faq" class="mb-4 text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-800 sm:text-5xl">Frequently asked questions</h2>
+        <p class="text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur nulla enim egestas quis nec mattis parturient sem posuere eget ut fringilla amet sit felis adipiscing et ut est.
+        </p>
       </div>
-      <div class="min-h-[420px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro office location map" />
+      <div class="mx-auto grid max-w-[1120px] gap-3 rounded-3xl bg-neutral-100 p-3 md:grid-cols-2">
+        <FaqAccordion client:visible items={faqs.slice(0, 3)} />
+        <FaqAccordion client:visible items={faqs.slice(3)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-labelledby="contact-v3-offices">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mb-10 flex flex-wrap items-center justify-between gap-6">
+        <div>
+          <h2 id="contact-v3-offices" class="mb-3 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Tour our office space</h2>
+          <p class="max-w-[426px] text-base leading-[1.6] text-neutral-600">
+            Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+          </p>
+        </div>
+        <SiteButton href="#get-in-touch" label="Get in touch" />
+      </div>
+      <ContactOfficeTabs client:visible />
+    </div>
+  </section>
+
+  <section class="overflow-hidden px-6 py-24" aria-labelledby="contact-v3-gallery">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mx-auto mb-12 max-w-[470px] text-center">
+        <h2 id="contact-v3-gallery" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+        <p class="mb-6 text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+        </p>
+        <SiteButton href="mailto:careers@archipro.com" label="@archipro" />
+      </div>
+      <div class="mx-auto grid max-w-[968px] grid-cols-3 items-center gap-3 sm:gap-5">
+        <div class="grid gap-4">
+          {gallery.slice(0, 2).map((item) => (
+            <img src={"/assets/img/" + item.name} alt={item.label} width="404" height="404" loading="lazy" class={item.style} />
+          ))}
+        </div>
+        <div class="grid gap-4">
+          {gallery.slice(2, 4).map((item) => (
+            <img src={"/assets/img/" + item.name} alt={item.label} width="860" height="860" loading="lazy" class={item.style} />
+          ))}
+        </div>
+        <div class="grid gap-4">
+          {gallery.slice(4).map((item) => (
+            <img src={"/assets/img/" + item.name} alt={item.label} width="404" height="404" loading="lazy" class={item.style} />
+          ))}
+        </div>
+      </div>
     </div>
   </section>
 </Base>
