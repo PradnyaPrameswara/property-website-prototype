@@ -9,9 +9,9 @@ import SiteButton from "@/components/site/SiteButton.astro";
 import Slider from "@/components/site/Slider.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
+import HomeV2Testimonials from "@/components/sections/HomeV2Testimonials.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
-import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+
 
 const capsules = [
   { src: "/assets/img/688a8f736ba3faadf02781f4_minimalist-bedroom-hero-archipro-webflow-template.png", alt: "Minimalist bedroom", offset: "mt-[68px]" },
@@ -137,9 +137,30 @@ const serviceIntro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habit
   </div>
 </section>
 
-<QuoteCta />
+{/* Original Home V2 background-photo CTA instead of a blank solid-color card. */}
+<section class="relative isolate overflow-hidden bg-neutral-800 px-6 py-28 sm:py-36" aria-labelledby="home-v2-quote">
+  <img
+    src="/assets/img/688aa7b404595ae5e675ddd1_modern-living-room-with-neutral-furniture-archipro-webflow-template.jpg"
+    alt=""
+    width="2800"
+    height="1340"
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+  />
+  <div aria-hidden="true" class="absolute inset-0 bg-neutral-800/55"></div>
+  <div class="relative z-10 mx-auto max-w-[1228px] text-center">
+    <div class="mx-auto max-w-[430px]">
+      <h2 id="home-v2-quote" class="mb-5 text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-100 sm:text-5xl">Let’s work together. Get a quote today.</h2>
+      <p class="mb-7 leading-[1.6] text-neutral-200">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.</p>
+      <div class="flex justify-center">
+        <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" />
+      </div>
+    </div>
+  </div>
+</section>
+
 <ProcessTabs />
-<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" />
+<HomeV2Testimonials />
 
 <section class="px-6 py-24">
   <div class="mx-auto max-w-[1228px]">
