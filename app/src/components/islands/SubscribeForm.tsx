@@ -46,7 +46,7 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
     return (
       <div className="flex items-center gap-3 rounded-2xl bg-neutral-700 p-5" role="status">
         <Check className="size-5 text-brand-secondary-500" aria-hidden />
-        <p className="text-sm font-medium text-neutral-100">Thanks for joining our newsletter.</p>
+        <p className="text-sm font-medium text-neutral-100">Your subscription request has been sent.</p>
       </div>
     );
   }
@@ -81,7 +81,7 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
       </div>
       {status === "error" && (
         <p className="mt-3 text-sm text-system-red" role="alert">
-          Oops! Something went wrong while submitting the form.
+          Your subscription request could not be sent. Please try again later.
         </p>
       )}
     </form>

@@ -51,8 +51,8 @@ export default function QuoteForm() {
   if (status === "success") {
     return (
       <div role="status" className="rounded-3xl bg-neutral-200 p-8">
-        <p className="text-xl font-medium text-neutral-800">Thank you for requesting a demo!</p>
-        <p className="mt-3 text-base text-neutral-600">The demo endpoint has accepted your details. Email delivery is not configured.</p>
+        <p className="text-xl font-medium text-neutral-800">Your quote request has been sent.</p>
+        <p className="mt-3 text-base text-neutral-600">The project team has received your request.</p>
       </div>
     );
   }
@@ -109,7 +109,7 @@ export default function QuoteForm() {
           {status === "submitting" ? "Please wait..." : "Get more information"}
         </button>
         {status === "error" && (
-          <p className="mt-3 text-sm text-system-red" role="alert">Oops! Something went wrong while submitting the form.</p>
+          <p className="mt-3 text-sm text-system-red" role="alert">Your quote request could not be sent. Please try again later.</p>
         )}
       </div>
     </form>

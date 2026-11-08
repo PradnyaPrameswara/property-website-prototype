@@ -67,7 +67,7 @@ export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" 
   if (status === "success") {
     return (
       <div className="rounded-3xl bg-neutral-200 p-8 text-center" role="status">
-        <p className="text-lg font-medium text-neutral-800">Thank you! Your submission has been received!</p>
+        <p className="text-lg font-medium text-neutral-800">Your message has been sent.</p>
       </div>
     );
   }
@@ -117,7 +117,7 @@ export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" 
       </div>
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="Message">Message</Label>
-        <Textarea id="Message" name="Message" maxLength={5000} placeholder="Tell us about your project..." className="min-h-32 w-full rounded-3xl border border-neutral-300 bg-neutral-100 px-5 py-4 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none" />
+        <Textarea id="Message" name="Message" required maxLength={5000} placeholder="Tell us about your project..." className="min-h-32 w-full rounded-3xl border border-neutral-300 bg-neutral-100 px-5 py-4 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none" />
       </div>
       <div className="sm:col-span-2">
         <button
@@ -129,7 +129,7 @@ export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" 
         </button>
         {status === "error" && (
           <p className="mt-3 text-sm text-system-red" role="alert">
-            Oops! Something went wrong while submitting the form.
+            Your message could not be sent. Please try again later.
           </p>
         )}
       </div>

@@ -32,7 +32,7 @@ export default function OfficeLocations() {
             <TabsTrigger
               key={location.value}
               value={location.value}
-              className="w-full justify-start rounded-2xl border border-neutral-300 bg-neutral-100 px-6 py-5 text-left text-lg font-medium text-neutral-800 data-[active]:border-brand-primary data-[active]:bg-brand-secondary-200 sm:text-xl"
+              className="w-full justify-start rounded-2xl border border-neutral-300 bg-neutral-100 px-6 py-5 text-left text-lg font-medium text-neutral-800 data-active:border-brand-primary data-active:bg-brand-secondary-200 sm:text-xl"
             >
               {location.label}
             </TabsTrigger>
