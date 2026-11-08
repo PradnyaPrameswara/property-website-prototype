@@ -51,8 +51,8 @@ export default function QuoteForm() {
   if (status === "success") {
     return (
       <div role="status" className="rounded-3xl bg-neutral-200 p-8">
-        <p className="text-xl font-medium text-neutral-800">Your quote request has been sent.</p>
-        <p className="mt-3 text-base text-neutral-600">The project team has received your request.</p>
+        <p className="text-xl font-medium text-neutral-800">Your quote request was accepted for processing.</p>
+        <p className="mt-3 text-base text-neutral-600">The submission service acknowledged your request.</p>
       </div>
     );
   }

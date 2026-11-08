@@ -26,3 +26,11 @@ requires an SSR-capable host; static-only GitHub Pages cannot run POST routes.
 
 Run \`npm run test:forms\` to exercise invalid, configured, unconfigured
 and receiver-failure scenarios using a local simulated receiver.
+
+## Production safeguards
+
+- Browser requests must send `Content-Type: application/json`. When an Origin header is present it must match the application origin. Request JSON bodies are capped at 16 KiB and validated against their endpoint schemas.
+- Server delivery rejects receiver redirects, requires a successful receiver response, and uses an eight-second timeout. A positive response means *accepted*, not confirmed email inbox delivery.
+- Use `npm run check:forms-production -- --strict` in the deployment pipeline to require a valid HTTPS URL and server-only token. CI exercises this check with dummy values; it does not claim a live receiver is configured.
+- Configure spam/rate limiting and retention rules at the deployment edge and receiving service. Do not store secrets in the source or log visitor PII.
+- Deployment verification must use a controlled address and record receiver-side acknowledgement separately from actual email/CRM processing.
