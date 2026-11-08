@@ -1,17 +1,90 @@
 ---
-/** Portfolio index — portfolio-pages/portfolio.html (w-dyn-list → PortfolioGrid). */
+/**
+ * Portfolio index composition from portfolio-pages/portfolio.html.
+ * Preserve the CMS detail URLs and original four full-width project rows.
+ */
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
+import CircleButton from "@/components/site/CircleButton.astro";
+
+const projects = [
+  {
+    slug: "house-architecture-design-in-los-angeles-ca",
+    title: "House architecture design in Los Angeles, CA",
+    type: "Architecture",
+    location: "Los Angeles, CA",
+    date: "Oct 2026",
+    image: "69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg",
+  },
+  {
+    slug: "house-architecture-design-in-los-angeles-ca-2",
+    title: "House architecture design in Los Angeles, CA",
+    type: "Architecture",
+    location: "Los Angeles, CA",
+    date: "Oct 2026",
+    image: "69320d1b06f609b186057063_house-architecture-design-v2-featured-image-archipro-webflow-template.jpg",
+  },
+  {
+    slug: "house-architecture-design-in-los-angeles-ca-3",
+    title: "House architecture design in Los Angeles, CA",
+    type: "Architecture",
+    location: "Los Angeles, CA",
+    date: "Oct 2026",
+    image: "69320d3d013ce0bc7c4eff46_house-architecture-design-v3-featured-image-archipro-webflow-template.jpg",
+  },
+  {
+    slug: "interior-design-in-san-francisco-california",
+    title: "Interior design in San Francisco, California",
+    type: "Interior design",
+    location: "San Francisco, CA",
+    date: "Jul 2026",
+    image: "69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg",
+  },
+];
+
+const summary = "Lorem ipsum dolor sit amet consectetur ac habitant viverra pretium nulla vel ac scelerisque proin volutpat misl integer lorem pellentesque sed convallis pharetra adipiscing turpis elementum in eu nunc ipsum.";
 ---
 
 <Base title="Portfolio" description="Selected architecture and interior design works by Archipro.">
-  <PageHero title="Selected works" intro="A selection of residential and commercial projects designed by our studio." />
-  <section class="px-6 pb-24">
+  <section class="px-6 pt-32 pb-24 sm:pt-40" aria-labelledby="portfolio-heading">
     <div class="mx-auto max-w-[1228px]">
-      <PortfolioGrid />
+      <div class="mx-auto mb-14 max-w-[500px] text-center">
+        <h1 id="portfolio-heading" class="mb-5 text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:text-6xl">Selected works</h1>
+        <p class="mx-auto max-w-[426px] text-base leading-[1.55] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+        </p>
+      </div>
+      <div class="divide-y divide-neutral-300">
+        {projects.map((project) => (
+          <a href={"/portfolio/" + project.slug} class="group/card grid min-w-0 items-center gap-8 py-9 first:pt-0 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+            <div class="flex h-full min-w-0 flex-col justify-between gap-6 py-2">
+              <div>
+                <h2 class="mb-5 max-w-[430px] text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-4xl">
+                  {project.title}
+                </h2>
+                <div class="space-y-1 text-sm leading-[1.45] text-neutral-600">
+                  <p>{project.type}</p>
+                  <p>{project.location}</p>
+                  <p>{project.date}</p>
+                </div>
+              </div>
+              <p class="max-w-[420px] text-base leading-[1.55] text-neutral-600">{summary}</p>
+            </div>
+            <div class="relative aspect-[702/364] min-w-0 overflow-hidden rounded-3xl bg-neutral-200">
+              <img
+                src={"/assets/img/" + project.image}
+                alt={project.title}
+                width="702"
+                height="364"
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+              />
+              <span class="absolute bottom-5 right-5">
+                <CircleButton label={"View project: " + project.title} />
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
-  <QuoteCta />
 </Base>
