@@ -76,7 +76,27 @@ try {
     throw new Error("Escape failed to dismiss desktop dropdown");
   }
 
-  console.log("PASS mobile open/close + desktop focus/Escape interactions");
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  await page.goto("http://127.0.0.1:4321/company-pages/about", { waitUntil: "domcontentloaded" });
+
+  const amsterdam = page.getByRole("tab", { name: "Amsterdam, NL" });
+
+  await amsterdam.click();
+
+  if ((await amsterdam.getAttribute("aria-selected")) !== "true") {
+    throw new Error("Selecting the office tab did not update aria-selected");
+  }
+
+  const faq = page.getByRole("button", { name: "Do you offer virtual meetings or consultations?" });
+
+  await faq.click();
+
+  if ((await faq.getAttribute("aria-expanded")) !== "true") {
+    throw new Error("FAQ accordion did not expand for keyboard/screen reader state");
+  }
+
+  console.log("PASS mobile/desktop navigation, office tabs and FAQ interactions");
 } finally {
   await browser.close();
 }
