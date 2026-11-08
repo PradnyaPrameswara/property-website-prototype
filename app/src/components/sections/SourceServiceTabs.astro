@@ -1,0 +1,101 @@
+---
+/** Home V3's source-defined service tabs with original localized photographs. */
+import SiteButton from "@/components/site/SiteButton.astro";
+
+const services = [
+  { title: "Exterior design", image: "688ba1cfb2fe90b531b2c5e8_exterior-design-service-tab-archipro-webflow-template.png" },
+  { title: "Decoration", image: "688ba1cfd1a172fbe30baf47_decoration-service-tab-archipro-webflow-template.png" },
+  { title: "Construction", image: "688ba1cf6c5e7ce8a4ce59a2_construction-service-tab-archipro-webflow-template.png" },
+  { title: "Interior design", image: "688ba1d0a2b1e979b70994f4_interior-design-service-tab-archipro-webflow-template.png" },
+];
+
+const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+---
+
+<section class="px-6 pb-24 pt-28 sm:pt-40" aria-labelledby="home-v3-services-title" data-source-services>
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mx-auto mb-14 max-w-[500px] text-center">
+      <h2 id="home-v3-services-title" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">From concept to completion</h2>
+      <p class="mx-auto mb-7 max-w-[426px] leading-[1.6] text-neutral-600">{intro}</p>
+      <div class="flex justify-center">
+        <SiteButton href="/service-pages/services" label="Browse all services" />
+      </div>
+    </div>
+    <div class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-12">
+      <div role="tablist" aria-label="Architecture service categories" class="flex flex-col justify-center">
+        {services.map((service, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`home-v3-service-tab-${index}`}
+            aria-controls="home-v3-service-panel"
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? "0" : "-1"}
+            data-service-tab={index}
+            data-active={index === 0 ? "true" : "false"}
+            class="w-full cursor-pointer border-b border-neutral-300 py-6 text-left transition-colors hover:bg-brand-secondary-200 data-[active=true]:bg-brand-secondary-200 sm:px-6"
+          >
+            <span class="flex items-center justify-between gap-4">
+              <span class="text-2xl font-medium leading-[1.2] tracking-tightest text-neutral-800 sm:text-3xl">{service.title}</span>
+              <span aria-hidden="true" class="flex size-9 shrink-0 items-center justify-center rounded-full border border-neutral-800 text-xl text-neutral-800">+</span>
+            </span>
+            <span data-service-description={index} hidden={index !== 0} class="mt-4 block max-w-[320px] text-sm leading-[1.6] text-neutral-600">{intro}</span>
+          </button>
+        ))}
+      </div>
+      <div id="home-v3-service-panel" role="tabpanel" aria-labelledby="home-v3-service-tab-0" data-service-panel class="relative h-[390px] min-w-0 overflow-hidden rounded-3xl bg-neutral-200 sm:h-[544px]">
+        {services.map((service, index) => (
+          <img
+            src={"/assets/img/" + service.image}
+            alt={service.title}
+            width="1160"
+            height="1088"
+            loading="lazy"
+            hidden={index !== 0}
+            data-service-image={index}
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-source-services]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-service-tab]")];
+    const panel = root.querySelector<HTMLElement>("[data-service-panel]");
+
+    function activate(index: number) {
+      tabs.forEach((tab, tabIndex) => {
+        const selected = tabIndex === index;
+        tab.dataset.active = String(selected);
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      panel?.setAttribute("aria-labelledby", tabs[index]?.id ?? "");
+
+      root.querySelectorAll<HTMLElement>("[data-service-image], [data-service-description]").forEach((element) => {
+        element.hidden = Number(element.dataset.serviceImage ?? element.dataset.serviceDescription) !== index;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activate(index));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+
+        event.preventDefault();
+
+        const next = event.key === "Home" ? 0
+          : event.key === "End" ? tabs.length - 1
+          : event.key === "ArrowRight" || event.key === "ArrowDown" ? (index + 1) % tabs.length
+          : (index + tabs.length - 1) % tabs.length;
+
+        activate(next);
+        tabs[next]?.focus();
+      });
+    });
+  });
+</script>
