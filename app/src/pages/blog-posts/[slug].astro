@@ -18,10 +18,12 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
+
 const { title, excerpt, category, date, heroImage } = post.data;
+
 const { Content } = await render(post);
 
-const authors: Record<string, { slug: string; avatar: string }> = {
+const authors = {
   "12-design-tricks-for-picking-the-perfect-home-color-palette": {
     slug: "john-carter", avatar: "6883f14e8186959d7311f9fe_john-carter-avatar-archipro-webflow-template.png",
   },
@@ -43,11 +45,14 @@ const authors: Record<string, { slug: string; avatar: string }> = {
   "front-door-design-ideas-6-great-concepts-for-your-home-copy": {
     slug: "sophie-moore", avatar: "6883f12012eb39451cd476d6_sophie-moore-avatar-archipro-webflow-template.png",
   },
-};
+} satisfies Record<string, { slug: string; avatar: string }>;
 
-const authorInfo = authors[post.id];
+const authorInfo = Object.entries(authors).find(([slug]) => slug === post.id)?.[1];
+
 const team = await getCollection("team");
+
 const author = team.find((member) => member.id === authorInfo?.slug)?.data;
+
 const orderedSlugs = [
   "12-design-tricks-for-picking-the-perfect-home-color-palette",
   "25-color-trends-designers-cant-wait-to-see-in-2026",
@@ -56,7 +61,9 @@ const orderedSlugs = [
   "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide",
   "front-door-design-ideas-6-great-concepts-for-your-home",
 ];
+
 const all = await getCollection("posts");
+
 const related = orderedSlugs
   .flatMap((slug) => {
     const item = all.find((p) => p.id === slug);
