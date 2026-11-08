@@ -1,0 +1,109 @@
+---
+/** Home V1's vertical dual-column quote marquee from the Webflow source. */
+import SiteButton from "@/components/site/SiteButton.astro";
+
+const left = [
+  {
+    quote: "The best architectural experience we’ve had—professional, creative, and incredibly responsive from beginning to end.",
+    author: "Lilly Woods",
+    location: "Los Angeles, CA",
+    photo: "692dea0f3690d8c3a8b5b7ba_lily-woods-avatar-image-archipro-webflow-template.jpg",
+  },
+  {
+    quote: "Remarkable service, thoughtful process, and a final result that speaks for itself—refined, timeless, and functional.",
+    author: "John Carter",
+    location: "New York, NY",
+    photo: "692dea0fc0e65e45b0a42fd0_john-carter-avatar-image-archipro-webflow-template.jpg",
+  },
+  {
+    quote: "They understood our vision perfectly and delivered a design beyond our expectations—efficient, elegant, and inspiring.",
+    author: "Sophie Moore",
+    location: "San Francisco, CA",
+    photo: "692dea0f1b454905b95b07cf_sophie-moore-avatar-image-archipro-webflow-template.jpg",
+  },
+  {
+    quote: "They combined artistic vision with practical function—an exceptional architectural collaboration throughout our entire project.",
+    author: "Andy Smith",
+    location: "Chicago, IL",
+    photo: "692dea0f0a1383ce5c76ea11_andy-smith-avatar-image-archipro-webflow-template.jpg",
+  },
+];
+
+const right = [
+  {
+    quote: "From our first call to the final reveal, every detail was handled with care—precise, elegant, and made for living.",
+    author: "Sandy Houston",
+    location: "Amsterdam, NL",
+    photo: "692dea0f67f8815052591c4e_sandy-houston-avatar-image-archipro-webflow-template.jpg",
+  },
+  {
+    quote: "Inspired ideas, detailed planning, and a result that elevates everyday life—smart, timeless, and stunning in every way.",
+    author: "Matt Cannon",
+    location: "Ottawa, CA",
+    photo: "692dea0f0b45bcb02883a2e4_matt-cannon-avatar-image-archipro-webflow-template.jpg",
+  },
+  {
+    quote: "Creative minds, clear communication, and a space that reflects who we are—functional, beautiful, and uniquely ours.",
+    author: "Lilly Woods",
+    location: "Chicago, FL",
+    photo: "692dea0f71b184755cc05b23_lily-woods-avatar-image-archipro-webflow-template-1.jpg",
+  },
+  {
+    quote: "Their work blends vision with practicality, creating something truly special—subtle, sophisticated, and deeply livable.",
+    author: "Andy Smith",
+    location: "Chicago, IL",
+    photo: "692dea0f0a1383ce5c76ea11_andy-smith-avatar-image-archipro-webflow-template.jpg",
+  },
+];
+---
+
+<section class="overflow-hidden bg-brand-secondary-200 px-6 py-20 lg:py-28" aria-labelledby="home-v1-client-reviews">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:gap-16">
+    <div class="relative order-2 h-[450px] overflow-hidden lg:order-1 lg:h-[640px]" aria-label="Reviews from architecture clients">
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-brand-secondary-200 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-brand-secondary-200 to-transparent"></div>
+      <div class="grid grid-cols-2 gap-4">
+        {[left, right].map((column, columnIndex) => (
+          <div class:list={["source-testimonial-track space-y-4", columnIndex === 1 && "source-testimonial-track-reverse"]}>
+            {[...column, ...column].map((item, index) => (
+              <figure class="m-0 rounded-2xl bg-neutral-100 p-4 shadow-sm sm:p-6" aria-hidden={index >= column.length ? "true" : undefined}>
+                <blockquote class="mb-5 text-sm leading-[1.55] text-neutral-800 sm:text-base">{item.quote}</blockquote>
+                <figcaption class="flex items-center gap-3">
+                  <img src={"/assets/img/" + item.photo} alt="" width="24" height="24" loading="lazy" class="size-7 shrink-0 rounded-full object-cover" />
+                  <span class="min-w-0">
+                    <span class="block text-sm font-medium text-neutral-800">{item.author}</span>
+                    <span class="block text-xs text-neutral-600">{item.location}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="order-1 lg:order-2">
+      <h2 id="home-v1-client-reviews" class="mb-6 max-w-[470px] text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-800 sm:text-5xl">
+        A global reputation for client satisfaction
+      </h2>
+      <p class="mb-8 max-w-[426px] leading-[1.6] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+      </p>
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .source-testimonial-track {
+    animation: source-testimonial-scroll 42s linear infinite;
+  }
+  .source-testimonial-track-reverse {
+    animation-direction: reverse;
+  }
+  @keyframes source-testimonial-scroll {
+    to { transform: translateY(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .source-testimonial-track { animation: none; }
+  }
+</style>
