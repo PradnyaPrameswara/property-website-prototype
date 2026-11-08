@@ -1,36 +1,57 @@
 # Form delivery configuration
 
-The Contact V1–V3, Request a Quote, and Newsletter forms run on the
-Astro Node SSR adapter. They **do not send email by default**.
+Contact V1–V3, Request a Quote, and Newsletter use the Astro Node SSR adapter.
+They **do not send email by default**. GitHub Pages is static-only and
+cannot host the form POST endpoints.
 
-Set server-side environment variables:
+Configure these server-side environment variables on an SSR-capable host:
 
-- \`FORM_WEBHOOK_URL\`: HTTPS endpoint that accepts a POST with JSON body
-  \`{ "type": "contact" | "quote" | "subscribe", "fields": { ... } }\`.
-- \`FORM_WEBHOOK_TOKEN\` (optional): secret sent as \`Authorization: Bearer ...\`.
-  Keep it in deployment secrets, never in \`PUBLIC_\` variables.
+- `FORM_WEBHOOK_URL`: HTTPS endpoint accepting a JSON POST in the form
+  `{ "type": "contact" | "quote" | "subscribe", "fields": { ... } }`.
+- `FORM_WEBHOOK_TOKEN` (optional): a bearer token sent in the
+  `Authorization` header. Keep it in deployment secrets, never in a
+  `PUBLIC_` variable or the repository.
 
-The receiver must handle authentication, storage/email or CRM delivery,
-privacy/consent and anti-spam policies appropriate for production. Test
-delivery to a controlled recipient before launch. A 2xx receiver response
-means receipt has been acknowledged, not necessarily that email was delivered
-to a recipient's inbox.
+The receiver must authenticate requests, process or persist enquiries,
+enforce newsletter consent/unsubscribe rules, and manage delivery or CRM
+retries. A 2xx response means only that the receiver accepted the
+request; the API replies with `{ "ok": true, "accepted": true }`.
+This is **not** proof of inbox delivery or contact creation.
 
-If no webhook is configured, valid submissions return HTTP **503** and
-display a failure message; invalid submissions return **400**. Webhook
-errors/timeouts return **502**. The application no longer logs submitted
-personal details or shows success for unconfigured delivery.
+If no webhook is configured, valid submissions receive 503. Invalid or
+oversized requests receive 400. Receiver errors and timeouts receive 502.
+The UI keeps user input on error; no submitted personal details are logged.
 
-The original Webflow pages remain read-only references. Production deployment
-requires an SSR-capable host; static-only GitHub Pages cannot run POST routes.
+Baseline anti-spam controls:
 
-Run \`npm run test:forms\` to exercise invalid, configured, unconfigured
-and receiver-failure scenarios using a local simulated receiver.
+- A visually hidden `website` honeypot field is validated on the server.
+  Filled traps are acknowledged without forwarding data to the receiver.
+- JSON request reads are capped at 32 KiB, including chunked requests,
+  and server-side field limits match the visible form restrictions.
+- Production still requires distributed rate limiting or appropriate bot
+  protection at the edge, provider-side abuse controls, and a clear
+  newsletter consent policy. A honeypot is not sufficient protection alone.
 
-## Production safeguards
+Additional request protections reject non-JSON content types, mismatched Origin
+headers, and redirects from the downstream webhook so bearer credentials are
+not forwarded to another host.
 
-- Browser requests must send `Content-Type: application/json`. When an Origin header is present it must match the application origin. Request JSON bodies are capped at 16 KiB and validated against their endpoint schemas.
-- Server delivery rejects receiver redirects, requires a successful receiver response, and uses an eight-second timeout. A positive response means *accepted*, not confirmed email inbox delivery.
-- Use `npm run check:forms-production -- --strict` in the deployment pipeline to require a valid HTTPS URL and server-only token. CI exercises this check with dummy values; it does not claim a live receiver is configured.
-- Configure spam/rate limiting and retention rules at the deployment edge and receiving service. Do not store secrets in the source or log visitor PII.
-- Deployment verification must use a controlled address and record receiver-side acknowledgement separately from actual email/CRM processing.
+Run `npm run check:forms-production -- --strict` during deployment to
+require an HTTPS webhook URL and a server-side bearer token. This validates
+configuration only; it does not contact a receiver.
+
+## Verification and launch gate
+
+Run `npm run test:forms` to test input validation, form traps,
+receiver acknowledgement, receiver failure and missing configuration against
+a simulated local webhook. This test makes no external delivery claim.
+
+**Production form readiness remains blocked** until the operator provisions
+an actual HTTPS receiver, configures its secret in the SSR deployment,
+and verifies Contact, Quote and Newsletter submissions end-to-end at
+controlled downstream recipients (including subscription consent and
+unsubscribe behavior). Record the provider, hosting environment, date
+and test results without committing credentials or personal information.
+
+The original Webflow HTML/CSS is immutable until visual parity is separately
+reviewed and certified.

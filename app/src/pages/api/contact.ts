@@ -7,16 +7,17 @@
 import type { APIRoute } from "astro";
 import { z } from "astro:content";
 
-import { EMAIL_RE, badRequest, methodNotAllowed, parseJson } from "@/lib/forms";
+import { EMAIL_RE, badRequest, methodNotAllowed, ok, parseJson } from "@/lib/forms";
 import { deliverForm } from "@/server/form-delivery";
 
 const contactSchema = z.object({
-  "First Name": z.string().trim().min(1, "First name is required"),
-  "Last Name": z.string().trim().default(""),
-  Email: z.string().trim().regex(EMAIL_RE, "A valid email is required"),
-  Phone: z.string().trim().default(""),
-  Service: z.string().trim().default(""),
-  Message: z.string().trim().min(1, "Message is required"),
+  "First Name": z.string().trim().min(1, "First name is required").max(256),
+  "Last Name": z.string().trim().max(256).default(""),
+  Email: z.string().trim().max(256).regex(EMAIL_RE, "A valid email is required"),
+  Phone: z.string().trim().max(256).default(""),
+  Service: z.string().trim().max(256).default(""),
+  Message: z.string().trim().min(1, "Message is required").max(5000),
+  website: z.string().trim().max(256).default(""),
 });
 
 /**
@@ -31,7 +32,11 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!body) return badRequest("First name, a valid email, and a message are required");
 
-  return deliverForm("contact", body);
+  const { website, ...fields } = body;
+
+  if (website) return ok();
+
+  return deliverForm("contact", fields);
 };
 
 export const GET: APIRoute = () => methodNotAllowed();
