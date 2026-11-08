@@ -6,7 +6,7 @@
  * (marquee) → latest articles.
  * Hero video + office-tour lightbox localized in Phase 5 (/assets/video/).
  */
-import Marquee from "@/components/site/Marquee.astro";
+import SourceSocialSlider from "@/components/sections/SourceSocialSlider.astro";
 import SubscribeForm from "@/components/islands/SubscribeForm";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import ServicesGrid from "@/components/sections/ServicesGrid.astro";
@@ -23,12 +23,6 @@ const officeProjects = [
   { slug: "interior-design-in-san-francisco-california", title: "Interior design in San Francisco, California", image: "69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg" },
 ];
 
-const followImages = [
-  "/assets/img/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg",
-  "/assets/img/69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg",
-  "/assets/img/6883fec1daafa038da7629de_modern-bedroom-with-large-window-archipro-webflow-template-archipro-webflow-template.jpg",
-  "/assets/img/6883ff2cefd36f2ec72221d9_cozy-modern-living-room-archipro-webflow-template-archipro-webflow-template.jpg",
-];
 ---
 
 {/* Original Home V3: photographic card with responsive email CTA. */}
@@ -100,16 +94,18 @@ const followImages = [
 <QuoteCta />
 <TestimonialsSection title="Trusted by 10k+ happy clients worldwide" spotlightQuote="From concept to build, every step was smooth and thoughtful." />
 
-{/* Follow our work — image marquee */}
-<section class="overflow-hidden px-0 py-24">
-  <div class="mx-auto max-w-[1228px] px-6">
-    <SectionHeader eyebrow="Social" title="Follow our work" />
+{/* Source Home V3: the same three verified social cards as Contact V2. */}
+<section class="overflow-hidden px-6 py-24" aria-labelledby="home-v3-follow">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-8 lg:grid-cols-[minmax(0,0.44fr)_minmax(0,1fr)] lg:gap-14">
+    <div>
+      <h2 id="home-v3-follow" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+      <p class="mb-6 max-w-[310px] leading-[1.6] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur adipiscing id viverra quis viverra tellus nunc at turpis amet nulla pellentesque pharetra.
+      </p>
+      <a href="https://www.instagram.com/archipro" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full bg-brand-primary px-6 py-3 text-base font-medium text-neutral-100 hover:bg-neutral-800">@archipro</a>
+    </div>
+    <SourceSocialSlider />
   </div>
-  <Marquee duration={35} pauseOnHover>
-    {followImages.map((src, i) => (
-      <img src={src} alt={`Archipro work ${i + 1}`} loading="lazy" class="h-64 w-80 rounded-2xl object-cover" />
-    ))}
-  </Marquee>
 </section>
 
 <section class="px-6 py-24">
