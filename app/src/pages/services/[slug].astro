@@ -1,16 +1,13 @@
 ---
 /**
- * Service detail — services/[slug].html (15 CMS pages, static via
- * getStaticPaths — guide Phase 4 step 4).
+ * Shared detail layout for all 15 services.
+ * The source export shows a rounded photographic hero and one narrow article;
+ * it does not have a project sidebar, related grid, or extra quote section.
  */
 import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import Base from "@/layouts/Base.astro";
 import RichText from "@/components/sections/RichText.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import SectionHeader from "@/components/sections/SectionHeader.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
-import ServicesGrid from "@/components/sections/ServicesGrid.astro";
 
 export const getStaticPaths = (async () => {
   const services = await getCollection("services");
@@ -29,46 +26,44 @@ const { Content } = await render(service);
 ---
 
 <Base title={title} description={excerpt} ogImage={image || undefined}>
-  <PageHero title={title} intro={excerpt} size="medium" />
-
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[1228px]">
-      {
-        image && (
-          <img
-            src={image}
-            alt={title}
-            class="mb-12 h-[480px] w-full rounded-3xl object-cover max-lg:h-[320px]"
-            loading="eager"
-          />
-        )
-      }
-      <div class="grid gap-12 lg:grid-cols-[1fr_320px]">
-        <RichText>
-          <Content />
-        </RichText>
-        <aside class="h-fit rounded-3xl bg-neutral-200 p-8">
-          <h2 class="mb-4 text-xl font-medium tracking-tightest text-neutral-800">Start your project</h2>
-          <p class="mb-6 text-base leading-[1.5em] text-neutral-600">
-            Tell us about your project and we’ll get back with a tailored proposal.
-          </p>
-          <a
-            href="/landing-pages/request-a-quote"
-            class="inline-flex items-center rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors hover:bg-brand-primary"
-          >
-            Request a quote
-          </a>
-        </aside>
+  <section class="relative isolate mx-4 mt-4 min-h-[430px] overflow-hidden rounded-3xl bg-neutral-700 px-6 pb-16 pt-36 sm:mx-6 sm:min-h-[600px] sm:px-10 sm:pt-44 lg:min-h-[715px]" aria-labelledby="service-detail-title">
+    {image && (
+      <img
+        src={image}
+        alt=""
+        width="1392"
+        height="723"
+        fetchpriority="high"
+        loading="eager"
+        class="absolute inset-0 h-full w-full object-cover object-center"
+      />
+    )}
+    <div class="absolute inset-0 bg-gradient-to-r from-neutral-800/65 via-neutral-800/30 to-transparent" aria-hidden="true"></div>
+    <div class="relative z-10 mx-auto max-w-[1228px]">
+      <div class="max-w-[680px]">
+        <h1 id="service-detail-title" class="mb-5 text-[clamp(2.6rem,5vw,5.5rem)] font-medium leading-[1.08] tracking-tightest text-neutral-100">
+          {title}
+        </h1>
+        <p class="max-w-[338px] text-base leading-[1.55] text-neutral-100">{excerpt}</p>
       </div>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="More services" title="Explore more services" linkHref="/service-pages/services" linkLabel="All services" />
-      <ServicesGrid limit={3} />
+  <section class="px-6 py-20 sm:py-28" aria-label="Service description">
+    <div class="mx-auto max-w-[626px]">
+      <RichText>
+        <Content />
+      </RichText>
+      {image && (
+        <img
+          src={image}
+          alt=""
+          width="1392"
+          height="723"
+          loading="lazy"
+          class="mt-10 h-auto w-full rounded-2xl object-cover"
+        />
+      )}
     </div>
   </section>
-
-  <QuoteCta />
 </Base>
