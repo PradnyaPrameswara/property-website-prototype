@@ -1,0 +1,8 @@
+{
+  "source": "PR #12 Chromium audit at commit 6a99ab567c48a988e78443399ea96619f5ef5e5e",
+  "expectedSourceRoutes": 59,
+  "expectedComparisons": 236,
+  "expectedScreenshotPairs": 118,
+  "maxMissingHeadingPairs": 16,
+  "maxImageDeficitPairs": 44
+}

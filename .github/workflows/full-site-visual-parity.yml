@@ -5,6 +5,8 @@ on:
     paths:
       - "app/src/**"
       - "app/scripts/audit-full-site.mjs"
+      - "app/scripts/summarize-full-site-audit.mjs"
+      - "app/docs/parity-baseline.json"
       - ".github/workflows/full-site-visual-parity.yml"
   workflow_dispatch:
 
@@ -62,5 +64,33 @@ jobs:
         with:
           name: full-site-parity-shard-${{ matrix.shard }}
           path: app/visual/full-site/shard-${{ matrix.shard }}
+          if-no-files-found: warn
+          retention-days: 14
+
+  summarize-parity:
+    needs: full-site-parity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all four audit shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: full-site-parity-shard-*
+          path: app/visual/aggregated-input
+
+      - name: Summarize source coverage and check regression
+        working-directory: app
+        run: |
+          node scripts/summarize-full-site-audit.mjs --input visual/aggregated-input --baseline docs/parity-baseline.json --output visual/parity-report
+          cat visual/parity-report/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload consolidated audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-site-parity-summary
+          path: app/visual/parity-report
           if-no-files-found: warn
           retention-days: 14
