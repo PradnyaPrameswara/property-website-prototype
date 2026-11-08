@@ -121,10 +121,24 @@ const extras = [
   <section class="px-6 py-20">
     <div class="mx-auto grid max-w-[1228px] items-center gap-8 rounded-3xl bg-brand-secondary-200 p-8 md:grid-cols-2 md:p-12">
       <div>
+        <img src={assets + "6891459086f7f57e2cc3555c_archipro-figma-logomark-architecture-firm-webflow-template.svg"} alt="" width="64" height="64" loading="lazy" class="mb-5 size-12" />
         <h2 class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Figma file included</h2>
         <p class="max-w-[440px] leading-[1.6] text-neutral-600">Explore the original architecture template's pages, components, and design assets.</p>
       </div>
       <img src={assets + "6929f1fb616b78bd3ca84a48_archipro-figma-file-included-architecture-firm-webflow-template.png"} alt="Figma file included preview" width="960" height="640" loading="lazy" class="w-full rounded-2xl object-cover" />
+    </div>
+  </section>
+
+  {/* Second reference promo card within the original template preview. */}
+  <section class="px-6 pb-20" aria-labelledby="more-templates-title">
+    <div class="mx-auto grid max-w-[1228px] items-center gap-8 rounded-3xl bg-brand-secondary-200 p-8 md:grid-cols-2 md:p-12">
+      <img src={assets + "6891459196b68f7774006d28_archipro-looking-brix-template-architecture-firm-webflow-template.png"} alt="BRIX Templates collection preview" width="1200" height="980" loading="lazy" class="w-full rounded-2xl object-cover" />
+      <div>
+        <img src={assets + "689145902e824d837df74fda_archipro-brix-logomark-architecture-firm-webflow-template.svg"} alt="" width="64" height="64" loading="lazy" class="mb-6 size-12" />
+        <h2 id="more-templates-title" class="mb-5 text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-800 sm:text-5xl">Looking for more amazing Webflow Templates?</h2>
+        <p class="mb-7 max-w-[420px] leading-[1.6] text-neutral-600">Take a look at our collection of 300+ premium Webflow Templates at BRIX Templates.</p>
+        <SiteButton href="https://www.brixtemplates.com/more-webflow-templates" label="Browse templates" />
+      </div>
     </div>
   </section>
 
@@ -175,6 +189,24 @@ const extras = [
       <div class="mt-12 flex justify-center">
         <SiteButton href="https://webflow.com/templates/html/archipro-website-template" label="Buy now on Webflow" />
       </div>
+    </div>
+  </section>
+  {/* Reference sales cards retained while reconstructing the original preview. */}
+  <section class="px-6 py-20" aria-label="Template purchase and browsing">
+    <div class="mx-auto grid max-w-[1228px] gap-6 md:grid-cols-2">
+      <a href="https://webflow.com/templates/html/archipro-website-template" class="group relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-brand-secondary-200 p-8 text-neutral-800 no-underline sm:p-10">
+        <img src={assets + "689145909c7ae3428075c924_archipro-webflow-logo-architecture-firm-webflow-template.svg"} alt="" width="64" height="64" loading="lazy" class="mb-6 size-12" />
+        <h2 class="relative z-10 mb-4 max-w-[420px] text-4xl font-medium tracking-tightest sm:text-5xl">Buy now on Webflow</h2>
+        <p class="relative z-10 mb-6 max-w-[310px] leading-[1.6] text-neutral-600">Get the Archipro Webflow Template today, and take your website design to the next level.</p>
+        <span class="relative z-10 mt-auto w-fit rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors group-hover:bg-brand-primary">Buy template</span>
+        <img src={assets + "689145914f620244ffe3b425_archipro-buy-now-architecture-firm-webflow-template.png"} alt="" width="980" height="780" loading="lazy" class="pointer-events-none absolute bottom-0 right-0 max-h-[52%] max-w-[58%] object-contain object-bottom" />
+      </a>
+      <a href="https://www.brixtemplates.com/more-webflow-templates" class="group flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-neutral-800 p-8 text-neutral-100 no-underline sm:p-10">
+        <img src={assets + "68914590f274b4a13aee66c5_archipro-brix-logo-architecture-firm-webflow-template.svg"} alt="BRIX Templates" width="176" height="64" loading="lazy" class="mb-7 h-12 max-w-[180px] object-contain" />
+        <h2 class="mb-4 max-w-[420px] text-4xl font-medium tracking-tightest sm:text-5xl">Browse all templates</h2>
+        <p class="mb-6 max-w-[380px] leading-[1.6] text-neutral-200">Looking for more templates? Browse our collection of 100+ Webflow Templates on BRIXTemplates.com</p>
+        <span class="mt-auto w-fit rounded-full bg-neutral-100 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors group-hover:bg-brand-primary group-hover:text-neutral-100">Browse all templates</span>
+      </a>
     </div>
   </section>
 </Base>
