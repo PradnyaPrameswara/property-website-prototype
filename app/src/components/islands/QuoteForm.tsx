@@ -1,6 +1,6 @@
 /**
  * Request A Quote form matched to landing-pages/request-a-quote.html.
- * The API is an explicit demo-only acknowledgement; it does not deliver mail.
+ * The API requires a configured server-side webhook; no direct email is sent.
  */
 import { useState, type FormEvent } from "react";
 import { Input } from "@/components/ui/input";
@@ -62,6 +62,7 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <input name="website" type="text" autoComplete="off" tabIndex={-1} aria-hidden="true" className="sr-only" />
       <div className="space-y-2">
         <Label htmlFor="Quote-First-Name">First name</Label>
         <Input id="Quote-First-Name" name="First Name" required maxLength={256} placeholder="ex. First Name" className={fieldClass} />
