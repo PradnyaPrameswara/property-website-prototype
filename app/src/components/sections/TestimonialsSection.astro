@@ -10,9 +10,10 @@ import TestimonialCard from "@/components/site/cards/TestimonialCard.astro";
 
 interface Props {
   title?: string;
+  spotlightQuote?: string;
 }
 
-const { title = "A global reputation for client satisfaction" } = Astro.props;
+const { title = "A global reputation for client satisfaction", spotlightQuote } = Astro.props;
 
 const testimonials = [
   {
@@ -41,6 +42,9 @@ const testimonials = [
 <section class="px-6 py-24">
   <div class="mx-auto max-w-[1228px]">
     <SectionHeader eyebrow="Testimonials" title={title} />
+    {spotlightQuote && (
+      <h3 class="mb-10 max-w-[700px] text-2xl font-medium leading-[1.2] tracking-tightest text-neutral-800 sm:text-3xl">{spotlightQuote}</h3>
+    )}
     <Slider label="Client testimonials">
       {
         testimonials.map((t) => (
