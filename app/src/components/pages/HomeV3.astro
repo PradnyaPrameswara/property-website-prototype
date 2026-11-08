@@ -9,11 +9,11 @@
 import SourceSocialSlider from "@/components/sections/SourceSocialSlider.astro";
 import SubscribeForm from "@/components/islands/SubscribeForm";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
-import ServicesGrid from "@/components/sections/ServicesGrid.astro";
+import SourceServiceTabs from "@/components/sections/SourceServiceTabs.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
-import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
+
 import Slider from "@/components/site/Slider.astro";
 
 const officeProjects = [
@@ -49,12 +49,7 @@ const officeProjects = [
   </div>
 </section>
 
-<section class="px-6 py-24">
-  <div class="mx-auto max-w-[1228px]">
-    <SectionHeader eyebrow="Services" title="From concept to completion" linkHref="/service-pages/services" linkLabel="All services" />
-    <ServicesGrid limit={6} />
-  </div>
-</section>
+<SourceServiceTabs />
 
 {/* The original Home V3 office section is a four-project portfolio slider. */}
 <section class="bg-neutral-200 px-6 py-24" aria-labelledby="office-projects-heading">
@@ -91,8 +86,66 @@ const officeProjects = [
 </section>
 
 <ProcessTabs variant="v3" />
-<QuoteCta />
-<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" spotlightQuote="From concept to build, every step was smooth and thoughtful." />
+
+{/* Home V3's dark photo-backed inquiry band from the original export. */}
+<section class="relative isolate overflow-hidden bg-neutral-800 px-6 py-24 sm:py-32" aria-labelledby="home-v3-inquiry">
+  <img
+    src="/assets/img/688bb709d55545ae80fca6b9_minimalist-beige-sofa-setup-archipro-webflow-template.png"
+    alt=""
+    width="1680"
+    height="452"
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+  />
+  <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-neutral-800/90 via-neutral-800/70 to-neutral-800/10"></div>
+  <div class="relative z-10 mx-auto max-w-[1228px]">
+    <div class="max-w-[450px]">
+      <h2 id="home-v3-inquiry" class="mb-5 text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-100 sm:text-5xl">Let’s work together. Get a quote today.</h2>
+      <p class="mb-7 max-w-[392px] leading-[1.6] text-neutral-200">Lorem ipsum dolor sit amet consectetur sit ultrices rhoncus mi commodo dis nullam feugiat nibh mi duis suspendisse.</p>
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" />
+    </div>
+  </div>
+</section>
+
+{/* Original trust collage: an image testimonial, two statistics and a quote card. */}
+<section class="px-6 py-24" aria-labelledby="home-v3-trust">
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mx-auto mb-12 max-w-[470px] text-center">
+      <h2 id="home-v3-trust" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Trusted by 10k+ happy clients worldwide</h2>
+      <p class="leading-[1.6] text-neutral-600">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.</p>
+    </div>
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+      <a href="/contact-pages/contact-v1" class="group relative flex min-h-[400px] flex-col justify-end overflow-hidden rounded-3xl bg-neutral-200 p-7 text-neutral-100 no-underline sm:p-10">
+        <img src="/assets/img/688bbda917c91ae1c476a15e_neutral-toned-room-archipro-webflow-template.jpg" alt="Neutral-toned contemporary interior" width="1424" height="796" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+        <span aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-neutral-800/90 via-neutral-800/35 to-transparent"></span>
+        <span class="relative z-10">
+          <h3 class="mb-5 max-w-[512px] text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-100">From concept to build, every step was smooth and thoughtful.</h3>
+          <span class="text-sm text-neutral-100">John Carter · VP of Design at Converra</span>
+        </span>
+      </a>
+      <div class="flex min-h-[330px] flex-col justify-between rounded-3xl bg-neutral-800 p-7 text-neutral-100 sm:p-10">
+        <div class="text-6xl font-medium tracking-tightest sm:text-7xl">80+</div>
+        <div>
+          <p class="mb-3 text-2xl font-medium">Clients across sectors</p>
+          <p class="leading-[1.6] text-neutral-200">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+      <div class="flex min-h-[310px] flex-col justify-between rounded-3xl bg-brand-secondary-200 p-7 text-neutral-800 sm:p-10">
+        <div class="text-6xl font-medium tracking-tightest sm:text-7xl">340+</div>
+        <div>
+          <p class="mb-3 text-2xl font-medium">Clients across sectors</p>
+          <p class="leading-[1.6] text-neutral-600">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla.</p>
+        </div>
+      </div>
+      <div class="flex min-h-[310px] flex-col justify-between rounded-3xl bg-neutral-100 p-7 sm:p-10">
+        <p class="max-w-[560px] text-2xl font-medium leading-[1.3] tracking-tightest text-neutral-800 sm:text-3xl">Remarkable service, thoughtful process, and a final result that speaks for itself—refined, timeless, and functional.</p>
+        <p class="mt-7 text-sm text-neutral-600">John Carter · VP of Design at Converra</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 {/* Source Home V3: the same three verified social cards as Contact V2. */}
 <section class="overflow-hidden px-6 py-24" aria-labelledby="home-v3-follow">
