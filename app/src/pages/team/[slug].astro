@@ -24,7 +24,7 @@ const { name, role, bio, photo } = member.data;
 
 const { Content } = await render(member);
 
-const articleSource: Record<string, { slug: string; image: string }[]> = {
+const articleSource = {
   "andy-smith": [{ slug: "clever-diy-home-improvements-you-can-easily-do-anytime", image: "6883f8e69ddb3ed27658de9d_easy-diy-home-improvements-2-1-archipro-webflow-template.jpg" }],
   "john-carter": [{ slug: "12-design-tricks-for-picking-the-perfect-home-color-palette", image: "6883f94e796d145654776ac1_12-tricks-perfect-color-palette-2-1-archipro-webflow-template.jpg" }, { slug: "25-color-trends-designers-cant-wait-to-see-in-2026", image: "6883f917e707caf6ffe02ac7_top-25-color-trends-2026-2-1-archipro-webflow-template.jpg" }],
   "lilly-woods": [{ slug: "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide", image: "6883f893969d9194e90eb00c_wood-furniture-care-guide-2-1-archipro-webflow-template.jpg" }],
@@ -33,11 +33,11 @@ const articleSource: Record<string, { slug: string; image: string }[]> = {
   "patrick-meyer": [],
   "sandy-houston": [],
   "sophie-moore": [{ slug: "front-door-design-ideas-6-great-concepts-for-your-home", image: "6883f7a04928dd9615ba2bba_6-front-door-design-ideas-2-1-archipro-webflow-template.jpg" }, { slug: "front-door-design-ideas-6-great-concepts-for-your-home-copy", image: "6883f7a04928dd9615ba2bba_6-front-door-design-ideas-2-1-archipro-webflow-template.jpg" }],
-};
+} satisfies Record<string, { slug: string; image: string }[]>;
 
 const allPosts = await getCollection("posts");
 
-const authoredPosts = (articleSource[member.id] ?? []).flatMap(({ slug, image }) => {
+const authoredPosts = (articleSource[member.id as keyof typeof articleSource] ?? []).flatMap(({ slug, image }) => {
   const post = allPosts.find((entry) => entry.id === slug);
 
   return post ? [{ post, image }] : [];
