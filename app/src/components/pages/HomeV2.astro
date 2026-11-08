@@ -6,9 +6,8 @@
  * testimonials ("Trusted by 10k+ happy clients worldwide") → latest articles.
  */
 import SiteButton from "@/components/site/SiteButton.astro";
+import Slider from "@/components/site/Slider.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
-import ServicesGrid from "@/components/sections/ServicesGrid.astro";
-import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
@@ -22,6 +21,20 @@ const capsules = [
 ];
 
 const studioImage = "/assets/img/688a93b259161daf15717fec_cozy-seating-area-archipro-webflow-template.png";
+
+const selectedProjects = [
+  { slug: "house-architecture-design-in-los-angeles-ca", title: "House architecture design in Los Angeles, CA", image: "69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg" },
+  { slug: "house-architecture-design-in-los-angeles-ca-2", title: "House architecture design in Los Angeles, CA", image: "69320d1b06f609b186057063_house-architecture-design-v2-featured-image-archipro-webflow-template.jpg" },
+];
+
+const sourceServices = [
+  { title: "Exterior design", image: "688a9eec0d0ee3ae45ae0fee_exterior-design-default-archipro-webflow-template.png" },
+  { title: "Decoration", image: "688a9eec7e977e290017bd94_decoration-default-archipro-webflow-template.png" },
+  { title: "Construction", image: "688a9eec66950241e75c1b2c_construction-default-archipro-webflow-template.png" },
+  { title: "Interior design", image: "688a9eec9cc56e22f468af13_interior-design-default-archipro-webflow-template.png" },
+];
+
+const serviceIntro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
 ---
 
 {/* Original Home V2 hero: four staggered image capsules beside the introduction. */}
@@ -76,17 +89,51 @@ const studioImage = "/assets/img/688a93b259161daf15717fec_cozy-seating-area-arch
   />
 </section>
 
+{/* Source Home V2 contains exactly two full-width featured project rows. */}
 <section class="px-6 py-24">
   <div class="mx-auto max-w-[1228px]">
-    <SectionHeader eyebrow="Portfolio" title="Selected works" linkHref="/portfolio-pages/portfolio" linkLabel="All projects" />
-    <PortfolioGrid limit={4} />
+    <div class="mx-auto mb-12 max-w-[426px] text-center">
+      <h2 class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Selected works</h2>
+      <p class="leading-[1.6] text-neutral-600">{serviceIntro}</p>
+    </div>
+    <div class="divide-y divide-neutral-300">
+      {selectedProjects.map((project) => (
+        <a href={"/portfolio/" + project.slug} class="group grid min-w-0 items-center gap-8 py-9 first:pt-0 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+          <div class="flex h-full flex-col justify-between gap-6">
+            <div>
+              <h3 class="mb-4 text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-4xl">{project.title}</h3>
+              <p class="text-sm leading-[1.5] text-neutral-600">Architecture · Los Angeles, CA</p>
+            </div>
+            <p class="max-w-[420px] leading-[1.6] text-neutral-600">{serviceIntro}</p>
+          </div>
+          <div class="aspect-[702/364] min-w-0 overflow-hidden rounded-3xl bg-neutral-200">
+            <img src={"/assets/img/" + project.image} alt={project.title} width="702" height="364" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          </div>
+        </a>
+      ))}
+    </div>
   </div>
 </section>
 
-<section class="px-6 py-24">
-  <div class="mx-auto max-w-[1228px]">
-    <SectionHeader eyebrow="Services" title="From concept to completion" linkHref="/service-pages/services" linkLabel="All services" />
-    <ServicesGrid limit={6} />
+{/* Source Home V2 services: four photographed slider cards, not the generic six-card list. */}
+<section class="overflow-hidden px-6 py-24">
+  <div class="mx-auto grid max-w-[1228px] items-start gap-8 lg:grid-cols-[minmax(0,0.38fr)_minmax(0,1fr)] lg:gap-14">
+    <div>
+      <h2 class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">From concept to completion</h2>
+      <p class="mb-7 max-w-[420px] leading-[1.6] text-neutral-600">{serviceIntro}</p>
+      <SiteButton href="/service-pages/services" label="Browse all services" />
+    </div>
+    <Slider label="Browse architecture design services">
+      {sourceServices.map((service) => (
+        <a href="/service-pages/services" class="group block w-[min(82vw,448px)] shrink-0 snap-start overflow-hidden rounded-3xl bg-brand-secondary-200 text-neutral-800 no-underline">
+          <img src={"/assets/img/" + service.image} alt={service.title} width="448" height="624" loading="lazy" class="aspect-[448/624] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+          <div class="p-6">
+            <h3 class="mb-3 text-2xl font-medium tracking-tightest">{service.title}</h3>
+            <p class="leading-[1.55] text-neutral-600">{serviceIntro}</p>
+          </div>
+        </a>
+      ))}
+    </Slider>
   </div>
 </section>
 
