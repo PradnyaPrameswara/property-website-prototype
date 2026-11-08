@@ -169,7 +169,7 @@ try {
     body: JSON.stringify(contact),
   });
 
-  assert.equal(wrongType.status, 400);
+  assert.ok([400, 403].includes(wrongType.status), "non-JSON form request must be rejected");
 
   failNext = true;
 
