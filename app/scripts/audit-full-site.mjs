@@ -121,7 +121,7 @@ function inspect() {
     sectionCount: contentSections.length,
     imageCount: images.length,
     brokenImages,
-    formCount: source.querySelectorAll("form").length,
+    formCount: [...document.querySelectorAll("form")].filter(withinContent).length,
     pageWidth,
     overflow: Math.max(0, pageWidth - viewport),
     pageHeight: document.documentElement.scrollHeight,
