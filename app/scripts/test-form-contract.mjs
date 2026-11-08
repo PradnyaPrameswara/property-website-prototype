@@ -155,6 +155,14 @@ try {
   assert.equal(rejected.status, 502);
   assert.equal(rejected.body.ok, false);
 
+  // Astro places a workspace dev-server lock: run the no-webhook case
+  // sequentially rather than starting two dev servers in one workspace.
+  stopAstro(configured);
+
+  configured = undefined;
+
+  await delay(1500);
+
   unconfigured = startAstro(4538, "");
 
   const emptyBase = "http://127.0.0.1:4538";
