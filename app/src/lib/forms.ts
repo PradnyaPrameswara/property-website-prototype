@@ -37,8 +37,45 @@ export function methodNotAllowed(): Response {
  * Returns null when the body is not valid JSON or fails validation.
  */
 export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Promise<T | null> {
+  // Limit streaming reads even if Content-Length is missing or incorrect.
+  const maxBytes = 32 * 1024;
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+
+  if (!Number.isFinite(contentLength) || contentLength > maxBytes) return null;
+
+  const reader = request.body?.getReader();
+
+  if (!reader) return null;
+
   try {
-    const parsed = schema.safeParse(await request.json());
+    const chunks: Uint8Array[] = [];
+    let byteLength = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) break;
+
+      byteLength += value.byteLength;
+
+      if (byteLength > maxBytes) {
+        await reader.cancel();
+
+        return null;
+      }
+
+      chunks.push(value);
+    }
+
+    const bytes = new Uint8Array(byteLength);
+    let offset = 0;
+
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+
+    const parsed = schema.safeParse(JSON.parse(new TextDecoder().decode(bytes)));
 
     return parsed.success ? parsed.data : null;
   } catch {
