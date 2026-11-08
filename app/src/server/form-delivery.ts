@@ -7,7 +7,7 @@ import { json } from "@/lib/forms";
 
 type FormKind = "contact" | "quote" | "subscribe";
 
-export async function deliverForm(kind: FormKind, payload: Record<string, unknown>): Promise<Response> {
+export async function deliverForm(kind: FormKind, payload: Record<string, string>): Promise<Response> {
   const endpoint = process.env.FORM_WEBHOOK_URL;
 
   if (!endpoint) {
@@ -30,13 +30,14 @@ export async function deliverForm(kind: FormKind, payload: Record<string, unknow
 
   const token = process.env.FORM_WEBHOOK_TOKEN;
 
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+
+  if (token) headers.Authorization = "Bearer " + token;
+
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token ? { Authorization: "Bearer " + token } : {}),
-      },
+      headers,
       body: JSON.stringify({ type: kind, fields: payload }),
       signal: AbortSignal.timeout(8000),
     });

@@ -169,6 +169,7 @@ try {
   console.log("PASS form validation, webhook acknowledgement, receiver failure, unavailable configuration");
 } finally {
   if (configured) stopAstro(configured);
+
   if (unconfigured) stopAstro(unconfigured);
   receiver.close();
 }
