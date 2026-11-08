@@ -29,11 +29,35 @@ network outcomes need human review before declaring visual equality.
 
 ## This PR's targeted fixes
 
-- Recover original About hero and studio imagery, plus six values icons and
-  four city/location photos from the immutable source HTML.
-- Replace About's gray image placeholders with source photography.
-- Restore the six original company-value cards, office-location tabs and
-  source FAQ section with existing Base UI/React components.
+- Original root template-preview layout and source gallery thumbnails, preserving
+  standalone Home V1/V2/V3 routes.
+- About page original photography, value icons, office tabs and FAQ; Contact
+  V1/V2/V3 source-specific compositions, form layouts, office visuals and galleries.
+- Three original home process variants, with nine localized illustrations and
+  responsive hero typography adjusted from screenshots.
+- Blog V1/V2/V3 editorial sections, source hero imagery, newsletter and CMS
+  article cards; seven blog article heroes/bodies, original authors and related
+  content; eight team detail pages.
+- Start Here documentation restored from the reference with twelve screenshots
+  and the original long-form content/sidebar structure.
+- Original Services index: fifteen correctly ordered CMS service links using
+  fifteen original SVG icons and source card composition.
+- Original Portfolio index: four full-width alternating-content source cards,
+  project metadata and original thumbnails, instead of a generic two-column grid.
+- Request a Quote: source wooden-desk hero photo, form with original identity,
+  location, service and company fields, and the original desktop image/form split.
+  The quote endpoint still only validates/logs requests; no email delivery.
+- All exported Webflow HTML and CSS remain unchanged as visual QA reference.
+
+## Verification and limitations
+
+- The full-site Chromium audit samples 59 routes at 390, 768, 991 and 1440 px.
+  Earlier successfully completed audits found no missing routes, broken Astro
+  image loads or overflow blockers, but many heading/image/section differences.
+- A passing test means mechanical checks pass, **not** pixel-identical pages.
+  Human screenshot review remains required, including all CMS detail pages.
+- For latest CI status, consult the workflow checks on PR #8; do not infer a pass
+  from an earlier commit. The importer may advance the branch SHA.
 
 ## Outstanding before final Webflow removal
 
