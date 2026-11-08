@@ -37,6 +37,11 @@ const selected = [
   ["home-pages/home-v1.html", "688a50cbfbe8559898958990_construction-archipro-webflow-template.png"],
   ["home-pages/home-v1.html", "688a50cc8c4226dcdd1fe747_decoration-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a93b259161daf15717fec_cozy-seating-area-archipro-webflow-template.png"],
+  ["home-pages/home-v2.html", "688aa7b404595ae5e675ddd1_modern-living-room-with-neutral-furniture-archipro-webflow-template.jpg"],
+  ["home-pages/home-v2.html", "688b7f7f418671842860c671_minimalist-sofa-and-wooden-tables-in-cozy-workspace-archipro-webflow-template.jpg"],
+  ["home-pages/home-v2.html", "688b7f7f791f6a07788377f6_cozy-modern-bedroom-archipro-webflow-template.jpg"],
+  ["home-pages/home-v2.html", "688b7f7f379d69d8ed4f0844_minimalist-home-office-archipro-webflow-template.jpg"],
+  ["home-pages/home-v2.html", "688b7f7f20cad57262c1485a_cozy-beige-living-room-archipro-webflow-template.jpg"],
   ["home-pages/home-v2.html", "688a9eec0d0ee3ae45ae0fee_exterior-design-default-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a9eec7e977e290017bd94_decoration-default-archipro-webflow-template.png"],
   ["home-pages/home-v2.html", "688a9eec66950241e75c1b2c_construction-default-archipro-webflow-template.png"],
@@ -172,7 +177,7 @@ function filename(url) {
     throw new Error("Unapproved source: " + url);
   }
 
-  const name = decodeURIComponent(basename(parsed.pathname));
+  const name = decodeURIComponent(basename(parsed.pathname)).replaceAll(" ", "-");
 
   if (!/^[A-Za-z0-9_.-]+$/.test(name) || !allowed.has(extname(name).toLowerCase())) {
     throw new Error("Unapproved image name: " + name);
