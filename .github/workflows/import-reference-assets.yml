@@ -5,6 +5,7 @@ on:
     branches:
       - feat/full-site-visual-parity-audit
       - fix/remaining-editorial-visual-parity
+      - fix/home-v2-source-testimonials-cta
 
 permissions:
   contents: write
