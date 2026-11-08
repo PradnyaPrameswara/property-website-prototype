@@ -21,6 +21,7 @@ const sourceCards = [
 ];
 
 const services = new Map((await getCollection("services")).map((service) => [service.id, service.data]));
+
 const fallbackDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
 ---
 
