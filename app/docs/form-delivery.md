@@ -32,6 +32,14 @@ Baseline anti-spam controls:
   protection at the edge, provider-side abuse controls, and a clear
   newsletter consent policy. A honeypot is not sufficient protection alone.
 
+Additional request protections reject non-JSON content types, mismatched Origin
+headers, and redirects from the downstream webhook so bearer credentials are
+not forwarded to another host.
+
+Run `npm run check:forms-production -- --strict` during deployment to
+require an HTTPS webhook URL and a server-side bearer token. This validates
+configuration only; it does not contact a receiver.
+
 ## Verification and launch gate
 
 Run `npm run test:forms` to test input validation, form traps,
