@@ -143,10 +143,34 @@ try {
     const result = await send(base, route, fields);
 
     assert.equal(result.status, 200, route + ": expected a successful receiver acknowledgement");
-    assert.equal(result.body.delivered, true);
+    assert.equal(result.body.accepted, true);
     assert.equal(deliveries.at(-1).body.type, kind);
     assert.equal(deliveries.at(-1).token, "Bearer test-token");
   }
+
+  // Spam traps report a generic success without forwarding any personal data.
+  for (const [route, fields] of [
+    ["/api/contact", contact],
+    ["/api/quote", quote],
+    ["/api/subscribe", { email: "person@example.test" }],
+  ]) {
+    const before = deliveries.length;
+    const result = await send(base, route, { ...fields, website: "spam.example" });
+
+    assert.equal(result.status, 200);
+    assert.equal(deliveries.length, before, route + ": trapped submission was forwarded");
+  }
+
+  const beforeInvalid = deliveries.length;
+  const oversized = await send(base, "/api/contact", { ...contact, Message: "x".repeat(40_000) });
+
+  assert.equal(oversized.status, 400);
+  assert.equal(deliveries.length, beforeInvalid);
+
+  const invalidEmail = await send(base, "/api/subscribe", { email: "x".repeat(260) + "@example.test" });
+
+  assert.equal(invalidEmail.status, 400);
+  assert.equal(deliveries.length, beforeInvalid);
 
   failNext = true;
 
@@ -174,7 +198,7 @@ try {
   assert.equal(missing.status, 503);
   assert.equal(missing.body.ok, false);
 
-  console.log("PASS form validation, webhook acknowledgement, receiver failure, unavailable configuration");
+  console.log("PASS bounded validation, spam trap, webhook acknowledgement, receiver failure, unavailable configuration");
 } finally {
   if (configured) stopAstro(configured);
 
