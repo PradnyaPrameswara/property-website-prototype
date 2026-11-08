@@ -67,18 +67,34 @@ await mkdir(join(output, "reference"), { recursive: true });
 await mkdir(join(output, "astro"), { recursive: true });
 
 function inspect() {
-  const source = document.querySelector("main") ?? document.body;
+  // The exported Webflow HTML has no <main> and puts its shared footer in
+  // <footer class="footer-wrapper">. Comparing document.body against Astro
+  // <main> incorrectly counted shared footer headings and images as missing.
+  const main = document.querySelector("main");
 
-  const heading = source.querySelector("h1");
+  const withinContent = (element) => {
+    if (main) return main.contains(element);
 
-  const headings = [...source.querySelectorAll("h1, h2, h3")]
-    .flatMap((element) => {
-      const text = element.textContent?.replace(/\s+/g, " ").trim() ?? "";
+    return Boolean(element.closest("section")) &&
+      !element.closest("header, footer, nav, .header-wrapper, .footer-wrapper");
+  };
 
-      return text ? [text] : [];
-    });
+  const contentSections = [...document.querySelectorAll("section")]
+    .filter(withinContent);
 
-  const images = [...source.querySelectorAll("section img")];
+  const contentHeadings = [...document.querySelectorAll("h1, h2, h3")]
+    .filter(withinContent);
+
+  const heading = contentHeadings.find((element) => element.tagName === "H1");
+
+  const headings = contentHeadings.flatMap((element) => {
+    const text = element.textContent?.replace(/\s+/g, " ").trim() ?? "";
+
+    return text ? [text] : [];
+  });
+
+  const images = [...document.querySelectorAll("section img")]
+    .filter(withinContent);
 
   const brokenImages = images
     .flatMap((img) => {
@@ -102,7 +118,7 @@ function inspect() {
     h1: heading?.textContent?.replace(/\s+/g, " ").trim() ?? "",
     headings: headings.slice(0, 50),
     headingCount: headings.length,
-    sectionCount: source.querySelectorAll("section").length,
+    sectionCount: contentSections.length,
     imageCount: images.length,
     brokenImages,
     formCount: source.querySelectorAll("form").length,
@@ -205,9 +221,24 @@ try {
 
       const astroHeaders = astro.headings ?? [];
 
+      // Compare heading occurrences, not just membership, so duplicates
+      // that are present only once in Astro still register as differences.
+      const unmatched = [...astroHeaders];
+
+      const missingHeadings = referenceHeaders.filter((heading) => {
+        const index = unmatched.indexOf(heading);
+
+        if (index < 0) return true;
+
+        unmatched.splice(index, 1);
+
+        return false;
+      });
+
       pair.gaps = {
         h1Mismatch: Boolean(src.h1 && src.h1 !== astro.h1),
-        missingHeadings: referenceHeaders.filter((heading) => !astroHeaders.includes(heading)).slice(0, 25),
+        missingHeadings: missingHeadings.slice(0, 25),
+        extraHeadings: unmatched.slice(0, 25),
         missingImages: Math.max(0, (src.imageCount ?? 0) - (astro.imageCount ?? 0)),
         sectionCountDelta: (astro.sectionCount ?? 0) - (src.sectionCount ?? 0),
         heightDelta: (astro.pageHeight ?? 0) - (src.pageHeight ?? 0),
@@ -243,7 +274,7 @@ await writeFile(join(output, "audit.json"), JSON.stringify({ summary, routes: re
 const summaryLines = [
   "# Full-site visual parity audit — shard " + shard,
   "",
-  "This is a diagnostic comparison, not certification of identical output.",
+  "This is a diagnostic comparison of page sections only, excluding the shared footer, not certification of identical output.",
   "",
   "- Original HTML pages: " + summary.sourceRoutes,
   "- Route × viewport comparisons: " + summary.evaluatedPairs,
