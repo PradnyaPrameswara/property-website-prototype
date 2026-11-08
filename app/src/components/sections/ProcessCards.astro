@@ -1,0 +1,64 @@
+---
+/**
+ * Webflow Home V1 uses three side-by-side process cards, not a tab bar.
+ * Source: home-pages/home-v1.html, "Check how our process is done".
+ */
+import SectionHeader from "@/components/sections/SectionHeader.astro";
+
+const steps = [
+  {
+    heading: "1. Let’s talk",
+    copy: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.",
+    image: "/assets/img/688a71fb142f345fde59935c_lets-talk-archipro-webflow-template.png",
+    background: "bg-brand-secondary-200",
+    text: "text-neutral-800",
+  },
+  {
+    heading: "2. We start creating",
+    copy: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.",
+    image: "/assets/img/688a71fb40e5592f8f5f6e5b_we-start-creating-archipro-webflow-template.png",
+    background: "bg-brand-secondary-400",
+    text: "text-neutral-800",
+  },
+  {
+    heading: "3. Time to build",
+    copy: "Lorem ipsum dolor sit amet consectetur ut enim pulvinar cras turpis est neque faucibus.",
+    image: "/assets/img/688a71fbd7f0943428664083_time-to-build-archipro-webflow-template.png",
+    background: "bg-neutral-700",
+    text: "text-neutral-100",
+  },
+];
+---
+
+<section class="px-6 py-24" aria-labelledby="home-process-heading">
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mb-10 grid items-start gap-6 md:grid-cols-[1.2fr_0.8fr]">
+      <h2 id="home-process-heading" class="max-w-[570px] text-4xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:text-5xl">
+        Check how our process is done
+      </h2>
+      <p class="max-w-[322px] text-base leading-[1.6] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+      </p>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3">
+      {steps.map((step) => (
+        <div class:list={["relative flex min-w-0 flex-col overflow-hidden rounded-3xl pt-7", step.background, step.text]}>
+          <div class="px-7">
+            <h3 class:list={["mb-3 text-2xl font-medium leading-[1.15] tracking-tightest", step.text]}>
+              {step.heading}
+            </h3>
+            <p class:list={["text-base leading-[1.55]", step.text]}>{step.copy}</p>
+          </div>
+          <img
+            src={step.image}
+            alt=""
+            width="760"
+            height="704"
+            loading="lazy"
+            class="mt-auto aspect-[760/704] w-full object-contain object-bottom"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
