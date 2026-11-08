@@ -160,7 +160,26 @@ try {
     throw new Error("Home V3 service keyboard navigation failed");
   }
 
-  console.log("PASS navigation, office/FAQ interactions, and Home V1/V3 source photo tabs");
+  await page.goto("http://127.0.0.1:4321/home-pages/home-v2", { waitUntil: "networkidle" });
+
+  const reviewTab = page.locator('[data-review-tab="1"]');
+
+  await reviewTab.click();
+
+  if ((await reviewTab.getAttribute("aria-selected")) !== "true" ||
+      !(await page.locator('[data-review-panel="1"]').isVisible()) ||
+      await page.locator("[data-review-panel]:visible").count() !== 1) {
+    throw new Error("Home V2 testimonial tab did not activate exactly one source photo");
+  }
+
+  await reviewTab.focus();
+  await page.keyboard.press("ArrowRight");
+
+  if ((await page.locator('[data-review-tab="2"]').getAttribute("aria-selected")) !== "true") {
+    throw new Error("Home V2 testimonial keyboard navigation failed");
+  }
+
+  console.log("PASS navigation, office/FAQ interactions, Home V1/V3 photo tabs and Home V2 reviews");
 } finally {
   await browser.close();
 }
