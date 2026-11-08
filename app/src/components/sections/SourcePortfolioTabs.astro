@@ -112,6 +112,7 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
         if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
 
         event.preventDefault();
+
         const next = event.key === "Home" ? 0
           : event.key === "End" ? tabs.length - 1
           : event.key === "ArrowRight" || event.key === "ArrowDown" ? (index + 1) % tabs.length
