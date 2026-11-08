@@ -11,6 +11,11 @@ const importMode = process.argv.includes("--download");
 const allowed = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif", ".svg"]);
 
 const selected = [
+  ["team/sophie-moore.html", "6883f7a04928dd9615ba2bba_6-front-door-design-ideas-2-1-archipro-webflow-template.jpg"],
+  ["team/maya-collins.html", "6883f8bb9e957b590f3c3da3_15-stunning-floor-designs-2-1-archipro-webflow-template.jpg"],
+  ["team/lilly-woods.html", "6883f893969d9194e90eb00c_wood-furniture-care-guide-2-1-archipro-webflow-template.jpg"],
+  ["team/john-carter.html", "6883f917e707caf6ffe02ac7_top-25-color-trends-2026-2-1-archipro-webflow-template.jpg"],
+  ["team/andy-smith.html", "6883f8e69ddb3ed27658de9d_easy-diy-home-improvements-2-1-archipro-webflow-template.jpg"],
   ["home-pages/home-v1.html", "68894269d79943dcb4fbee77_designing-places-archipro-webflow-template.png"],
   ["home-pages/home-v1.html", "688942340e598afe2c3207bf_hero-linear-bg-archipro-webflow-template.png"],
   ["home-pages/home-v1.html", "688a5b011779274c81245d83_inside-firm-archipro-webflow-template.jpg"],

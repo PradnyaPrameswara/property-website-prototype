@@ -1,32 +1,21 @@
 ---
-/** Changelog — template-pages/changelog.html (version history list). */
+/** Source-matched version history: template-pages/changelog.html. */
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-
-const entries = [
-  {
-    version: "1.0.0",
-    date: "April 22, 2026",
-    notes: "Initial release — 69 pages: 3 home variants, company, services, portfolio, blog, contact, landing, and utility pages.",
-  },
-];
 ---
 
 <Base title="Changelog" description="Version history of the Archipro template.">
-  <PageHero title="Changelog" intro="What changed in each Archipro template release." />
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[860px] space-y-6">
-      {
-        entries.map((entry) => (
-          <article class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
-            <div class="mb-3 flex flex-wrap items-baseline gap-4">
-              <h2 class="text-xl font-medium tracking-tightest text-neutral-800">Version {entry.version}</h2>
-              <time class="text-sm text-neutral-500">{entry.date}</time>
-            </div>
-            <p class="text-base leading-[1.5em] text-neutral-600">{entry.notes}</p>
-          </article>
-        ))
-      }
+  <section class="px-6 pb-24 pt-32 sm:pt-40">
+    <div class="mx-auto max-w-[860px]">
+      <h1 class="mb-5 text-5xl font-medium tracking-tightest text-neutral-800 sm:text-6xl">Changelog</h1>
+      <p class="mb-10 max-w-[550px] text-base leading-[1.6] text-neutral-600">Follow this page to keep updated with the latest template changes.</p>
+      <div class="rounded-3xl bg-brand-secondary-200 px-7 py-9 sm:px-10">
+        <div class="mb-5 flex flex-wrap items-center gap-5">
+          <time datetime="2025-12-26" class="text-sm text-neutral-600">December 26, 2025</time>
+          <span class="rounded-full bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-800">1.0</span>
+        </div>
+        <h2 class="mb-3 text-3xl font-medium tracking-tightest text-neutral-800">Template release</h2>
+        <p class="text-base leading-[1.6] text-neutral-600">Initial Archipro Webflow Ecommerce Template Release</p>
+      </div>
     </div>
   </section>
 </Base>
