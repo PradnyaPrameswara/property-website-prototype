@@ -32,6 +32,13 @@ const offices = [
   },
 ];
 
+const socialLinks: { name: "facebook" | "instagram" | "linkedin" | "pinterest"; href: string }[] = [
+  { name: "facebook", href: "https://www.facebook.com/" },
+  { name: "instagram", href: "https://instagram.com/" },
+  { name: "linkedin", href: "https://linkedin.com/" },
+  { name: "pinterest", href: "https://www.pinterest.com/" },
+];
+
 const faqGroups = [
   {
     title: "Getting in touch",
@@ -148,12 +155,7 @@ const faqGroups = [
           </a>
         </div>
         <div class="flex items-center gap-3">
-          {[
-            { name: "facebook", href: "https://www.facebook.com/" },
-            { name: "instagram", href: "https://instagram.com/" },
-            { name: "linkedin", href: "https://linkedin.com/" },
-            { name: "pinterest", href: "https://www.pinterest.com/" },
-          ].map((social) => (
+          {socialLinks.map((social) => (
             <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={`Archipro on ${social.name}`} class="flex size-10 items-center justify-center rounded-full border border-neutral-300 text-neutral-800 transition-colors hover:border-brand-primary hover:text-brand-primary">
               <SocialIcon name={social.name} />
             </a>
