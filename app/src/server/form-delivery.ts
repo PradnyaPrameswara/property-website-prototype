@@ -40,6 +40,7 @@ export async function deliverForm(kind: FormKind, payload: Record<string, string
       headers,
       body: JSON.stringify({ type: kind, fields: payload }),
       signal: AbortSignal.timeout(8000),
+      redirect: "error",
     });
 
     if (!response.ok) {
