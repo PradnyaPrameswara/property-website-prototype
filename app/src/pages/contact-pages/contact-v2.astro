@@ -3,7 +3,8 @@
 import Base from "@/layouts/Base.astro";
 import ContactForm from "@/components/islands/ContactForm";
 import FaqAccordion from "@/components/islands/FaqAccordion";
-import Slider from "@/components/site/Slider.astro";
+import SourceSocialSlider from "@/components/sections/SourceSocialSlider.astro";
+import SocialIcon from "@/components/site/SocialIcon.astro";
 
 const officeIntro =
   "Lorem ipsum dolor sit amet consectetur ultricies enim sagittis aenean malesuada nunc molestie nam a tortor sed morbi facilisi ante tincidunt scelerisque nunc imperdiet nec convallis porttitor enim accumsan lacus.";
@@ -31,11 +32,11 @@ const offices = [
   },
 ];
 
-const gallery = [
-  "/assets/img/6890c4e82ae78e79eb36f57e_our-work-gallery-v2-archipro-webflow-template.png",
-  "/assets/img/6890c4e748959810d151280e_our-work-gallery-v1-archipro-webflow-template.png",
-  "/assets/img/6890c4e7f9f8eddbe1e5cc09_our-work-gallery-v3-archipro-webflow-template.png",
-  "/assets/img/6890c4e8e6da5a01d347d511_our-work-gallery-v4-archipro-webflow-template.png",
+const socialLinks: { name: "facebook" | "instagram" | "linkedin" | "pinterest"; href: string }[] = [
+  { name: "facebook", href: "https://www.facebook.com/" },
+  { name: "instagram", href: "https://instagram.com/" },
+  { name: "linkedin", href: "https://linkedin.com/" },
+  { name: "pinterest", href: "https://www.pinterest.com/" },
 ];
 
 const faqGroups = [
@@ -118,13 +119,48 @@ const faqGroups = [
   <section class="px-6 py-24" aria-labelledby="contact-v2-form">
     <div class="mx-auto grid max-w-[1228px] items-start gap-12 lg:grid-cols-2 lg:gap-20">
       <div class="max-w-[460px]">
-        <h2 class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
-          Let's talk about your project
-        </h2>
-        <p class="mb-7 text-base leading-[1.6] text-neutral-600">
-          Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+        <div class="mb-7 flex -space-x-2" aria-label="Our worldwide team">
+          {[
+            "6890ff65bd48b361c53af1d1_avatar-user-v1-archipro-webflow-template.png",
+            "6890ff65f049f4f556a3416d_avatar-user-v2-archipro-webflow-template.png",
+            "6890ff65116aae79c5821c0e_avatar-user-v3-archipro-webflow-template.png",
+          ].map((avatar, index) => (
+            <img
+              src={"/assets/img/" + avatar}
+              alt={`Archipro team member ${index + 1}`}
+              width="24"
+              height="24"
+              loading="lazy"
+              class="size-8 rounded-full border-2 border-neutral-100 object-cover"
+            />
+          ))}
+        </div>
+        <p class="mb-9 max-w-[450px] text-2xl font-medium leading-[1.35] tracking-tightest text-neutral-800 sm:text-3xl">
+          "We work from different parts of the world, but we're always connected and ready to help you whenever you need it."
         </p>
-        <a href="mailto:info@archipro.com" class="font-medium text-brand-primary hover:underline">info@archipro.com</a>
+        <div class="mb-6 grid gap-3">
+          <a href="mailto:info@archipro.com" class="flex items-center gap-4 rounded-3xl bg-brand-secondary-200 p-5 text-neutral-800 no-underline transition-colors hover:bg-neutral-200">
+            <img src="/assets/img/6883dda4c1f87854848857c2_envelope-icon-archipro-webflow-template.svg" alt="" width="48" height="48" loading="lazy" class="size-12 shrink-0 object-contain" />
+            <span>
+              <span class="block text-sm text-neutral-600">Send us an email</span>
+              <span class="block break-all text-lg font-medium">info@archipro.com</span>
+            </span>
+          </a>
+          <a href="tel:(456)789-123" class="flex items-center gap-4 rounded-3xl bg-brand-secondary-200 p-5 text-neutral-800 no-underline transition-colors hover:bg-neutral-200">
+            <img src="/assets/img/6883dda6f2e27d87ebd3a469_phone-icon-archipro-webflow-template.svg" alt="" width="48" height="48" loading="lazy" class="size-12 shrink-0 object-contain" />
+            <span>
+              <span class="block text-sm text-neutral-600">Give us a call</span>
+              <span class="block text-lg font-medium">(456) 789 - 123</span>
+            </span>
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          {socialLinks.map((social) => (
+            <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={`Archipro on ${social.name}`} class="flex size-10 items-center justify-center rounded-full border border-neutral-300 text-neutral-800 transition-colors hover:border-brand-primary hover:text-brand-primary">
+              <SocialIcon name={social.name} />
+            </a>
+          ))}
+        </div>
       </div>
       <div>
         <h2 id="contact-v2-form" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Send us a message</h2>
@@ -147,13 +183,7 @@ const faqGroups = [
           @archipro
         </a>
       </div>
-      <Slider label="Archipro projects">
-        {gallery.map((image, index) => (
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="group block w-[280px] shrink-0 snap-start overflow-hidden rounded-3xl sm:w-[320px]">
-            <img src={image} alt={"Archipro design project " + (index + 1)} width="580" height="620" loading="lazy" class="h-[390px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-          </a>
-        ))}
-      </Slider>
+      <SourceSocialSlider />
     </div>
   </section>
 
@@ -166,9 +196,23 @@ const faqGroups = [
         Lorem ipsum dolor sit amet consectetur cras suspendisse velit urna nibh tristique morbi adipiscing interdum mi ut blandit sit ullamcorper leo ut lacinia viverra habitasse eget.
       </p>
       <div class="space-y-6">
-        {faqGroups.map((group) => (
+        {faqGroups.map((group, index) => (
           <div class="rounded-3xl bg-brand-secondary-200 p-6 sm:p-8">
-            <h3 class="mb-5 text-2xl font-medium tracking-tightest text-neutral-800">{group.title}</h3>
+            <div class="mb-5 flex items-center gap-3">
+              <img
+                src={"/assets/img/" + [
+                  "6883dda6f2e27d87ebd3a469_phone-icon-archipro-webflow-template.svg",
+                  "6883dda679ee33db288eb53b_message-icon-archipro-webflow-template.svg",
+                  "6883dda4eac60697f741f8c5_couch-icon-archipro-webflow-template.svg",
+                ][index]}
+                alt=""
+                width="40"
+                height="40"
+                loading="lazy"
+                class="size-10 shrink-0 object-contain"
+              />
+              <h3 class="text-2xl font-medium tracking-tightest text-neutral-800">{group.title}</h3>
+            </div>
             <FaqAccordion client:visible items={group.items} />
           </div>
         ))}
