@@ -1,15 +1,12 @@
 ---
-/**
- * Blog post detail — blog-posts/[slug].html (7 CMS pages): category badge +
- * date, title, hero image, body excerpt, more articles.
- */
+/** Shared CMS detail layout aligned to original blog-posts/[slug].html pages. */
 import { getCollection, render } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import Base from "@/layouts/Base.astro";
 import RichText from "@/components/sections/RichText.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import SectionHeader from "@/components/sections/SectionHeader.astro";
-import PostsGrid from "@/components/sections/PostsGrid.astro";
+import BlogNewsletter from "@/components/sections/BlogNewsletter.astro";
+import Badge from "@/components/site/Badge.astro";
+import SocialIcon from "@/components/site/SocialIcon.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -21,53 +18,133 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-
 const { title, excerpt, category, date, heroImage } = post.data;
-
 const { Content } = await render(post);
 
-const formatDate = (d: Date) =>
-  d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const authors: Record<string, { slug: string; avatar: string }> = {
+  "12-design-tricks-for-picking-the-perfect-home-color-palette": {
+    slug: "john-carter", avatar: "6883f14e8186959d7311f9fe_john-carter-avatar-archipro-webflow-template.png",
+  },
+  "25-color-trends-designers-cant-wait-to-see-in-2026": {
+    slug: "john-carter", avatar: "6883f14e8186959d7311f9fe_john-carter-avatar-archipro-webflow-template.png",
+  },
+  "clever-diy-home-improvements-you-can-easily-do-anytime": {
+    slug: "andy-smith", avatar: "6883f0969ed1f80d9fa7c95d_andy-smith-avatar-archipro-webflow-template.png",
+  },
+  "15-mind-blowing-floor-designs-to-make-your-home-look-great": {
+    slug: "maya-collins", avatar: "6883ef2c4d80b2d747e7a0fe_maya-collins-avatar-archipro-webflow-template.png",
+  },
+  "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide": {
+    slug: "lilly-woods", avatar: "6883f0c64e63a9b69a4da066_lilly-woods-avatar-archipro-webflow-template.png",
+  },
+  "front-door-design-ideas-6-great-concepts-for-your-home": {
+    slug: "sophie-moore", avatar: "6883f12012eb39451cd476d6_sophie-moore-avatar-archipro-webflow-template.png",
+  },
+  "front-door-design-ideas-6-great-concepts-for-your-home-copy": {
+    slug: "sophie-moore", avatar: "6883f12012eb39451cd476d6_sophie-moore-avatar-archipro-webflow-template.png",
+  },
+};
+
+const authorInfo = authors[post.id];
+const team = await getCollection("team");
+const author = team.find((member) => member.id === authorInfo?.slug)?.data;
+const orderedSlugs = [
+  "12-design-tricks-for-picking-the-perfect-home-color-palette",
+  "25-color-trends-designers-cant-wait-to-see-in-2026",
+  "clever-diy-home-improvements-you-can-easily-do-anytime",
+  "15-mind-blowing-floor-designs-to-make-your-home-look-great",
+  "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide",
+  "front-door-design-ideas-6-great-concepts-for-your-home",
+];
+const all = await getCollection("posts");
+const related = orderedSlugs
+  .flatMap((slug) => {
+    const item = all.find((p) => p.id === slug);
+
+    return item && item.id !== post.id ? [item] : [];
+  })
+  .slice(0, 3);
+
+const displayDate = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 ---
 
 <Base title={title} description={excerpt} ogImage={heroImage || undefined}>
-  <section class="px-6 pt-40 pb-8 max-lg:pt-32">
-    <div class="mx-auto max-w-[1228px]">
-      <div class="mb-4 flex flex-wrap items-center gap-3 text-sm">
-        <a
-          href={`/blog-categories/${category.toLowerCase()}`}
-          class="rounded-full bg-neutral-200 px-4 py-1.5 font-medium text-neutral-800 transition-colors hover:bg-brand-primary hover:text-neutral-100"
-        >
-          {category}
-        </a>
-        <time datetime={date.toISOString()} class="text-neutral-500">{formatDate(date)}</time>
+  <section class="px-6 pt-32 pb-20 md:pt-36" aria-label="Article introduction">
+    <div class="mx-auto grid max-w-[1228px] items-stretch gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-12">
+      <div class="flex min-w-0 flex-col justify-between gap-10">
+        <div>
+          <div class="mb-5 flex flex-wrap items-center gap-3">
+            <a href={"/blog-categories/" + category.toLowerCase()}>
+              <Badge label={category} variant="tertiary" />
+            </a>
+            <time datetime={date.toISOString()} class="text-sm text-neutral-600">{displayDate(date)}</time>
+          </div>
+          <h1 class="mb-6 max-w-[700px] text-[clamp(2.2rem,4.2vw,5rem)] font-medium leading-[1.08] tracking-tightest text-neutral-800">
+            {title}
+          </h1>
+          <p class="max-w-[540px] text-base leading-[1.6] text-neutral-600">{excerpt}</p>
+        </div>
+        {authorInfo && author && (
+          <div class="flex flex-wrap items-center justify-between gap-5 rounded-3xl bg-neutral-200 px-6 py-5">
+            <a href={"/team/" + authorInfo.slug} class="flex min-w-0 items-center gap-3">
+              <img src={"/assets/img/" + authorInfo.avatar} alt="" width="40" height="40" class="size-10 rounded-full object-cover" loading="lazy" />
+              <span>
+                <span class="block text-sm font-medium text-neutral-800">{author.name}</span>
+                <span class="block text-xs text-neutral-600">{author.role}</span>
+              </span>
+            </a>
+            <nav aria-label="Author social profiles" class="flex gap-3">
+              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-neutral-800"><SocialIcon name="facebook" /></a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-neutral-800"><SocialIcon name="instagram" /></a>
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-neutral-800"><SocialIcon name="linkedin" /></a>
+              <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" class="text-neutral-800"><SocialIcon name="pinterest" /></a>
+            </nav>
+          </div>
+        )}
       </div>
+      {heroImage && (
+        <img src={heroImage} alt={title} width="580" height="558" loading="eager" class="aspect-[580/558] w-full rounded-3xl object-cover" />
+      )}
     </div>
   </section>
-  <PageHero title={title} intro={excerpt} size="medium" />
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[1228px]">
-      {
-        heroImage && (
-          <img
-            src={heroImage}
-            alt={title}
-            class="mb-12 h-[520px] w-full rounded-3xl object-cover max-lg:h-[320px]"
-            loading="eager"
-          />
-        )
-      }
-      <RichText class="mx-auto max-w-[720px]">
+  <section class="px-6 py-12" aria-label="Article body">
+    <div class="mx-auto max-w-[720px]">
+      <RichText>
         <Content />
       </RichText>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
+  <BlogNewsletter />
+
+  <section class="px-6 py-20" aria-labelledby="related-articles-heading">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="Blog" title="Read our latest articles" linkHref="/blog-pages/blog-v1" linkLabel="All articles" />
-      <PostsGrid limit={3} />
+      <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+        <h2 id="related-articles-heading" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+          Related articles
+        </h2>
+        <a href="/blog-pages/blog-v1" class="rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100">
+          Browse all articles
+        </a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {related.map((item) => (
+          <a href={"/blog-posts/" + item.id} class="group block min-w-0">
+            {item.data.heroImage && (
+              <div class="mb-5 aspect-[1.25/1] overflow-hidden rounded-3xl bg-neutral-200">
+                <img src={item.data.heroImage} alt={item.data.title} width="580" height="452" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+              </div>
+            )}
+            <div class="mb-3 flex flex-wrap items-center gap-3 text-sm text-neutral-600">
+              <Badge label={item.data.category} variant="tertiary" />
+              <time datetime={item.data.date.toISOString()}>{displayDate(item.data.date)}</time>
+            </div>
+            <h3 class="mb-2 text-xl font-medium leading-[1.2] tracking-tightest text-neutral-800">{item.data.title}</h3>
+            <p class="line-clamp-2 text-base leading-[1.5] text-neutral-600">{item.data.excerpt}</p>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 </Base>
