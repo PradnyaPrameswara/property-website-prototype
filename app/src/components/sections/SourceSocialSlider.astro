@@ -1,0 +1,46 @@
+---
+/**
+ * The three social cards in the exported Contact V2 / Home V3 sections.
+ * Original thumbnails and identity graphics are served locally.
+ */
+import Slider from "@/components/site/Slider.astro";
+
+const assets = "/assets/img/";
+
+const posts = [
+  "688bc164282839afb27ca4b5_work-thumbnail-v1-archipro-webflow-template.png",
+  "688bc1648d9c192ee8b48944_work-thumbnail-v2-archipro-webflow-template.png",
+  "688bc164708cc934f5f81e7f_work-thumbnail-v3-archipro-webflow-template.png",
+];
+
+const logo = assets + "688bc1a81469d314fbcb7039_circle-logo-archipro-webflow-template.svg";
+
+const verified = assets + "688bc1a8239880f5f4397cf9_account-verified-archipro-webflow-template.svg";
+---
+
+<Slider label="Archipro Instagram projects">
+  {posts.map((image, index) => (
+    <a
+      href="https://www.instagram.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`View Archipro project ${index + 1} on Instagram`}
+      class="group relative block h-[470px] w-[min(82vw,354px)] shrink-0 snap-start overflow-hidden rounded-3xl bg-neutral-800 text-neutral-100 no-underline"
+    >
+      <img
+        src={assets + image}
+        alt={`Archipro design project ${index + 1}`}
+        width="708"
+        height="940"
+        loading="lazy"
+        class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <span aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-b from-neutral-800/65 via-transparent to-neutral-800/20"></span>
+      <span class="absolute left-5 top-5 flex items-center gap-2">
+        <img src={logo} alt="" width="32" height="32" loading="lazy" class="size-8 shrink-0 rounded-full" />
+        <span class="text-sm font-semibold text-neutral-100">Archipro</span>
+        <img src={verified} alt="" width="16" height="16" loading="lazy" class="size-4 shrink-0" />
+      </span>
+    </a>
+  ))}
+</Slider>
