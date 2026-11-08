@@ -15,7 +15,7 @@ export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function json(payload: JsonPayload, status = 200): Response {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
   });
 }
 
@@ -39,7 +39,22 @@ export function methodNotAllowed(): Response {
 export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Promise<T | null> {
   // Limit streaming reads even if Content-Length is missing or incorrect.
   const maxBytes = 32 * 1024;
-  const contentLength = Number(request.headers.get("content-length") ?? 0);
+
+  try {
+    if (request.headers.get("content-type")?.split(";")[0].trim().toLowerCase() !== "application/json") return null;
+
+    const origin = request.headers.get("origin");
+
+    if (origin && new URL(origin).origin !== new URL(request.url).origin) return null;
+  } catch {
+    return null;
+  }
+
+  const headerLength = request.headers.get("content-length");
+
+  if (headerLength && !/^\d+$/.test(headerLength)) return null;
+
+  const contentLength = Number(headerLength ?? 0);
 
   if (!Number.isFinite(contentLength) || contentLength > maxBytes) return null;
 
@@ -75,7 +90,7 @@ export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Prom
       offset += chunk.byteLength;
     }
 
-    const parsed = schema.safeParse(JSON.parse(new TextDecoder().decode(bytes)));
+    const parsed = schema.safeParse(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes)));
 
     return parsed.success ? parsed.data : null;
   } catch {
