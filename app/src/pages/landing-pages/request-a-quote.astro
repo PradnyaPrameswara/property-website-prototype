@@ -1,23 +1,27 @@
 ---
-/** Request a quote — landing-pages/request-a-quote.html: hero + QuoteForm. */
+/** Request a Quote landing page from landing-pages/request-a-quote.html. */
 import Base from "@/layouts/Base.astro";
 import QuoteForm from "@/components/islands/QuoteForm";
 ---
 
-<Base title="Request a quote" description="Request a tailored quote for your architecture or interior design project.">
-  <section class="px-6 pt-40 pb-24 max-lg:pt-32">
-    <div class="mx-auto grid max-w-[1228px] gap-16 lg:grid-cols-2">
-      <div>
-        <h1 class="text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
-          Request a quote
-        </h1>
-        <p class="mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
-          Share your project type, budget range, and details — we’ll send a
-          tailored proposal within two business days.
-        </p>
-      </div>
-      <div class="rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
-        <QuoteForm client:visible />
+<Base title="Request a quote" description="Request information about your architecture project from Archipro.">
+  <section class="px-6 pt-32 pb-24 sm:pt-40" aria-labelledby="request-quote-title">
+    <div class="mx-auto max-w-[1228px]">
+      <h1 id="request-quote-title" class="mb-10 text-center text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:mb-12 sm:text-left sm:text-6xl">
+        Request a quote
+      </h1>
+      <div class="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-[70px]">
+        <img
+          src="/assets/img/688cec0508b46eca979d69f9_warm-toned-wooden-desk-setup-archipro-webflow-template.jpg"
+          alt="Warm-toned wooden desk with a minimal home office setup"
+          width="1088"
+          height="1236"
+          loading="eager"
+          class="aspect-[1088/1236] w-full rounded-3xl object-cover"
+        />
+        <div class="min-w-0">
+          <QuoteForm client:visible />
+        </div>
       </div>
     </div>
   </section>

@@ -36,6 +36,7 @@ const selected = [
   ["company-pages/about.html", "6890c4e8bb449e828fb0404a_london-archipro-webflow-template.png"],
   ["company-pages/about.html", "6890c4e7531b467e094035cf_ottawa-archipro-webflow-template.png"],
   ["home-pages/home-v3.html", "688b9d50b83ea2f28adb8d92_modern-mountain-house-archipro-webflow-template.jpg"],
+  ["landing-pages/request-a-quote.html", "688cec0508b46eca979d69f9_warm-toned-wooden-desk-setup-archipro-webflow-template.jpg"],
   ["service-pages/services.html", "6883ebb52cda0f2ca511c3e3_building-icon-archipro-webflow-template.svg"],
   ["service-pages/services.html", "6883eb9e36a962086f14ee01_couch-icon-archipro-webflow-template.svg"],
   ["service-pages/services.html", "6883eb8dfb8369d9d99c6480_urban-planning-icon-archipro-webflow-template.svg"],
