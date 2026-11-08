@@ -67,7 +67,7 @@ export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" 
   if (status === "success") {
     return (
       <div className="rounded-3xl bg-neutral-200 p-8 text-center" role="status">
-        <p className="text-lg font-medium text-neutral-800">Your message has been sent.</p>
+        <p className="text-lg font-medium text-neutral-800">Your message was accepted for processing.</p>
       </div>
     );
   }

@@ -46,7 +46,7 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
     return (
       <div className="flex items-center gap-3 rounded-2xl bg-neutral-700 p-5" role="status">
         <Check className="size-5 text-brand-secondary-500" aria-hidden />
-        <p className="text-sm font-medium text-neutral-100">Your subscription request has been sent.</p>
+        <p className="text-sm font-medium text-neutral-100">Your subscription request was accepted for processing.</p>
       </div>
     );
   }

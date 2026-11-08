@@ -143,10 +143,33 @@ try {
     const result = await send(base, route, fields);
 
     assert.equal(result.status, 200, route + ": expected a successful receiver acknowledgement");
-    assert.equal(result.body.delivered, true);
+    assert.equal(result.body.accepted, true);
     assert.equal(deliveries.at(-1).body.type, kind);
     assert.equal(deliveries.at(-1).token, "Bearer test-token");
   }
+
+  const forgedOrigin = await fetch(base + "/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: "https://example.invalid" },
+    body: JSON.stringify(contact),
+  });
+
+  assert.equal(forgedOrigin.status, 400);
+
+  const oversized = await send(base, "/api/contact", {
+    ...contact,
+    Message: "x".repeat(20_000),
+  });
+
+  assert.equal(oversized.status, 400);
+
+  const wrongType = await fetch(base + "/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(contact),
+  });
+
+  assert.ok([400, 403].includes(wrongType.status), "non-JSON form request must be rejected");
 
   failNext = true;
 
@@ -174,7 +197,7 @@ try {
   assert.equal(missing.status, 503);
   assert.equal(missing.body.ok, false);
 
-  console.log("PASS form validation, webhook acknowledgement, receiver failure, unavailable configuration");
+  console.log("PASS form validation, webhook acknowledgement, request security checks, receiver failure, unavailable configuration");
 } finally {
   if (configured) stopAstro(configured);
 

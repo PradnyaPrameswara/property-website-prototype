@@ -15,7 +15,7 @@ export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function json(payload: JsonPayload, status = 200): Response {
   return new Response(JSON.stringify(payload), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
   });
 }
 
@@ -36,9 +36,49 @@ export function methodNotAllowed(): Response {
  * Parses the request body against a zod schema at the I/O boundary.
  * Returns null when the body is not valid JSON or fails validation.
  */
+const MAX_FORM_BYTES = 16 * 1024;
+
 export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Promise<T | null> {
   try {
-    const parsed = schema.safeParse(await request.json());
+    if (request.headers.get("content-type")?.split(";")[0].trim().toLowerCase() !== "application/json") return null;
+
+    const origin = request.headers.get("origin");
+
+    if (origin && new URL(origin).origin !== new URL(request.url).origin) return null;
+
+    const contentLength = request.headers.get("content-length");
+
+    if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_FORM_BYTES)) return null;
+
+    const reader = request.body?.getReader();
+
+    if (!reader) return null;
+
+    const decoder = new TextDecoder("utf-8", { fatal: true });
+
+    let total = 0;
+
+    let body = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) break;
+
+      total += value.byteLength;
+
+      if (total > MAX_FORM_BYTES) {
+        await reader.cancel();
+
+        return null;
+      }
+
+      body += decoder.decode(value, { stream: true });
+    }
+
+    body += decoder.decode();
+
+    const parsed = schema.safeParse(JSON.parse(body));
 
     return parsed.success ? parsed.data : null;
   } catch {

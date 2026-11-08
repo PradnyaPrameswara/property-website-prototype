@@ -42,3 +42,11 @@ jobs:
 
       - name: Verify form delivery and failure contracts
         run: npm run test:forms
+      
+      - name: Verify production form configuration contract
+        run: |
+          FORM_WEBHOOK_URL=https://forms.example.test/ingest FORM_WEBHOOK_TOKEN=test-secret npm run check:forms-production -- --strict
+          if env -u FORM_WEBHOOK_URL -u FORM_WEBHOOK_TOKEN npm run check:forms-production -- --strict; then
+            echo "Expected missing production secrets to block deployment"
+            exit 1
+          fi
