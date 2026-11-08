@@ -6,11 +6,12 @@
 import type { APIRoute } from "astro";
 import { z } from "astro:content";
 
-import { EMAIL_RE, badRequest, methodNotAllowed, parseJson } from "@/lib/forms";
+import { EMAIL_RE, badRequest, methodNotAllowed, ok, parseJson } from "@/lib/forms";
 import { deliverForm } from "@/server/form-delivery";
 
 const subscribeSchema = z.object({
-  email: z.string().trim().regex(EMAIL_RE, "A valid email is required"),
+  email: z.string().trim().max(256).regex(EMAIL_RE, "A valid email is required"),
+  website: z.string().trim().max(256).default(""),
 });
 
 /**
@@ -25,7 +26,11 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!body) return badRequest("A valid email is required");
 
-  return deliverForm("subscribe", body);
+  const { website, ...fields } = body;
+
+  if (website) return ok();
+
+  return deliverForm("subscribe", fields);
 };
 
 export const GET: APIRoute = () => methodNotAllowed();
