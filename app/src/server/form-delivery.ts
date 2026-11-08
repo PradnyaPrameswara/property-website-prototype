@@ -30,9 +30,9 @@ export async function deliverForm(kind: FormKind, payload: Record<string, string
 
   const token = process.env.FORM_WEBHOOK_TOKEN;
 
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const headers = new Headers({ "Content-Type": "application/json" });
 
-  if (token) headers.Authorization = "Bearer " + token;
+  if (token) headers.set("Authorization", "Bearer " + token);
 
   try {
     const response = await fetch(url, {
