@@ -26,6 +26,11 @@ const portfolio = defineCollection({
     description: z.string(),
     heroImage: assetImage.optional(),
     gallery: z.array(assetImage).default([]),
+    category: z.string(),
+    location: z.string(),
+    completed: z.string(),
+    about: z.array(z.string()),
+    execution: z.array(z.string()),
   }),
 });
 
