@@ -6,7 +6,9 @@ if (!process.argv.includes("--strict")) {
 }
 
 const urlValue = process.env.FORM_WEBHOOK_URL;
+
 const token = process.env.FORM_WEBHOOK_TOKEN;
+
 const problems = [];
 
 let url;
