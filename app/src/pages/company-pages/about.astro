@@ -150,7 +150,7 @@ const faqs = [
   <section class="px-6 py-24">
     <div class="mx-auto max-w-[1228px]">
       <SectionHeader eyebrow="Team" title="Our creative minds" linkHref="/company-pages/team" linkLabel="Browse all team members" />
-      <TeamGrid limit={4} />
+      <TeamGrid limit={4} order={["john-carter", "sophie-moore", "matt-cannon", "lilly-woods"]} />
     </div>
   </section>
 
@@ -171,6 +171,53 @@ const faqs = [
           You ask, we answer
         </h2>
         <FaqAccordion client:visible items={faqs} />
+      </div>
+    </div>
+  </section>
+
+  {/* Source About gallery: four floating photo cards around the Instagram CTA. */}
+  <section class="overflow-hidden px-6 py-20 lg:py-24" aria-labelledby="about-follow-work">
+    <div class="relative mx-auto max-w-[1228px] lg:min-h-[650px]">
+      <div class="relative z-10 mx-auto max-w-[426px] text-center lg:pt-[202px]">
+        <h2 id="about-follow-work" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+        <p class="mb-7 text-base leading-[1.6] text-neutral-600">{summary}</p>
+        <div class="flex justify-center">
+          <SiteButton href="https://www.instagram.com/archipro" label="@archipro" />
+        </div>
+      </div>
+      <div class="relative mt-10 grid grid-cols-2 items-start gap-4 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block">
+        <img
+          src="/assets/img/6890c4e82ae78e79eb36f57e_our-work-gallery-v2-archipro-webflow-template.png"
+          alt="Architectural interiors from Archipro's portfolio"
+          width="888"
+          height="606"
+          loading="lazy"
+          class="w-full rounded-2xl object-cover lg:absolute lg:left-[46px] lg:top-[84px] lg:max-w-[296px]"
+        />
+        <img
+          src="/assets/img/6890c4e748959810d151280e_our-work-gallery-v1-archipro-webflow-template.png"
+          alt="Featured architecture project from the studio"
+          width="606"
+          height="606"
+          loading="lazy"
+          class="w-full rounded-2xl object-cover lg:absolute lg:bottom-[91px] lg:left-0 lg:max-w-[202px]"
+        />
+        <img
+          src="/assets/img/6890c4e7f9f8eddbe1e5cc09_our-work-gallery-v3-archipro-webflow-template.png"
+          alt="Interior detail from Archipro's work"
+          width="606"
+          height="606"
+          loading="lazy"
+          class="w-full rounded-2xl object-cover lg:absolute lg:right-[92px] lg:top-0 lg:max-w-[202px]"
+        />
+        <img
+          src="/assets/img/6890c4e8e6da5a01d347d511_our-work-gallery-v4-archipro-webflow-template.png"
+          alt="Completed space designed by Archipro"
+          width="636"
+          height="822"
+          loading="lazy"
+          class="w-full rounded-2xl object-cover lg:absolute lg:bottom-0 lg:right-0 lg:max-w-[212px]"
+        />
       </div>
     </div>
   </section>

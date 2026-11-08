@@ -7,13 +7,26 @@ import TeamCard from "@/components/site/cards/TeamCard.astro";
 
 interface Props {
   limit?: number;
+  order?: string[];
 }
 
-const { limit } = Astro.props;
+const { limit, order } = Astro.props;
 
 const all = await getCollection("team");
 
-const members = limit ? all.slice(0, limit) : all;
+const ranked = order
+  ? [...all].sort((a, b) => {
+      const position = (id: string) => {
+        const index = order.indexOf(id);
+
+        return index === -1 ? Number.POSITIVE_INFINITY : index;
+      };
+
+      return position(a.id) - position(b.id);
+    })
+  : all;
+
+const members = limit ? ranked.slice(0, limit) : ranked;
 ---
 
 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
