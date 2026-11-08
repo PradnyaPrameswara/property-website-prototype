@@ -122,7 +122,45 @@ try {
     return button?.getAttribute("aria-expanded") === "true";
   });
 
-  console.log("PASS mobile/desktop navigation, office tabs and FAQ interactions");
+  await page.goto("http://127.0.0.1:4321/home-pages/home-v1", { waitUntil: "networkidle" });
+
+  const portfolioTab = page.locator('[data-portfolio-tab="1"]');
+
+  await portfolioTab.click();
+
+  if ((await portfolioTab.getAttribute("aria-selected")) !== "true" ||
+      !(await page.locator('[data-portfolio-image="1"]').isVisible()) ||
+      await page.locator("[data-portfolio-image]:visible").count() !== 1) {
+    throw new Error("Home V1 portfolio tab did not activate exactly one source image");
+  }
+
+  await portfolioTab.focus();
+  await page.keyboard.press("ArrowDown");
+
+  if ((await page.locator('[data-portfolio-tab="2"]').getAttribute("aria-selected")) !== "true") {
+    throw new Error("Home V1 project keyboard navigation failed");
+  }
+
+  await page.goto("http://127.0.0.1:4321/home-pages/home-v3", { waitUntil: "networkidle" });
+
+  const serviceTab = page.locator('[data-service-tab="2"]');
+
+  await serviceTab.click();
+
+  if ((await serviceTab.getAttribute("aria-selected")) !== "true" ||
+      !(await page.locator('[data-service-image="2"]').isVisible()) ||
+      await page.locator("[data-service-image]:visible").count() !== 1) {
+    throw new Error("Home V3 service tab did not activate exactly one source image");
+  }
+
+  await serviceTab.focus();
+  await page.keyboard.press("ArrowDown");
+
+  if ((await page.locator('[data-service-tab="3"]').getAttribute("aria-selected")) !== "true") {
+    throw new Error("Home V3 service keyboard navigation failed");
+  }
+
+  console.log("PASS navigation, office/FAQ interactions, and Home V1/V3 source photo tabs");
 } finally {
   await browser.close();
 }
