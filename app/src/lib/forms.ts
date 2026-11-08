@@ -48,7 +48,7 @@ export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Prom
 
     const contentLength = request.headers.get("content-length");
 
-    if (contentLength && (!/^\\d+$/.test(contentLength) || Number(contentLength) > MAX_FORM_BYTES)) return null;
+    if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_FORM_BYTES)) return null;
 
     const reader = request.body?.getReader();
 
