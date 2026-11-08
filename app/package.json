@@ -13,7 +13,8 @@
     "lint": "oxlint",
     "build:lint-plugin": "esbuild tools/oxlint/anti-slop/index.ts --bundle --platform=node --format=esm --external:@oxlint/plugins --outfile=tools/oxlint/anti-slop/dist/index.mjs",
     "check:rewrite": "node scripts/check-rewrite-runtime.mjs",
-    "check:readiness": "node scripts/check-migration-readiness.mjs"
+    "check:readiness": "node scripts/check-migration-readiness.mjs",
+    "test:forms": "node scripts/test-form-contract.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.6",

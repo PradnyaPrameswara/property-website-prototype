@@ -7,7 +7,8 @@
 import type { APIRoute } from "astro";
 import { z } from "astro:content";
 
-import { EMAIL_RE, badRequest, methodNotAllowed, ok, parseJson } from "@/lib/forms";
+import { EMAIL_RE, badRequest, methodNotAllowed, parseJson } from "@/lib/forms";
+import { deliverForm } from "@/server/form-delivery";
 
 const contactSchema = z.object({
   "First Name": z.string().trim().min(1, "First name is required"),
@@ -30,11 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!body) return badRequest("First name, a valid email, and a message are required");
 
-  console.info(
-    `[api/contact] ${body["First Name"]} ${body["Last Name"]} <${body.Email}> phone=${body.Phone} service=${body.Service} message=${body.Message.length} chars`,
-  );
-
-  return ok();
+  return deliverForm("contact", body);
 };
 
 export const GET: APIRoute = () => methodNotAllowed();

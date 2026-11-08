@@ -39,3 +39,6 @@ jobs:
 
       - name: Check migrated routes and local assets
         run: npm run check:readiness
+
+      - name: Verify form delivery and failure contracts
+        run: npm run test:forms

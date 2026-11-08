@@ -7,10 +7,17 @@
 import type { APIRoute } from "astro";
 import { z } from "astro:content";
 
-import { EMAIL_RE, badRequest, methodNotAllowed, ok, parseJson } from "@/lib/forms";
+import { EMAIL_RE, badRequest, methodNotAllowed, parseJson } from "@/lib/forms";
+import { deliverForm } from "@/server/form-delivery";
 
 const quoteSchema = z.object({
   Name: z.string().trim().min(1, "Name is required"),
+  "First Name": z.string().trim().min(1, "First name is required"),
+  "Last Name": z.string().trim().min(1, "Last name is required"),
+  Phone: z.string().trim().min(1, "Phone number is required"),
+  Company: z.string().trim().min(1, "Company is required"),
+  Location: z.string().trim().default(""),
+  Service: z.string().trim().default(""),
   Email: z.string().trim().regex(EMAIL_RE, "A valid email is required"),
 });
 
@@ -24,11 +31,9 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request }) => {
   const body = await parseJson(request, quoteSchema);
 
-  if (!body) return badRequest("Name and a valid email are required");
+  if (!body) return badRequest("First and last name, email, phone number and company are required");
 
-  console.info(`[api/quote] ${body.Name} <${body.Email}>`);
-
-  return ok();
+  return deliverForm("quote", body);
 };
 
 export const GET: APIRoute = () => methodNotAllowed();

@@ -76,7 +76,53 @@ try {
     throw new Error("Escape failed to dismiss desktop dropdown");
   }
 
-  console.log("PASS mobile open/close + desktop focus/Escape interactions");
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  await page.goto("http://127.0.0.1:4321/company-pages/about", { waitUntil: "networkidle" });
+
+  const amsterdam = page.getByRole("tab", { name: "Amsterdam, NL" });
+
+  await amsterdam.scrollIntoViewIfNeeded();
+
+  await page.waitForFunction(() => {
+    const island = document.querySelector('astro-island[component-url*="OfficeLocations"]');
+
+    return island && !island.hasAttribute("ssr");
+  }, undefined, { timeout: 15000 });
+
+  await amsterdam.click();
+
+  await page.waitForFunction(() =>
+    Boolean(document.querySelector('[role="tab"][data-active]')?.textContent?.includes("Amsterdam")),
+  );
+
+  const officeImage = page.getByRole("img", { name: "Archipro office in Amsterdam, NL" });
+
+  if (!(await officeImage.isVisible())) {
+    throw new Error("Selecting an office did not display its photograph");
+  }
+
+  const faq = page.getByRole("button", { name: "Do you offer virtual meetings or consultations?" });
+
+  await faq.scrollIntoViewIfNeeded();
+
+  await page.waitForFunction(() => {
+    const island = [...document.querySelectorAll("astro-island")]
+      .find((element) => element.getAttribute("component-url")?.includes("FaqAccordion"));
+
+    return island && !island.hasAttribute("ssr");
+  }, undefined, { timeout: 15000 });
+
+  await faq.click();
+
+  await page.waitForFunction(() => {
+    const button = [...document.querySelectorAll("button")]
+      .find((element) => element.textContent?.includes("Do you offer virtual meetings"));
+
+    return button?.getAttribute("aria-expanded") === "true";
+  });
+
+  console.log("PASS mobile/desktop navigation, office tabs and FAQ interactions");
 } finally {
   await browser.close();
 }
