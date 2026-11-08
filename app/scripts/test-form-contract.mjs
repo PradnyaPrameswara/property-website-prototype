@@ -172,6 +172,22 @@ try {
   assert.equal(invalidEmail.status, 400);
   assert.equal(deliveries.length, beforeInvalid);
 
+  const forgedOrigin = await fetch(base + "/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: "https://example.invalid" },
+    body: JSON.stringify(contact),
+  });
+
+  assert.equal(forgedOrigin.status, 400);
+
+  const wrongType = await fetch(base + "/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(contact),
+  });
+
+  assert.ok([400, 403].includes(wrongType.status), "non-JSON form request must be rejected");
+
   failNext = true;
 
   const rejected = await send(base, "/api/contact", contact);
