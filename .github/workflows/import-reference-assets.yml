@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feat/full-site-visual-parity-audit
+      - fix/remaining-editorial-visual-parity
 
 permissions:
   contents: write
@@ -14,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feat/full-site-visual-parity-audit
+          ref: ${{ github.ref_name }}
           persist-credentials: true
 
       - uses: actions/setup-node@v4
@@ -31,6 +32,6 @@ jobs:
           git add app/public/assets/img app/public/assets/brand/partners
           if ! git diff --cached --quiet; then
             git commit -m "assets: import About page originals"
-            git pull --rebase origin feat/full-site-visual-parity-audit
-            git push origin HEAD:feat/full-site-visual-parity-audit
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }}
           fi
