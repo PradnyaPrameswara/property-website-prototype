@@ -36,49 +36,61 @@ export function methodNotAllowed(): Response {
  * Parses the request body against a zod schema at the I/O boundary.
  * Returns null when the body is not valid JSON or fails validation.
  */
-const MAX_FORM_BYTES = 16 * 1024;
-
 export async function parseJson<T>(request: Request, schema: z.ZodType<T>): Promise<T | null> {
+  // Limit streaming reads even if Content-Length is missing or incorrect.
+  const maxBytes = 32 * 1024;
+
   try {
     if (request.headers.get("content-type")?.split(";")[0].trim().toLowerCase() !== "application/json") return null;
 
     const origin = request.headers.get("origin");
 
     if (origin && new URL(origin).origin !== new URL(request.url).origin) return null;
+  } catch {
+    return null;
+  }
 
-    const contentLength = request.headers.get("content-length");
+  const headerLength = request.headers.get("content-length");
 
-    if (contentLength && (!/^\d+$/.test(contentLength) || Number(contentLength) > MAX_FORM_BYTES)) return null;
+  if (headerLength && !/^\d+$/.test(headerLength)) return null;
 
-    const reader = request.body?.getReader();
+  const contentLength = Number(headerLength ?? 0);
 
-    if (!reader) return null;
+  if (!Number.isFinite(contentLength) || contentLength > maxBytes) return null;
 
-    const decoder = new TextDecoder("utf-8", { fatal: true });
+  const reader = request.body?.getReader();
 
-    let total = 0;
+  if (!reader) return null;
 
-    let body = "";
+  try {
+    const chunks: Uint8Array[] = [];
+    let byteLength = 0;
 
     while (true) {
       const { done, value } = await reader.read();
 
       if (done) break;
 
-      total += value.byteLength;
+      byteLength += value.byteLength;
 
-      if (total > MAX_FORM_BYTES) {
+      if (byteLength > maxBytes) {
         await reader.cancel();
 
         return null;
       }
 
-      body += decoder.decode(value, { stream: true });
+      chunks.push(value);
     }
 
-    body += decoder.decode();
+    const bytes = new Uint8Array(byteLength);
+    let offset = 0;
 
-    const parsed = schema.safeParse(JSON.parse(body));
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+
+    const parsed = schema.safeParse(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes)));
 
     return parsed.success ? parsed.data : null;
   } catch {

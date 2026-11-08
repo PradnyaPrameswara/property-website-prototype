@@ -2,7 +2,7 @@
  * SubscribeForm — footer newsletter form (guide 2.6).
  * Source: reference/components/form-footer.html ("Footer Form").
  * Webflow `w-form-done`/`w-form-fail` blocks → React state set in onSubmit.
- * Posts to a placeholder endpoint — wire to the real handler at deploy time.
+ * Posts to the SSR endpoint, which requires a configured downstream receiver.
  */
 import { useState, type FormEvent } from "react";
 
@@ -24,14 +24,16 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const email = new FormData(form).get("Email");
+    const formData = new FormData(form);
+    const email = formData.get("Email");
+    const website = formData.get("website");
     setStatus("submitting");
 
     try {
       const response = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -53,6 +55,7 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
 
   return (
     <form onSubmit={handleSubmit} className="w-full" noValidate={false}>
+      <input name="website" type="text" autoComplete="off" tabIndex={-1} aria-hidden="true" className="sr-only" />
       <div className={hero ? "flex flex-col items-start gap-3 sm:relative sm:flex-row sm:items-center" : "relative flex items-center"}>
         <input
           type="email"
