@@ -1,38 +1,36 @@
-name: Import reference images
+name: Import verified reference images
 
 on:
   push:
-    branches: [feat/restore-original-assets]
-  pull_request:
-    types: [opened, synchronize]
+    branches:
+      - feat/full-site-visual-parity-audit
 
 permissions:
   contents: write
 
 jobs:
   import:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout feature branch
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          ref: feat/restore-original-assets
+          ref: feat/full-site-visual-parity-audit
           persist-credentials: true
 
-      - name: Install Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "22"
 
-      - name: Import selected original images
+      - name: Import source imagery
         run: node app/scripts/restore-original-assets.mjs --download
 
-      - name: Commit localized images
+      - name: Commit downloaded originals
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add app/public/assets/img app/public/assets/brand/partners
           if ! git diff --cached --quiet; then
-            git commit -m "assets: add original visual reference images"
-            git push origin HEAD:feat/restore-original-assets
+            git commit -m "assets: import About page originals"
+            git pull --rebase origin feat/full-site-visual-parity-audit
+            git push origin HEAD:feat/full-site-visual-parity-audit
           fi

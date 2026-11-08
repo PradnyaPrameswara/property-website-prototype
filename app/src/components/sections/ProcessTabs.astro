@@ -1,32 +1,38 @@
 ---
-/**
- * ProcessTabs — "Check how our process is done" (home variants) — Webflow
- * w-tabs / tab-link---location → SiteTabs island (guide 2.8).
- * Tab labels extracted from the raw export.
- */
+/** Native Astro wrapper for V2/V3 source project-stage tabs. */
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import SiteTabs from "@/components/islands/SiteTabs";
 
-const tabs = [
+interface Props {
+  variant?: "v2" | "v3";
+}
+
+const { variant = "v2" } = Astro.props;
+
+const steps = [
   {
-    value: "exterior-design",
-    label: "Exterior design",
-    content: "We shape facades and outdoor spaces that blend form, materials, and context into a coherent whole.",
+    value: "talk",
+    label: "Let’s talk",
+    content: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.",
+    image: variant === "v3"
+      ? "/assets/img/688baf889b365be36edf7cf1_lets-talk-accordion-archipro-webflow-template.png"
+      : "/assets/img/688aab66eed9538f8533544b_lets-talk-tab-image-archipro-webflow-template.png",
   },
   {
-    value: "decoration",
-    label: "Decoration",
-    content: "Finishing layers, furniture, fixtures, and art direction that make each space feel complete.",
+    value: "create",
+    label: "We start creating",
+    content: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.",
+    image: variant === "v3"
+      ? "/assets/img/688baf88fbd0ee4629a88cd3_we-start-creating-accordion-archipro-webflow-template.png"
+      : "/assets/img/688aab6635a8d6af3bf99e73_we-start-creating-tab-image-archipro-webflow-template.png",
   },
   {
-    value: "construction",
-    label: "Construction",
-    content: "Documentation, site supervision, and coordination with contractors through delivery.",
-  },
-  {
-    value: "interior-design",
-    label: "Interior design",
-    content: "Interior architecture from concept layouts to material palettes and lighting plans.",
+    value: "build",
+    label: variant === "v3" ? "Building" : "Time to build",
+    content: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.",
+    image: variant === "v3"
+      ? "/assets/img/688baf8844fa57e225875894_time-to-build-accordion-archipro-webflow-template.png"
+      : "/assets/img/688aab67b033e5878d73f15c_time-to-build-tab-image-archipro-webflow-template.png",
   },
 ];
 ---
@@ -34,6 +40,6 @@ const tabs = [
 <section class="px-6 py-24">
   <div class="mx-auto max-w-[1228px]">
     <SectionHeader eyebrow="Our process" title="Check how our process is done" />
-    <SiteTabs client:visible items={tabs} />
+    <SiteTabs client:visible items={steps} />
   </div>
 </section>

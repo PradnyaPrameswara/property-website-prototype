@@ -1,19 +1,21 @@
 ---
-/** Services index — service-pages/services.html (w-dyn-list → ServicesGrid). */
+/** Exact source service index section flow: centered title and fifteen icon-backed cards. */
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import ServicesGrid from "@/components/sections/ServicesGrid.astro";
-import ProcessTabs from "@/components/sections/ProcessTabs.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
+import SourceServicesGrid from "@/components/sections/SourceServicesGrid.astro";
 ---
 
 <Base title="Services" description="Architecture, interior design, renovation and planning services by Archipro.">
-  <PageHero title="Our services" intro="From first sketch to final handover — full-scope architecture services." />
-  <section class="px-6 pb-24">
+  <section class="px-6 pt-32 pb-24 sm:pt-40" aria-labelledby="services-title">
     <div class="mx-auto max-w-[1228px]">
-      <ServicesGrid />
+      <div class="mx-auto mb-12 max-w-[480px] text-center">
+        <h1 id="services-title" class="mb-5 text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:text-6xl">
+          Our services
+        </h1>
+        <p class="text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur a quis dignissim scelerisque sed orci neque non placerat non ante volutpat amet senectus.
+        </p>
+      </div>
+      <SourceServicesGrid />
     </div>
   </section>
-  <ProcessTabs />
-  <QuoteCta />
 </Base>

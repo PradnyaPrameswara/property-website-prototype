@@ -11,13 +11,15 @@ import { Check } from "lucide-react";
 type Status = "idle" | "submitting" | "success" | "error";
 
 interface SubscribeFormProps {
-  variant?: "footer" | "hero";
+  variant?: "footer" | "hero" | "newsletter";
 }
 
 export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps) {
   const [status, setStatus] = useState<Status>("idle");
 
   const hero = variant === "hero";
+
+  const newsletter = variant === "newsletter";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,7 +63,9 @@ export default function SubscribeForm({ variant = "footer" }: SubscribeFormProps
           aria-label="Email address"
           className={hero
             ? "h-12 w-full rounded-full border border-white bg-white px-5 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none sm:h-14 sm:pr-40"
-            : "h-14 w-full rounded-full border border-neutral-700 bg-neutral-700/40 pr-32 pl-6 text-base text-neutral-100 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none"
+            : newsletter
+              ? "h-14 w-full rounded-full border border-neutral-300 bg-white pr-32 pl-6 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none"
+              : "h-14 w-full rounded-full border border-neutral-100 bg-neutral-100 pr-32 pl-6 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none"
           }
         />
         <button

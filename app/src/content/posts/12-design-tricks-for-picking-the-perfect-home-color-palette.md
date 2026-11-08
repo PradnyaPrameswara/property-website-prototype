@@ -1,9 +1,9 @@
 ---
 title: "12 design tricks for picking the perfect home color palette"
-excerpt: "Lorem ipsum dolor sit amet consectetur dui sit a malesuada habitasse adipiscing cras nec."
+excerpt: "Lorem ipsum dolor sit amet consectetur ac habitant viverra pretium nulla vel ac scelerisque proin volutpat misl integer lorem pellentesque sed convallis pharetra adipiscing turpis elementum in eu nunc ipsum justo et aliquam purus dictum."
 date: "Dec 3, 2025"
 category: "Remodeling"
-heroImage: "/assets/img/6883f91a5e6286524e3af299_top-25-color-trends-2026-1-1-archipro-webflow-template.jpg"
+heroImage: "/assets/img/6883f952dd2e46cbf55d9e27_12-tricks-perfect-color-palette-1-1-archipro-webflow-template.jpg"
 ---
 
 ## Why regular wood maintenance matters
@@ -35,23 +35,3 @@ Cursus curabitur euismod vel fermentum sapien non dolor odio vel. Tortor lectus 
 > “Sed id mi eget urna facilisis pharetra. Nunc viverra est at magna maximus consectetur. Sed nec maximus augue. Aliquam commodo sem eu nisl efficitur venenatis. Proin eu suscipit lorem. Nam vitae aliquet augue. Morbi rutrum ultrices lorem molestie suscipit. Sed mattis luctus odio eu porta.”
 
 Cursus curabitur euismod vel fermentum sapien non dolor odio vel. Tortor lectus mauris in praesent a tincidunt nam. In aenean odio aliquet pretium viverra elit quis magna. Eget ut risus posuere velit purus nisi nec sollicitudin. Tellus enim interdum neque sit vestibulum.
-
-## How to clean wooden furniture properly
-
-Sed non quis tellus velit orci. Quam sed mauris elementum tempor viverra. Luctus semper risus ipsum id diam praesent. Pretium eget mauris ultrices curabitur sed sem amet. Erat nulla habitant in mattis massa mi adipiscing ullamcorper condimentum. Erat quisque integer tincidunt ac amet tempor vulputate tristique. Venenatis neque odio a nulla iaculis euismod etiam.
-
-- Morbi fringilla molestie magna sed dictum. Praesent pharetra turpis augue.
-
-- Cras mi purus, viverra vitae felis sit amet, tincidunt fringilla lorem.
-
-- Non mattis urna ex nec sem. Donec varius diam et suscipit venenati proin tincidunt.
-
-- Quisque euismod posuere lacus sit amet volutpat. Praesent vel imperdiet.
-
-## Protecting wood from moisture and sunlight
-
-Sed non quis tellus velit orci. Quam sed mauris elementum tempor viverra. Luctus semper risus ipsum id diam praesent. Pretium eget mauris ultrices curabitur sed sem amet. Erat nulla habitant in mattis massa mi adipiscing ullamcorper condimentum. Erat quisque integer tincidunt ac amet.
-
-## How to treat scratches, stains, and surface damage
-
-Sed non quis tellus velit orci. Quam sed mauris elementum tempor viverra. Luctus semper risus ipsum id diam praesent. Pretium eget mauris ultrices curabitur sed sem amet. Erat nulla habitant in mattis massa mi adipiscing ullamcorper condimentum. Erat quisque integer tincidunt ac.

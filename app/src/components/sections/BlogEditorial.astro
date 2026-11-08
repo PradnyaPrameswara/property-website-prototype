@@ -1,0 +1,144 @@
+---
+/**
+ * Blog V1 / V2 editorial lead and latest articles.
+ * Keeps source order, categories and original image crops.
+ */
+import { getCollection } from "astro:content";
+import PostCard from "@/components/site/cards/PostCard.astro";
+import Badge from "@/components/site/Badge.astro";
+import SubscribeForm from "@/components/islands/SubscribeForm";
+import BlogNewsletter from "@/components/sections/BlogNewsletter.astro";
+
+interface Props {
+  variant: "v1" | "v2";
+}
+
+const { variant } = Astro.props;
+
+const posts = await getCollection("posts");
+
+const orderedSlugs = [
+  "12-design-tricks-for-picking-the-perfect-home-color-palette",
+  "25-color-trends-designers-cant-wait-to-see-in-2026",
+  "clever-diy-home-improvements-you-can-easily-do-anytime",
+  "15-mind-blowing-floor-designs-to-make-your-home-look-great",
+  "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide",
+  "front-door-design-ideas-6-great-concepts-for-your-home",
+];
+
+const postById = new Map(posts.map((post) => [post.id, post]));
+
+const orderedPosts = orderedSlugs.flatMap((slug) => {
+  const entry = postById.get(slug);
+
+  return entry ? [entry] : [];
+});
+
+const display = (date: Date) => date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+const images = [
+  "6883f952dd2e46cbf55d9e27_12-tricks-perfect-color-palette-1-1-archipro-webflow-template.jpg",
+  "6883f91a5e6286524e3af299_top-25-color-trends-2026-1-1-archipro-webflow-template.jpg",
+  "6883f8eac806d91bce627b41_easy-diy-home-improvements-1-1-archipro-webflow-template.jpg",
+  "6883f8bf006e7664454be2ae_15-stunning-floor-designs-1-1-archipro-webflow-template.jpg",
+  "6883f896516c83a0de52b9a5_wood-furniture-care-guide-1-1-archipro-webflow-template.jpg",
+  "6883f7a4f0e6d9749c037ad9_6-front-door-design-ideas-1-1-archipro-webflow-template.jpg",
+];
+
+const heroImage = variant === "v1"
+  ? "/assets/img/6883f9491f1a3770faa02b07_12-tricks-perfect-color-palette-3-2-archipro-webflow-template.jpg"
+  : "/assets/img/6883f94e796d145654776ac1_12-tricks-perfect-color-palette-2-1-archipro-webflow-template.jpg";
+
+const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+---
+
+<section class:list={["px-6 pb-12", variant === "v1" ? "pt-32 sm:pt-36" : "pt-32 sm:pt-36"]} aria-label="Blog articles">
+  <div class="mx-auto max-w-[1228px]">
+    {variant === "v1" ? (
+      <div class="mx-auto mb-12 max-w-[560px] text-center">
+        <h1 class="mb-4 text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:text-6xl">Our blog</h1>
+        <p class="mx-auto mb-7 max-w-[480px] leading-[1.55] text-neutral-600">{intro}</p>
+        <div class="mx-auto max-w-[410px]">
+          <SubscribeForm client:visible variant="newsletter" />
+        </div>
+      </div>
+    ) : (
+      <h1 class="mb-9 border-b border-neutral-300 pb-6 text-5xl font-medium leading-[1.08] tracking-tightest text-neutral-800 sm:text-6xl">
+        Articles and resources
+      </h1>
+    )}
+
+    <div class:list={["grid items-stretch gap-6", variant === "v1" ? "lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)]" : "lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.2fr)]"]}>
+      {orderedPosts[0] && (
+        <a href={"/blog-posts/" + orderedPosts[0].id} class="group block min-w-0" aria-label={"Read " + orderedPosts[0].data.title}>
+          <div class:list={["relative overflow-hidden rounded-3xl", variant === "v1" ? "aspect-[1.6/1]" : "aspect-[0.95/1]"]}>
+            <img src={heroImage} alt={orderedPosts[0].data.title} width="900" height="650" loading="eager" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+            <span class="absolute left-5 top-5 rounded-full bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-800">{orderedPosts[0].data.category}</span>
+            {variant === "v2" && (
+              <span class="absolute right-5 top-5 rounded-full bg-neutral-100 px-3 py-2 text-lg text-neutral-800" aria-hidden="true">−</span>
+            )}
+          </div>
+          {variant === "v1" && (
+            <h2 class="mt-6 max-w-[680px] text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-4xl">
+              {orderedPosts[0].data.title}
+            </h2>
+          )}
+        </a>
+      )}
+
+      <div class:list={["min-w-0", variant === "v1" ? "flex flex-col divide-y divide-neutral-300" : "grid grid-cols-2 items-start gap-5"]}>
+        {orderedPosts.slice(1, variant === "v1" ? 4 : 3).map((post, index) => (
+          <a href={"/blog-posts/" + post.id} class:list={["group block min-w-0", variant === "v1" ? "flex flex-1 items-start justify-between gap-6 py-3 first:pt-0" : ""]}>
+            {variant === "v2" && (
+              <div class="mb-4 aspect-[0.9/1] overflow-hidden rounded-3xl">
+                <img src={"/assets/img/" + images[index + 1]} alt={post.data.title} width="560" height="620" loading="lazy" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+              </div>
+            )}
+            <div class="min-w-0">
+              <h2 class:list={["mb-3 font-medium tracking-tightest text-neutral-800", variant === "v1" ? "text-xl leading-[1.15] sm:text-2xl" : "text-lg leading-[1.2]"]}>
+                {post.data.title}
+              </h2>
+              <p class="mb-3 line-clamp-2 text-sm leading-[1.5] text-neutral-600">{post.data.excerpt}</p>
+              {variant === "v2" ? (
+                <time datetime={post.data.date.toISOString()} class="text-sm text-neutral-600">{display(post.data.date)}</time>
+              ) : (
+                <Badge label={post.data.category} variant="tertiary" />
+              )}
+            </div>
+            {variant === "v1" && (
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-lg text-neutral-800" aria-hidden="true">−</span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<BlogNewsletter />
+
+<section class="px-6 py-20" aria-labelledby="latest-blog-heading">
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+      <h2 id="latest-blog-heading" class="text-4xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-5xl">Latest articles</h2>
+      <nav aria-label="Article categories" class="flex flex-wrap items-center gap-2">
+        <a href={"/blog-pages/blog-" + (variant === "v1" ? "v1" : "v2")} aria-current="page" class="rounded-full bg-neutral-800 px-4 py-2 text-sm text-neutral-100">All</a>
+        <a href="/blog-categories/construction" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Construction</a>
+        <a href="/blog-categories/design" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Design</a>
+        <a href="/blog-categories/remodeling" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Remodeling</a>
+      </nav>
+    </div>
+    <div class:list={["grid gap-8 md:grid-cols-2", variant === "v1" && "lg:grid-cols-3"]}>
+      {orderedPosts.map((post, index) => (
+        <PostCard
+          href={"/blog-posts/" + post.id}
+          title={post.data.title}
+          category={post.data.category}
+          date={display(post.data.date)}
+          imageSrc={"/assets/img/" + images[index]}
+          imageAlt={post.data.title}
+        />
+      ))}
+    </div>
+  </div>
+</section>

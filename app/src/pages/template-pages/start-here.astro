@@ -1,87 +1,205 @@
 ---
 /**
- * Start here — template-pages/start-here.html: directory of all template
- * pages, grouped by section (kept as a design-system utility page).
+ * Source-composed template documentation.
+ * Reference: template-pages/start-here.html (static copy, no Webflow runtime).
  */
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import Link from "@/components/site/Link.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
 
-const groups = [
+const imagePath = "/assets/img/";
+
+const menu = [
+  { id: "styling", label: "Styling" },
+  { id: "editing-pages", label: "Editing pages" },
+  { id: "useful-notes", label: "Useful notes" },
+  { id: "support", label: "Support" },
+  { id: "faqs", label: "FAQs" },
+];
+
+const topics = [
   {
-    label: "Home",
-    links: [
-      { href: "/home-pages/home-v1", label: "Home V1" },
-      { href: "/home-pages/home-v2", label: "Home V2" },
-      { href: "/home-pages/home-v3", label: "Home V3" },
+    id: "styling",
+    heading: "Styling",
+    intro: "Let's get started with the styling of the template.",
+    items: [
+      {
+        title: "Colors",
+        paragraphs: [
+          "Archipro template is built using Color Swatches, meaning that you can easily edit a color swatch to be updated site-wide.",
+          "In order to do this, you just need to go to the Style tab in the right sidebar, then scroll to Colors in Typography section, and if you click the color, you will be able to see all color swatches and edit them to be updated site-wide to any color needed.",
+        ],
+        images: ["689271a8d837381c3e41a711_archipro-webflow-template-and-ui-kit-color.png"],
+      },
+      {
+        title: "Fonts",
+        paragraphs: [
+          "Archipro template uses one single font site-wide, and it's set up in the Body (All Pages) selector, so you can easily update the font on the whole site in one click.",
+          "On any page, select Body (All Pages) from the Style tab and choose a font for your business brand.",
+        ],
+        images: [
+          "689271a8657bd2dd453331a1_archipro-webflow-template-and-ui-kit-typography.png",
+          "689271a8a5261ee97b4ccefc_archipro-webflow-template-and-ui-kit-custom-fonts.png",
+        ],
+      },
+      {
+        title: "Graphics & Icons",
+        paragraphs: [
+          "You can customize images, graphics, illustrations and icon assets to reflect your project and visual identity.",
+        ],
+        images: ["69321ef8c2e2a569eca111e6_archipro-webflow-template-and-ui-kit-icons-and-graphics.jpg"],
+      },
     ],
   },
   {
-    label: "Company",
-    links: [
-      { href: "/company-pages/about", label: "About" },
-      { href: "/company-pages/team", label: "Team" },
+    id: "editing-pages",
+    heading: "Editing Pages",
+    intro: "Now it's time to continue with the next steps to edit your website pages. Usually there are 2 types of content that will be edited.",
+    items: [
+      {
+        title: "Static pages",
+        paragraphs: [
+          "Static Content is all the content that is not CMS-based, which means that it is not dynamic (like a Blog Post, for example).",
+          "You can easily identify all this content because it's shown as grey in the left sidebar Navigator, and it shows a blue border when you click or hover over it.",
+        ],
+        images: ["689271a80d37cef0503c8ef4_archipro-webflow-template-and-ui-kit-static-content.png"],
+      },
+      {
+        title: "Dynamic Content (CMS)",
+        paragraphs: [
+          "Dynamic Content is all the content that is dynamic and will be auto-generated based on the content added in the CMS section in the left sidebar.",
+          "CMS collections help you organize repeatable content such as blog posts, team members, services and portfolio projects.",
+        ],
+        images: [
+          "689271a80d37cef0503c8edc_archipro-webflow-template-and-ui-kit-cms-content.png",
+          "689271a860d2483e927d9e37_archipro-webflow-template-and-ui-kit-cms-collection.png",
+          "689271a88d4d1b3bc7b406d9_archipro-webflow-template-and-ui-kit-cms-page.png",
+        ],
+      },
     ],
   },
   {
-    label: "Work",
-    links: [
-      { href: "/service-pages/services", label: "Services" },
-      { href: "/portfolio-pages/portfolio", label: "Portfolio" },
-    ],
-  },
-  {
-    label: "Blog",
-    links: [
-      { href: "/blog-pages/blog-v1", label: "Blog V1" },
-      { href: "/blog-pages/blog-v2", label: "Blog V2" },
-      { href: "/blog-pages/blog-v3", label: "Blog V3" },
-    ],
-  },
-  {
-    label: "Contact",
-    links: [
-      { href: "/contact-pages/contact-v1", label: "Contact V1" },
-      { href: "/contact-pages/contact-v2", label: "Contact V2" },
-      { href: "/contact-pages/contact-v3", label: "Contact V3" },
-    ],
-  },
-  {
-    label: "Landing",
-    links: [
-      { href: "/landing-pages/request-a-quote", label: "Request a quote" },
-      { href: "/landing-pages/coming-soon", label: "Coming soon" },
-    ],
-  },
-  {
-    label: "Template",
-    links: [
-      { href: "/template-pages/styles-components", label: "Styles & components" },
-      { href: "/template-pages/changelog", label: "Changelog" },
-      { href: "/template-pages/licenses", label: "Licenses" },
+    id: "useful-notes",
+    heading: "Useful Notes",
+    intro: "Other than the main basic explanation we shared above, here we share a few tips and how-to's from the most common questions we receive.",
+    items: [
+      {
+        title: "Interactions",
+        paragraphs: [
+          "If you would like to edit any template Interaction (for example removing an appear effect), you can identify elements that have interactions in the Navigator.",
+        ],
+        images: ["689271a874c98aadac677c03_archipro-webflow-template-and-ui-kit-animations.png"],
+      },
+      {
+        title: "Mobile or Tablet View",
+        paragraphs: [
+          "Every time you make a change, it's a good practice to check the Tablet and Mobile viewports and make sure the layout still looks right.",
+        ],
+        images: ["69321ef82a65c44a99890d09_archipro-webflow-template-and-ui-kit-responsive-design.jpg"],
+      },
+      {
+        title: "Editing Meta Title, Desc and Featured Image",
+        paragraphs: [
+          "Page metadata helps search engines and social previews describe your content. Review the title, description and preview image for each page.",
+        ],
+        images: ["69321ef88afac1ab0aeb6cad_archipro-webflow-template-seo-settings.jpg"],
+      },
+      {
+        title: "Backups",
+        paragraphs: [
+          "Keep a backup of your site before substantial changes, especially when editing common components and shared styles.",
+        ],
+        images: ["69321ef8ac5929e2f968069a_archipro-webflow-template-and-ui-kit-backups.jpg"],
+      },
     ],
   },
 ];
 ---
 
-<Base title="Start here" description="Overview of every page in the Archipro template.">
-  <PageHero title="Start here" intro="Every page included in the Archipro template, grouped by section." />
-  <section class="px-6 pb-24">
-    <div class="mx-auto grid max-w-[1228px] gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        groups.map((group) => (
-          <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
-            <h2 class="mb-5 text-xl font-medium tracking-tightest text-neutral-800">{group.label}</h2>
-            <ul class="space-y-3">
-              {group.links.map((link) => (
-                <li>
-                  <Link href={link.href} label={link.label} />
-                </li>
-              ))}
-            </ul>
+<Base title="Start here" description="Getting started with Archipro's reference template and included design resources.">
+  <section class="mx-4 mt-4 rounded-3xl bg-brand-secondary-200 px-6 py-20 text-center sm:mx-6 sm:py-28" aria-labelledby="start-here-title">
+    <div class="mx-auto max-w-[730px]">
+      <h1 id="start-here-title" class="mb-5 text-5xl font-medium tracking-tightest text-neutral-800 sm:text-6xl">Start here</h1>
+      <p class="mx-auto mb-8 max-w-[630px] text-base leading-[1.6] text-neutral-600">
+        If you just purchased Archipro Webflow Ecommerce Template and are looking for the basics on how to get started editing it, start here.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <SiteButton href="https://webflow.com/templates/html/archipro-website-template" label="Buy template" />
+        <a href="/" class="inline-flex items-center rounded-full bg-neutral-800 px-7 py-3 text-base font-medium text-neutral-100">Go back home</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-label="Template setup guide">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24">
+        <nav aria-label="Guide sections" class="flex flex-wrap gap-1 rounded-3xl border border-neutral-300 bg-neutral-100 p-4 lg:flex-col lg:gap-1 lg:p-6">
+          {menu.map((item) => (
+            <a href={"#" + item.id} class="rounded-xl px-3 py-3 text-sm text-neutral-800 transition-colors hover:bg-neutral-200">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </aside>
+
+      <article class="min-w-0 rounded-3xl border border-neutral-300 bg-neutral-100 px-6 py-10 sm:px-10">
+        <div class="mb-14">
+          <h2 class="mb-4 text-3xl font-medium tracking-tightest text-neutral-800 sm:text-4xl">Getting started</h2>
+          <p class="mb-4 text-base leading-[1.65] text-neutral-600">
+            Thanks for purchasing the Archipro template. In this brief guide we cover all the basics on how to edit basic elements (i.e. colors, fonts, CMS content, etc) from the Archipro Webflow template.
+          </p>
+          <p class="text-base leading-[1.65] text-neutral-600">
+            If you are not very familiar with Webflow, we highly recommend you to take the Webflow 101 Crash Course from Webflow University, as it will teach you all the basics to get up and running.
+          </p>
+        </div>
+
+        {topics.map((topic) => (
+          <div id={topic.id} class="mb-16 scroll-mt-28">
+            <h2 class="mb-5 text-3xl font-medium tracking-tightest text-neutral-800 sm:text-4xl">{topic.heading}</h2>
+            <p class="mb-8 text-base leading-[1.65] text-neutral-600">{topic.intro}</p>
+            {topic.items.map((item) => (
+              <div class="mb-10">
+                <h3 class="mb-4 text-2xl font-medium tracking-tightest text-neutral-800">{item.title}</h3>
+                {item.paragraphs.map((paragraph) => (
+                  <p class="mb-5 text-base leading-[1.65] text-neutral-600">{paragraph}</p>
+                ))}
+                {item.images.map((name) => (
+                  <img
+                    src={imagePath + name}
+                    alt={item.title + " documentation screenshot"}
+                    width="940"
+                    height="620"
+                    loading="lazy"
+                    class="my-8 h-auto w-full rounded-2xl border border-neutral-300 object-contain"
+                  />
+                ))}
+              </div>
+            ))}
           </div>
-        ))
-      }
+        ))}
+
+        <div id="support" class="mb-16 scroll-mt-28">
+          <h2 class="mb-5 text-3xl font-medium tracking-tightest text-neutral-800 sm:text-4xl">Archipro Webflow Template Support</h2>
+          <p class="mb-6 text-base leading-[1.65] text-neutral-600">
+            Archipro was built with an emphasis on editable and reusable elements. If you find an issue, need help, or want to say hello, you can reach the original template team at archipro@brixtemplates.com.
+          </p>
+          <h3 class="mb-4 text-2xl font-medium tracking-tightest text-neutral-800">Custom Design & Development</h3>
+          <p class="text-base leading-[1.65] text-neutral-600">
+            The original template team also provides custom design and development for personalized sites and projects.
+          </p>
+        </div>
+
+        <div id="faqs" class="scroll-mt-28">
+          <h2 class="mb-6 text-3xl font-medium tracking-tightest text-neutral-800 sm:text-4xl">Frequently Asked Questions</h2>
+          <h3 class="mb-3 text-2xl font-medium tracking-tightest text-neutral-800">How can I get more icons for the template?</h3>
+          <p class="mb-7 text-base leading-[1.65] text-neutral-600">
+            Looking for a broader icon family? The original BRIX Templates Icon Fonts collection includes additional icons for your template.
+          </p>
+          <h3 class="mb-3 text-2xl font-medium tracking-tightest text-neutral-800">Are you going to release a template for X?</h3>
+          <p class="text-base leading-[1.65] text-neutral-600">
+            Have an idea for another template you would like to see come to life? Contact the original team with your suggestion.
+          </p>
+        </div>
+      </article>
     </div>
   </section>
 </Base>

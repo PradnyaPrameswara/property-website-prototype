@@ -1,73 +1,177 @@
 ---
 /**
- * About — company-pages/about.html. Section order from the raw page:
- * hero → What guides every step we take (values) → Inside the firm →
- * Our creative minds (team) → Tour our office space → testimonials.
+ * About page reconstructed against company-pages/about.html.
+ * Original hero photo, values, studio photo and four location tabs are local.
  */
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
 import SectionHeader from "@/components/sections/SectionHeader.astro";
 import TeamGrid from "@/components/sections/TeamGrid.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
+import OfficeLocations from "@/components/islands/OfficeLocations";
+import FaqAccordion from "@/components/islands/FaqAccordion";
+import Lightbox from "@/components/islands/Lightbox";
 import { iconMap } from "@/lib/icons";
 
-const CheckIcon = iconMap.check;
+const PlayIcon = iconMap.play;
+
+const summary =
+  "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
 
 const values = [
-  { title: "Human-centered design", text: "Spaces shaped around the people who live and work in them." },
-  { title: "Craft and detail", text: "From structure to finishes, every junction is considered." },
-  { title: "Sustainability", text: "Responsible materials and energy-conscious solutions as standard." },
+  { title: "Passion", icon: "68923500f2996c45c70b924f_heart-icon-archipro-webflow-template.svg" },
+  { title: "Comfort", icon: "6883dda4eac60697f741f8c5_couch-icon-archipro-webflow-template.svg" },
+  { title: "Client first", icon: "68923500740745ee512937c0_user-icon-archipro-webflow-template.svg" },
+  { title: "Innovation", icon: "68923500b759f4bedda504a0_lightbulb-icon-archipro-webflow-template.svg" },
+  { title: "Sustainability", icon: "68923500e8af7fe380307475_plant-icon-archipro-webflow-template.svg" },
+  { title: "Safety", icon: "689235002dc5cf80340e4de9_check-icon-archipro-webflow-template.svg" },
+];
+
+const faqs = [
+  {
+    question: "Do you offer virtual meetings or consultations?",
+    answer: "Contact our team to arrange a consultation and discuss your project requirements.",
+  },
+  {
+    question: "What types of architecture projects do you specialize in?",
+    answer: "Our services span residential, commercial, renovation and interior design projects.",
+  },
+  {
+    question: "What information should I include in my initial inquiry?",
+    answer: "Share your project location, goals, timeline, scope and any references you already have.",
+  },
+  {
+    question: "Do you work on projects outside your city or region?",
+    answer: "Contact our team to discuss project locations and the support we can provide.",
+  },
+  {
+    question: "Who should I contact for press or collaboration inquiries?",
+    answer: "Use our contact page to reach the team about media or collaboration requests.",
+  },
+  {
+    question: "Where are your offices located?",
+    answer: "Explore our office locations in the section above or contact us for current details.",
+  },
 ];
 ---
 
-<Base
-  title="About"
-  description="About Archipro — an architecture firm designing places that feel as good as they look."
->
-  <PageHero
-    title="About our architecture firm"
-    intro="We are Archipro — a collective of architects and designers delivering residential, commercial, and urban projects worldwide."
-  />
-
-  <section class="px-6 py-16">
+<Base title="About" description="About Archipro — an architecture firm designing places that feel as good as they look.">
+  <section class="px-6 pt-32 pb-20 max-md:pt-28" aria-labelledby="about-title">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="Values" title="What guides every step we take" />
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {
-          values.map((v) => (
-            <div class="rounded-3xl border border-neutral-300 bg-neutral-100 p-8">
-              <span class="mb-4 flex size-10 items-center justify-center rounded-full bg-brand-primary/10 text-brand-primary">
-                <CheckIcon className="size-5" aria-hidden />
+      <div class="mb-12 grid items-start gap-8 md:grid-cols-[minmax(0,420px)_minmax(0,424px)] md:justify-between">
+        <h1 id="about-title" class="max-w-[420px] text-[clamp(2.5rem,5vw,5.5rem)] leading-[1.08] font-medium tracking-tightest text-neutral-800">
+          About our architecture firm
+        </h1>
+        <div class="flex flex-col items-start gap-6">
+          <p class="max-w-[424px] text-lg leading-[1.6] text-neutral-600">{summary}</p>
+          <a href="/portfolio-pages/portfolio" class="inline-flex rounded-full border border-neutral-800 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100">
+            Browse portfolio
+          </a>
+        </div>
+      </div>
+
+      <div class="relative isolate min-h-[320px] overflow-hidden rounded-3xl sm:min-h-[460px] lg:min-h-[510px]">
+        <img
+          src="/assets/img/688bd943c34df2b494161ec7_scenic-mountain-terrace-archipro-webflow-template.jpg"
+          alt="Scenic mountain terrace designed by Archipro"
+          width="2356"
+          height="968"
+          fetchpriority="high"
+          loading="eager"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="absolute bottom-5 right-5 z-10 rounded-2xl bg-neutral-800/70 p-3 sm:bottom-8 sm:right-8" >
+          <Lightbox client:visible label="Watch Archipro studio video" videoSrc="/assets/video/hero-home-v3.mp4">
+            <span class="flex cursor-pointer items-center gap-3 text-neutral-100">
+              <span class="flex size-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-800">
+                <PlayIcon className="size-5 fill-current" aria-hidden />
               </span>
-              <h3 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{v.title}</h3>
-              <p class="text-base leading-[1.5em] text-neutral-600">{v.text}</p>
-            </div>
-          ))
-        }
+              <span class="text-sm font-medium">Watch our studio</span>
+            </span>
+          </Lightbox>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-neutral-200 px-6 py-24">
+  <section class="px-6 py-20" aria-labelledby="about-values">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="Studio" title="Inside the firm" />
-      <div class="grid gap-6 lg:grid-cols-2">
-        <div class="h-[360px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro studio interior" />
-        <div class="h-[360px] rounded-3xl bg-neutral-300" role="img" aria-label="Archipro team at work" />
+      <div class="mb-10 max-w-[600px]">
+        <h2 id="about-values" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">What guides every step we take</h2>
+        <p class="text-lg leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur risus at a diam sed id dui lectus nullam platea mi non mattis elit tincidunt condimentum eget id in auctor aliquet orci.
+        </p>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        {[
+          values.slice(0, 3),
+          values.slice(3),
+        ].map((column) => (
+          <div class="grid gap-4">
+            {column.map((value) => (
+              <div class="flex items-start gap-5 rounded-3xl bg-brand-secondary-200 p-6 sm:p-8">
+                <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-neutral-100">
+                  <img src={"/assets/img/" + value.icon} alt="" width="48" height="48" loading="lazy" class="size-12 object-contain" />
+                </div>
+                <div>
+                  <h3 class="mb-2 text-xl font-medium tracking-tightest text-neutral-800">{value.title}</h3>
+                  <p class="text-base leading-[1.5] text-neutral-600">
+                    Lorem ipsum dolor sit amet consectetur eualiquam.
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="relative isolate mx-4 min-h-[420px] overflow-hidden rounded-3xl bg-neutral-800 sm:mx-6 sm:min-h-[550px]" aria-labelledby="about-studio">
+    <img
+      src="/assets/img/689236ac5b61c147e4a4a8b3_inside-the-firm-archipro-webflow-template.jpg"
+      alt=""
+      width="2100"
+      height="1308"
+      loading="lazy"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-neutral-800/80 to-neutral-800/10" aria-hidden="true"></div>
+    <div class="relative z-10 mx-auto flex min-h-[420px] max-w-[1228px] items-center px-6 py-20 sm:min-h-[550px]">
+      <div class="max-w-[338px]">
+        <h2 id="about-studio" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-100 sm:text-5xl">Inside the firm</h2>
+        <p class="mb-7 text-base leading-[1.6] text-neutral-200">{summary}</p>
+        <SiteButton href="/contact-pages/contact-v1" label="Get in touch" variant="light" />
       </div>
     </div>
   </section>
 
   <section class="px-6 py-24">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader
-        eyebrow="Team"
-        title="Our creative minds"
-        linkHref="/company-pages/team"
-        linkLabel="Meet the team"
-      />
+      <SectionHeader eyebrow="Team" title="Our creative minds" linkHref="/company-pages/team" linkLabel="Browse all team members" />
       <TeamGrid limit={4} />
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-labelledby="about-offices">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mx-auto mb-10 max-w-[500px] text-center">
+        <h2 id="about-offices" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Tour our office space</h2>
+        <p class="text-base leading-[1.6] text-neutral-600">{summary}</p>
+      </div>
+      <OfficeLocations client:visible />
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-labelledby="about-faq">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="grid items-start gap-10 lg:grid-cols-[0.75fr_1fr]">
+        <h2 id="about-faq" class="max-w-[420px] text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+          You ask, we answer
+        </h2>
+        <FaqAccordion client:visible items={faqs} />
+      </div>
     </div>
   </section>
 

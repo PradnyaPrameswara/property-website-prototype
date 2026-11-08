@@ -29,7 +29,7 @@ const services = [
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" }) {
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -38,10 +38,22 @@ export default function ContactForm() {
     setStatus("submitting");
 
     try {
+      const data = Object.fromEntries(new FormData(form));
+
+      if (variant === "v2") {
+        const [firstName = "", ...lastName] = String(data["Full Name"] ?? "").trim().split(/\s+/);
+
+        data["First Name"] = firstName;
+
+        data["Last Name"] = lastName.join(" ");
+
+        delete data["Full Name"];
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -61,31 +73,40 @@ export default function ContactForm() {
   }
 
   const fieldClass =
-    "h-14 w-full rounded-2xl border border-neutral-300 bg-neutral-100 px-5 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none";
+    "h-12 w-full rounded-full border border-neutral-300 bg-neutral-100 px-5 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none";
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-      <div className="space-y-2">
-        <Label htmlFor="First-Name">First name</Label>
-        <Input id="First-Name" name="First Name" required maxLength={256} placeholder="John" className={fieldClass} />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="Last-Name">Last name</Label>
-        <Input id="Last-Name" name="Last Name" required maxLength={256} placeholder="Doe" className={fieldClass} />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="Contact-Email">Email</Label>
+      {variant === "v2" ? (
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="Full-Name">Full name</Label>
+          <Input id="Full-Name" name="Full Name" required maxLength={256} placeholder="ex. Full Name" className={fieldClass} />
+        </div>
+      ) : (
+        <>
+          <div className="space-y-2">
+            <Label htmlFor="First-Name">First name</Label>
+            <Input id="First-Name" name="First Name" required maxLength={256} placeholder="ex. First Name" className={fieldClass} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="Last-Name">Last name</Label>
+            <Input id="Last-Name" name="Last Name" required maxLength={256} placeholder="ex. Last Name" className={fieldClass} />
+          </div>
+        </>
+      )}
+      <div className="space-y-2 sm:col-span-2">
+        <Label htmlFor="Contact-Email">Email address</Label>
         <Input id="Contact-Email" name="Email" type="email" required maxLength={256} placeholder="example@youremail.com" className={fieldClass} />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="Phone">Phone</Label>
-        <Input id="Phone" name="Phone" type="tel" maxLength={256} placeholder="(123) 456 - 789" className={fieldClass} />
+        <Label htmlFor="Phone">Phone number</Label>
+        <Input id="Phone" name="Phone" type="tel" maxLength={256} placeholder="(123) 456 - 7890" className={fieldClass} />
       </div>
-      <div className="space-y-2 sm:col-span-2">
+      <div className="space-y-2">
         <Label htmlFor="Service">Service</Label>
         <Select name="Service">
-          <SelectTrigger id="Service" className="h-14 w-full rounded-2xl border-neutral-300 bg-neutral-100 px-5 text-base">
-            <SelectValue placeholder="Select a service" />
+          <SelectTrigger id="Service" className="h-12 w-full rounded-full border-neutral-300 bg-neutral-100 px-5 text-base">
+            <SelectValue placeholder="ex. General construction" />
           </SelectTrigger>
           <SelectContent>
             {services.map((s) => (
@@ -96,7 +117,7 @@ export default function ContactForm() {
       </div>
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="Message">Message</Label>
-        <Textarea id="Message" name="Message" maxLength={5000} placeholder="Tell us about your project" className="min-h-32 w-full rounded-2xl border border-neutral-300 bg-neutral-100 px-5 py-4 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none" />
+        <Textarea id="Message" name="Message" maxLength={5000} placeholder="Tell us about your project..." className="min-h-32 w-full rounded-3xl border border-neutral-300 bg-neutral-100 px-5 py-4 text-base text-neutral-800 placeholder:text-neutral-500 focus:border-brand-primary focus:outline-none" />
       </div>
       <div className="sm:col-span-2">
         <button

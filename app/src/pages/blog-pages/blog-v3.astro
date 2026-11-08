@@ -1,33 +1,95 @@
 ---
-/**
- * Blog V3 — blog-pages/blog-v3.html: hero + posts grid + newsletter
- * subscribe band (SubscribeForm island, guide Phase 4 step 7).
- */
+/** Blog V3: source photographic hero and editorial article list. */
+import { getCollection } from "astro:content";
 import Base from "@/layouts/Base.astro";
-import PageHero from "@/components/sections/PageHero.astro";
-import PostsGrid from "@/components/sections/PostsGrid.astro";
 import SubscribeForm from "@/components/islands/SubscribeForm";
+import Badge from "@/components/site/Badge.astro";
+
+const posts = await getCollection("posts");
+
+const sources = [
+  { id: "12-design-tricks-for-picking-the-perfect-home-color-palette", image: "6883f9491f1a3770faa02b07_12-tricks-perfect-color-palette-3-2-archipro-webflow-template.jpg" },
+  { id: "25-color-trends-designers-cant-wait-to-see-in-2026", image: "6883f90f7e8cd68bd6b46e83_top-25-color-trends-2026-3-2-archipro-webflow-template.jpg" },
+  { id: "clever-diy-home-improvements-you-can-easily-do-anytime", image: "6883f8e21f7c1c43849ac72a_easy-diy-home-improvements-3-2-archipro-webflow-template.jpg" },
+  { id: "15-mind-blowing-floor-designs-to-make-your-home-look-great", image: "6883f8b747069b9ac5a309f0_15-stunning-floor-designs-3-2-archipro-webflow-template.jpg" },
+  { id: "how-to-give-maintenance-to-your-wooden-furniture-the-full-guide", image: "6883f88ec3e8f2d92924c821_wood-furniture-care-guide-3-2-archipro-webflow-template.jpg" },
+  { id: "front-door-design-ideas-6-great-concepts-for-your-home", image: "6883f79cda015d4f717e36da_6-front-door-design-ideas-3-2-archipro-webflow-template.jpg" },
+];
+
+const postById = new Map(posts.map((post) => [post.id, post]));
+
+const articles = sources.flatMap(({ id, image }) => {
+  const post = postById.get(id);
+
+  return post ? [{ post, image }] : [];
+});
+
+const display = (date: Date) => date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 ---
 
 <Base title="Blog V3" description="Articles and news about architecture, design, and remodeling by Archipro.">
-  <PageHero title="Read our latest articles" intro="Insights, project stories, and design thinking from the Archipro studio." />
-
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[1228px]">
-      <PostsGrid />
+  <section class="relative isolate mx-4 mt-4 min-h-[420px] overflow-hidden rounded-3xl bg-brand-secondary-300 px-6 pt-28 pb-12 sm:mx-6 sm:min-h-[560px]" aria-labelledby="blog-v3-title">
+    <img
+      src="/assets/img/688d42520c02f884c86fcff0_our-blog-archipro-webflow-template.png"
+      alt="Warm contemporary sitting area"
+      width="2800"
+      height="1150"
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover object-bottom"
+    />
+    <div class="relative z-10 mx-auto flex max-w-[1228px] justify-start sm:justify-end">
+      <div class="w-full max-w-[500px]">
+        <h1 id="blog-v3-title" class="mb-4 text-5xl font-medium tracking-tightest text-neutral-100 sm:text-6xl">Our blog</h1>
+        <p class="mb-7 max-w-[460px] text-base leading-[1.6] text-neutral-100">
+          Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed et sit nisl tempor.
+        </p>
+        <div class="max-w-[480px]">
+          <SubscribeForm client:visible variant="newsletter" />
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[1228px] rounded-3xl bg-neutral-800 px-8 py-16 text-center">
-      <h2 class="mb-4 text-4xl leading-[1.15em] font-medium tracking-tightest text-neutral-100 max-lg:text-3xl">
-        Subscribe to our newsletter
-      </h2>
-      <p class="mx-auto mb-8 max-w-[46ch] text-base leading-[1.5em] text-neutral-400">
-        Get the latest articles and project stories in your inbox.
-      </p>
-      <div class="mx-auto max-w-[480px]">
-        <SubscribeForm client:visible />
+  <section class="px-6 py-24" aria-labelledby="blog-v3-latest">
+    <div class="mx-auto max-w-[1228px]">
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-6 border-b border-neutral-300 pb-6">
+        <h2 id="blog-v3-latest" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Latest articles</h2>
+        <nav aria-label="Article categories" class="flex flex-wrap gap-2">
+          <a href="/blog-pages/blog-v3" aria-current="page" class="rounded-full bg-neutral-800 px-4 py-2 text-sm text-neutral-100">All</a>
+          <a href="/blog-categories/construction" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Construction</a>
+          <a href="/blog-categories/design" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Design</a>
+          <a href="/blog-categories/remodeling" class="rounded-full bg-neutral-200 px-4 py-2 text-sm text-neutral-800">Remodeling</a>
+        </nav>
+      </div>
+      <div class="divide-y divide-neutral-300">
+        {articles.map(({ post, image }) => (
+          <a href={"/blog-posts/" + post.id} class="group grid items-center gap-6 py-7 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] sm:gap-12">
+            <div>
+              <h3 class="mb-4 max-w-[380px] text-2xl font-medium leading-[1.15] tracking-tightest text-neutral-800 group-hover:text-brand-primary sm:text-3xl">
+                {post.data.title}
+              </h3>
+              <p class="mb-5 max-w-[430px] text-base leading-[1.55] text-neutral-600">{post.data.excerpt}</p>
+              <div class="flex flex-wrap items-center gap-3">
+                <Badge label={post.data.category} variant="tertiary" />
+                <time datetime={post.data.date.toISOString()} class="text-sm text-neutral-600">{display(post.data.date)}</time>
+              </div>
+            </div>
+            <div class="aspect-[1.55/1] overflow-hidden rounded-3xl bg-neutral-200">
+              <img
+                src={"/assets/img/" + image}
+                alt={post.data.title}
+                width="580"
+                height="452"
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="mt-8 flex justify-end">
+        <a href="/blog-pages/blog-v1" class="inline-flex items-center rounded-full bg-brand-primary px-8 py-3 text-base font-medium text-neutral-100 hover:opacity-90">Browse all articles</a>
       </div>
     </div>
   </section>

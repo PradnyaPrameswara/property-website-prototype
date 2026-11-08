@@ -1,52 +1,178 @@
 ---
-/**
- * Contact V2 — contact-pages/contact-v2.html: centered hero,
- * full-width form card, then office info row.
- */
+/** Contact V2 — layout recovered from contact-pages/contact-v2.html. */
 import Base from "@/layouts/Base.astro";
 import ContactForm from "@/components/islands/ContactForm";
 import FaqAccordion from "@/components/islands/FaqAccordion";
+import Slider from "@/components/site/Slider.astro";
 
-const faqs = [
+const officeIntro =
+  "Lorem ipsum dolor sit amet consectetur ultricies enim sagittis aenean malesuada nunc molestie nam a tortor sed morbi facilisi ante tincidunt scelerisque nunc imperdiet nec convallis porttitor enim accumsan lacus.";
+
+const offices = [
   {
-    question: "How do we start a project together?",
-    answer: "Send us a message with your project scope — we’ll schedule an intro call within one business day.",
+    city: "Ottawa,CA",
+    email: "ottawa@archipro.com",
+    flag: "6890ff6586d8a2d1c92de66d_canada-flag-archipro-webflow-template.png",
   },
   {
-    question: "Do you work outside San Francisco?",
-    answer: "Yes — we deliver residential and commercial projects worldwide, with local partners on site.",
+    city: "New York, NY",
+    email: "newyork@archipro.com",
+    flag: "6890ff6581202a2eae3cd93a_eeuu-flag-archipro-webflow-template.png",
   },
   {
-    question: "What information should I include?",
-    answer: "Location, approximate size, budget range, and timeline help us give you an accurate first estimate.",
+    city: "London, UK",
+    email: "london@archipro.com",
+    flag: "6890ff652a55cd09a6aa52e5_england-flag-archipro-webflow-template.png",
+  },
+  {
+    city: "Amsterdam, NL",
+    email: "amsterdam@archipro.com",
+    flag: "6939da3f24c5e246714d3a59_netherlands-flag-archipro-webflow-template.png",
+  },
+];
+
+const gallery = [
+  "/assets/img/6890c4e82ae78e79eb36f57e_our-work-gallery-v2-archipro-webflow-template.png",
+  "/assets/img/6890c4e748959810d151280e_our-work-gallery-v1-archipro-webflow-template.png",
+  "/assets/img/6890c4e7f9f8eddbe1e5cc09_our-work-gallery-v3-archipro-webflow-template.png",
+  "/assets/img/6890c4e8e6da5a01d347d511_our-work-gallery-v4-archipro-webflow-template.png",
+];
+
+const faqGroups = [
+  {
+    title: "Getting in touch",
+    items: [
+      {
+        question: "What are your business hours?",
+        answer: "Please contact the team for current working hours and office availability.",
+      },
+      {
+        question: "Can I visit your office in person? Do I need an appointment?",
+        answer: "Get in touch to arrange an office visit before arriving.",
+      },
+    ],
+  },
+  {
+    title: "Booking a chat",
+    items: [
+      {
+        question: "Can we schedule a virtual consultation?",
+        answer: "Contact us to discuss the available consultation options.",
+      },
+      {
+        question: "What should I prepare for an introductory meeting?",
+        answer: "Share your project scope, goals and any design references.",
+      },
+    ],
+  },
+  {
+    title: "Working together",
+    items: [
+      {
+        question: "Do you work on projects outside your city?",
+        answer: "Contact the team to discuss coverage for your project location.",
+      },
+      {
+        question: "How do we get started?",
+        answer: "Send us your project details through the form above.",
+      },
+    ],
   },
 ];
 ---
 
-<Base title="Contact V2" description="Get in touch with the Archipro architecture studio.">
-  <section class="px-6 pt-40 pb-16 text-center max-lg:pt-32">
-    <div class="mx-auto max-w-[1228px]">
-      <h1 class="mx-auto max-w-[16ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
-        Let’s talk about your project
+<Base title="Contact V2" description="Get in touch with Archipro offices around the world.">
+  <section class="relative isolate mx-4 mt-4 overflow-hidden rounded-3xl bg-brand-secondary-200 px-5 pt-32 pb-16 sm:mx-6 sm:px-8 sm:pt-36 sm:pb-20" aria-labelledby="contact-v2-title">
+    <img
+      src="/assets/img/6890ff65e70d6583d6a8d3ce_world-map-archipro-webflow-template.png"
+      alt=""
+      width="1680"
+      height="692"
+      loading="eager"
+      class="pointer-events-none absolute inset-0 h-full w-full object-contain object-center opacity-55"
+    />
+    <div class="relative z-10 mx-auto max-w-[1100px] text-center">
+      <h1 id="contact-v2-title" class="mx-auto max-w-[780px] text-[clamp(2rem,4.4vw,4.5rem)] font-medium leading-[1.08] tracking-tightest text-neutral-800">
+        Our offices around the world
       </h1>
-      <p class="mx-auto mt-6 max-w-[52ch] text-lg leading-[1.5em] text-neutral-600">
-        Tell us about your project — we usually reply within one business day.
+      <p class="mx-auto mt-4 max-w-[700px] text-base leading-[1.55] text-neutral-600">
+        {officeIntro}
       </p>
+      <div class="mx-auto mt-9 grid max-w-[958px] gap-4 text-left sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
+        {offices.map((office) => (
+          <div class="flex min-w-0 flex-col gap-5 rounded-3xl bg-neutral-100 px-6 py-7 shadow-sm">
+            <div>
+              <img src={"/assets/img/" + office.flag} alt="" width="24" height="24" loading="lazy" class="mb-2 size-6 object-contain" />
+              <h2 class="text-xl font-medium tracking-tightest text-neutral-800">{office.city}</h2>
+            </div>
+            <div>
+              <p class="text-sm leading-[1.5] text-neutral-600">Email address</p>
+              <a href={"mailto:" + office.email} class="break-words text-sm font-medium text-neutral-800 underline-offset-2 hover:underline">{office.email}</a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[860px] rounded-3xl bg-neutral-200 p-8 max-lg:p-6">
-      <ContactForm client:visible />
+  <section class="px-6 py-24" aria-labelledby="contact-v2-form">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="max-w-[460px]">
+        <h2 class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+          Let's talk about your project
+        </h2>
+        <p class="mb-7 text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
+        </p>
+        <a href="mailto:info@archipro.com" class="font-medium text-brand-primary hover:underline">info@archipro.com</a>
+      </div>
+      <div>
+        <h2 id="contact-v2-form" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Send us a message</h2>
+        <p class="mb-8 max-w-[432px] text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed et sit nisl tempor.
+        </p>
+        <ContactForm client:visible variant="v2" />
+      </div>
     </div>
   </section>
 
-  <section class="px-6 pb-24">
-    <div class="mx-auto max-w-[860px]">
-      <h2 class="mb-8 text-4xl leading-[1.15em] font-medium tracking-tightest text-neutral-800 max-lg:text-3xl">
-        Frequently asked questions
+  <section class="overflow-hidden px-6 py-24" aria-labelledby="contact-v2-work">
+    <div class="mx-auto grid max-w-[1228px] items-center gap-8 lg:grid-cols-[0.55fr_1fr] lg:gap-12">
+      <div>
+        <h2 id="contact-v2-work" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+        <p class="mb-6 text-base leading-[1.6] text-neutral-600">
+          Lorem ipsum dolor sit amet consectetur adipiscing id viverra quis viverra tellus nunc at turpis amet nulla pellentesque pharetra.
+        </p>
+        <a href="https://www.instagram.com/archipro" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full bg-brand-primary px-6 py-3 text-base font-medium text-neutral-100">
+          @archipro
+        </a>
+      </div>
+      <Slider label="Archipro projects">
+        {gallery.map((image, index) => (
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="group block w-[280px] shrink-0 snap-start overflow-hidden rounded-3xl sm:w-[320px]">
+            <img src={image} alt={"Archipro design project " + (index + 1)} width="580" height="620" loading="lazy" class="h-[390px] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          </a>
+        ))}
+      </Slider>
+    </div>
+  </section>
+
+  <section class="px-6 py-24" aria-labelledby="contact-v2-faq">
+    <div class="mx-auto max-w-[820px]">
+      <h2 id="contact-v2-faq" class="mb-4 text-center text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+        Got questions? We've got you
       </h2>
-      <FaqAccordion client:visible items={faqs} />
+      <p class="mx-auto mb-10 max-w-[560px] text-center text-base leading-[1.6] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur cras suspendisse velit urna nibh tristique morbi adipiscing interdum mi ut blandit sit ullamcorper leo ut lacinia viverra habitasse eget.
+      </p>
+      <div class="space-y-6">
+        {faqGroups.map((group) => (
+          <div class="rounded-3xl bg-brand-secondary-200 p-6 sm:p-8">
+            <h3 class="mb-5 text-2xl font-medium tracking-tightest text-neutral-800">{group.title}</h3>
+            <FaqAccordion client:visible items={group.items} />
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 </Base>

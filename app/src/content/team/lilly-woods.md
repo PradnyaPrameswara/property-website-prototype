@@ -5,8 +5,6 @@ bio: "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam ves
 photo: "/assets/img/6883f0cf8a80015453a6040d_lilly-woods-portrait-page-archipro-webflow-template.png"
 ---
 
-## About me
-
 Lorem ipsum dolor sit amet consectetur est mauris turpis aliquet at maecenas viverra arcu cursus dictum tellus sed tellus quam congue pulvinar sed semper vel habitasse fringilla massa dui integer est elit quis at lectus at volutpat pharetra quam tellus sit.
 
 ## My experience

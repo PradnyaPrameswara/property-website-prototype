@@ -13,7 +13,7 @@ import SourceServiceCard from "@/components/sections/SourceServiceCard.astro";
 import PortfolioGrid from "@/components/sections/PortfolioGrid.astro";
 import PostsGrid from "@/components/sections/PostsGrid.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
-import ProcessTabs from "@/components/sections/ProcessTabs.astro";
+import ProcessCards from "@/components/sections/ProcessCards.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 
 const heroImage = "/assets/img/68894269d79943dcb4fbee77_designing-places-archipro-webflow-template.png";
@@ -46,14 +46,14 @@ const serviceDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc
     height="900"
     fetchpriority="high"
     loading="eager"
-    class="pointer-events-none absolute inset-0 h-full w-full object-contain object-bottom"
+    class="pointer-events-none absolute inset-0 h-full w-full object-contain object-bottom lg:translate-y-24"
   />
-  <div class="relative z-10 mx-auto flex max-w-[670px] flex-col items-center px-6 pt-36 text-center sm:pt-40 lg:pt-36">
-    <h1 id="home-v1-title" class="text-[clamp(2rem,5.2vw,5.5rem)] leading-[1.05] font-medium tracking-tightest text-neutral-800">
-      Designing places that feel as good as they look
+  <div class="relative z-10 mx-auto flex max-w-[730px] flex-col items-center px-6 pt-36 text-center sm:pt-36 lg:pt-36">
+    <h1 id="home-v1-title" class="text-[clamp(2rem,4vw,3.8rem)] leading-[1.05] font-medium tracking-tightest text-neutral-800">
+      <span class="lg:block">Designing places that feel</span> <span class="lg:block">as good as they look</span>
     </h1>
-    <div class="mt-8">
-      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+    <div class="mt-4 sm:mt-7">
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" class="max-sm:px-5 max-sm:py-2" />
     </div>
   </div>
 </section>
@@ -89,7 +89,7 @@ const serviceDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc
         class="order-2 lg:order-1"
       />
       <div class="order-1 flex flex-col justify-center lg:order-2">
-        <h2 class="mb-4 text-3xl leading-[1.08] font-medium tracking-tightest text-neutral-800 sm:text-4xl lg:text-5xl">
+        <h2 class="mb-4 text-2xl leading-[1.08] font-medium tracking-tightest text-neutral-800 sm:text-4xl lg:text-5xl">
           From concept to completion
         </h2>
         <p class="mb-6 max-w-[420px] leading-[1.6] text-neutral-600">
@@ -149,7 +149,7 @@ const serviceDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc
 </section>
 
 <QuoteCta />
-<ProcessTabs />
+<ProcessCards />
 <TestimonialsSection />
 
 {/* Latest articles */}

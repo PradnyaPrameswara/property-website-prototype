@@ -1,0 +1,48 @@
+---
+/** Original service index cards and exact source icon assets; reusable CMS content remains in the services collection. */
+import { getCollection } from "astro:content";
+
+const sourceCards = [
+  { slug: "architectural-design", title: "Architectural design", icon: "6883ebb52cda0f2ca511c3e3_building-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-300" },
+  { slug: "interior-design", title: "Interior design", icon: "6883eb9e36a962086f14ee01_couch-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-400" },
+  { slug: "urban-planning", title: "Urban planning", icon: "6883eb8dfb8369d9d99c6480_urban-planning-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-500" },
+  { slug: "3d-rendering-visualization", title: "3D rendering & visualization", icon: "6883eb7864dc34eb1560b958_screen-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-300" },
+  { slug: "construction-documentation", title: "Construction documentation", icon: "6883eb6263b889a133ffdbfe_file-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-400" },
+  { slug: "feasibility-studies", title: "Feasibility studies", icon: "6883eb502e58b3ff6e8f05c8_chart-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-500" },
+  { slug: "project-management", title: "Project Management", icon: "6883eb3ca7cb6e1a1beb7838_project-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-300" },
+  { slug: "sustainable-design", title: "Sustainable Design", icon: "6883eb1b34f6f261f56fff99_leaf-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-400" },
+  { slug: "building-renovation", title: "Building Renovation", icon: "6883eb072e7a39cf594618fc_update-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-500" },
+  { slug: "custom-home-design", title: "Custom home design", icon: "6883eaed235828617a7e5326_home-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-300" },
+  { slug: "retail-space-design", title: "Retail space design", icon: "6883ead86ab2c33c6f23228b_home-design-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-400" },
+  { slug: "furniture-fixture-selection", title: "Furniture & fixture selection", icon: "6883eabc8917aa579b7c8e98_chair-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-500" },
+  { slug: "exterior-design", title: "Exterior design", icon: "6883eaa2b086c13b1925c1c3_tree-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-300" },
+  { slug: "decoring", title: "Decoring", icon: "6894cc985443645f5b216514_design-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-400" },
+  { slug: "painting", title: "Painting", icon: "6883ea051edb3d9f8947b037_roller-paint-brush-icon-archipro-webflow-template.svg", tone: "bg-brand-secondary-500" },
+];
+
+const services = new Map((await getCollection("services")).map((service) => [service.id, service.data]));
+
+const fallbackDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+---
+
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {sourceCards.map((card) => (
+    <a href={"/services/" + card.slug} class="group flex min-w-0 flex-col items-start gap-5 rounded-3xl border border-neutral-200 bg-neutral-100 px-7 py-9 no-underline transition-colors hover:border-brand-primary hover:bg-brand-secondary-200 sm:min-h-[270px]">
+      <span class="relative flex size-[68px] shrink-0 items-center justify-center">
+        <span class:list={["absolute inset-0 rounded-full",card.tone]} aria-hidden="true"></span>
+        <img
+          src={"/assets/img/" + card.icon}
+          alt=""
+          width="48"
+          height="48"
+          loading="lazy"
+          class="relative z-10 size-12 object-contain"
+        />
+      </span>
+      <div class="flex flex-1 flex-col gap-3">
+        <h2 class="text-2xl font-medium leading-[1.2] tracking-tightest text-neutral-800">{card.title}</h2>
+        <p class="text-base leading-[1.55] text-neutral-600">{services.get(card.slug)?.excerpt || fallbackDescription}</p>
+      </div>
+    </a>
+  ))}
+</div>
