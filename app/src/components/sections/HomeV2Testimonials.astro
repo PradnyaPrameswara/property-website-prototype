@@ -1,0 +1,115 @@
+---
+/** Four source Home V2 image testimonials and their keyboard-operable tabs. */
+const testimonials = [
+  {
+    author: "John Carter",
+    city: "New York, NY",
+    quote: "From concept to build, every step was smooth and thoughtful.",
+    image: "688b7f7f418671842860c671_minimalist-sofa-and-wooden-tables-in-cozy-workspace-archipro-webflow-template.jpg",
+  },
+  {
+    author: "Sophie Moore",
+    city: "San Francisco, CA",
+    quote: "Every phase—from vision to execution—was handled with precision and care.",
+    image: "688b7f7f791f6a07788377f6_cozy-modern-bedroom-archipro-webflow-template.jpg",
+  },
+  {
+    author: "Matt Cannon",
+    city: "Amsterdam, NL",
+    quote: "They turned our vision into reality with clarity, care, and a flawless execution.",
+    image: "688b7f7f379d69d8ed4f0844_minimalist-home-office-archipro-webflow-template.jpg",
+  },
+  {
+    author: "Lilly Woods",
+    city: "London, UK",
+    quote: "They handled everything with care, from the first sketch to the final detail.",
+    image: "688b7f7f20cad57262c1485a_cozy-beige-living-room-archipro-webflow-template.jpg",
+  },
+];
+---
+
+<section class="overflow-hidden px-6 py-24" aria-labelledby="home-v2-client-reviews" data-source-reviews>
+  <div class="mx-auto max-w-[1228px]">
+    <div class="mx-auto mb-10 max-w-[470px] text-center">
+      <h2 id="home-v2-client-reviews" class="mb-5 text-4xl font-medium leading-[1.1] tracking-tightest text-neutral-800 sm:text-5xl">Trusted by 10k+ happy clients worldwide</h2>
+      <p class="leading-[1.6] text-neutral-600">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.</p>
+    </div>
+    <div role="tablist" aria-label="Client testimonials" class="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      {testimonials.map((item, index) => (
+        <button
+          id={`home-v2-review-tab-${index}`}
+          type="button"
+          role="tab"
+          aria-controls={`home-v2-review-panel-${index}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          tabindex={index === 0 ? "0" : "-1"}
+          data-review-tab={index}
+          data-active={index === 0 ? "true" : "false"}
+          class="cursor-pointer rounded-2xl border border-neutral-300 px-3 py-4 text-center text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-800 data-[active=true]:border-neutral-800 data-[active=true]:bg-neutral-800 data-[active=true]:text-neutral-100 sm:text-base"
+        >
+          {item.author}
+        </button>
+      ))}
+    </div>
+    {testimonials.map((item, index) => (
+      <div
+        id={`home-v2-review-panel-${index}`}
+        role="tabpanel"
+        aria-labelledby={`home-v2-review-tab-${index}`}
+        data-review-panel={index}
+        hidden={index !== 0}
+        class="relative h-[400px] overflow-hidden rounded-3xl bg-neutral-800 sm:h-[500px] lg:h-[590px]"
+      >
+        <img
+          src={"/assets/img/" + item.image}
+          alt={`Archipro project for ${item.author}`}
+          width="2800"
+          height="1356"
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-neutral-800/90 via-neutral-800/20 to-transparent"></div>
+        <div class="absolute bottom-8 left-6 z-10 max-w-[650px] sm:bottom-12 sm:left-12">
+          <p class="mb-5 text-2xl font-medium leading-[1.2] tracking-tightest text-neutral-100 sm:text-4xl">{item.quote}</p>
+          <p class="text-sm text-neutral-100 sm:text-base">{item.author} · {item.city}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-source-reviews]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-review-tab]")];
+
+    function activate(index: number) {
+      tabs.forEach((tab, tabIndex) => {
+        const active = index === tabIndex;
+        tab.dataset.active = String(active);
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      root.querySelectorAll<HTMLElement>("[data-review-panel]").forEach((panel) => {
+        panel.hidden = Number(panel.dataset.reviewPanel) !== index;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activate(index));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(event.key)) return;
+
+        event.preventDefault();
+
+        const next = event.key === "Home" ? 0
+          : event.key === "End" ? tabs.length - 1
+          : event.key === "ArrowRight" || event.key === "ArrowDown" ? (index + 1) % tabs.length
+          : (index + tabs.length - 1) % tabs.length;
+
+        activate(next);
+        tabs[next]?.focus();
+      });
+    });
+  });
+</script>
