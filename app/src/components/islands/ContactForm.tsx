@@ -29,7 +29,7 @@ const services = [
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({ variant = "v1" }: { variant?: "v1" | "v2" }) {
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -38,10 +38,22 @@ export default function ContactForm() {
     setStatus("submitting");
 
     try {
+      const data = Object.fromEntries(new FormData(form));
+
+      if (variant === "v2") {
+        const [firstName = "", ...lastName] = String(data["Full Name"] ?? "").trim().split(/\s+/);
+
+        data["First Name"] = firstName;
+
+        data["Last Name"] = lastName.join(" ");
+
+        delete data["Full Name"];
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -65,14 +77,23 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-      <div className="space-y-2">
-        <Label htmlFor="First-Name">First name</Label>
-        <Input id="First-Name" name="First Name" required maxLength={256} placeholder="ex. First Name" className={fieldClass} />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="Last-Name">Last name</Label>
-        <Input id="Last-Name" name="Last Name" required maxLength={256} placeholder="ex. Last Name" className={fieldClass} />
-      </div>
+      {variant === "v2" ? (
+        <div className="space-y-2 sm:col-span-2">
+          <Label htmlFor="Full-Name">Full name</Label>
+          <Input id="Full-Name" name="Full Name" required maxLength={256} placeholder="ex. Full Name" className={fieldClass} />
+        </div>
+      ) : (
+        <>
+          <div className="space-y-2">
+            <Label htmlFor="First-Name">First name</Label>
+            <Input id="First-Name" name="First Name" required maxLength={256} placeholder="ex. First Name" className={fieldClass} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="Last-Name">Last name</Label>
+            <Input id="Last-Name" name="Last Name" required maxLength={256} placeholder="ex. Last Name" className={fieldClass} />
+          </div>
+        </>
+      )}
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="Contact-Email">Email address</Label>
         <Input id="Contact-Email" name="Email" type="email" required maxLength={256} placeholder="example@youremail.com" className={fieldClass} />
