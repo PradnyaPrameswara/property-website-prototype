@@ -14,10 +14,14 @@ import PostsGrid from "@/components/sections/PostsGrid.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
 import ProcessTabs from "@/components/sections/ProcessTabs.astro";
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
-import Lightbox from "@/components/islands/Lightbox";
-import { iconMap } from "@/lib/icons";
+import Slider from "@/components/site/Slider.astro";
 
-const PlayIcon = iconMap.play;
+const officeProjects = [
+  { slug: "house-architecture-design-in-los-angeles-ca", title: "House architecture design in Los Angeles, CA", image: "69320cff5d1a2607af7c41d7_house-architecture-design-v1-featured-image-archipro-webflow-template.jpg" },
+  { slug: "house-architecture-design-in-los-angeles-ca-2", title: "House architecture design in Los Angeles, CA", image: "69320d1b06f609b186057063_house-architecture-design-v2-featured-image-archipro-webflow-template.jpg" },
+  { slug: "house-architecture-design-in-los-angeles-ca-3", title: "House architecture design in Los Angeles, CA", image: "69320d3d013ce0bc7c4eff46_house-architecture-design-v3-featured-image-archipro-webflow-template.jpg" },
+  { slug: "interior-design-in-san-francisco-california", title: "Interior design in San Francisco, California", image: "69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg" },
+];
 
 const followImages = [
   "/assets/img/69320d6778b1408e9a62b501_interior-design-in-san-francisco-featured-image-archipro-webflow-template.jpg",
@@ -58,30 +62,43 @@ const followImages = [
   </div>
 </section>
 
-{/* Tour our office — video lightbox */}
-<section class="bg-neutral-200 px-6 py-24">
+{/* The original Home V3 office section is a four-project portfolio slider. */}
+<section class="bg-neutral-200 px-6 py-24" aria-labelledby="office-projects-heading">
   <div class="mx-auto max-w-[1228px]">
-    <SectionHeader eyebrow="Studio" title="Tour our office space" />
-    <Lightbox client:visible label="Office tour video" videoSrc="/assets/video/office-tour.mp4">
-      <span class="group/card relative flex h-[420px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-800">
-        <img
-          src="/assets/video/office-tour-poster.jpg"
-          alt=""
-          loading="lazy"
-          class="absolute inset-0 h-full w-full object-cover"
-        />
-        <span class="absolute inset-0 bg-neutral-800/30" aria-hidden="true"></span>
-        <span class="relative z-10 flex size-16 items-center justify-center rounded-full bg-neutral-100 text-neutral-800 transition-transform duration-300 group-hover/card:scale-110">
-          <PlayIcon className="size-6 fill-current" aria-hidden />
-        </span>
-      </span>
-    </Lightbox>
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-[440px]">
+        <h2 id="office-projects-heading" class="mb-4 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Tour our office space</h2>
+        <p class="leading-[1.6] text-neutral-600">Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.</p>
+      </div>
+      <a href="/contact-pages/contact-v1" class="inline-flex rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors hover:bg-brand-primary">Get in touch</a>
+    </div>
+    <Slider label="Browse featured architecture and interior projects">
+      {officeProjects.map((project) => (
+        <a href={"/portfolio/" + project.slug} class="group grid w-[min(85vw,1060px)] shrink-0 snap-start items-center gap-8 overflow-hidden rounded-3xl bg-neutral-100 p-5 text-neutral-800 no-underline md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:p-8">
+          <div class="aspect-[710/428] min-w-0 overflow-hidden rounded-2xl bg-neutral-200">
+            <img
+              src={"/assets/img/" + project.image}
+              alt={project.title}
+              width="710"
+              height="428"
+              loading="lazy"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          </div>
+          <div>
+            <h3 class="mb-5 text-2xl font-medium leading-[1.2] tracking-tightest text-neutral-800 sm:text-3xl">{project.title}</h3>
+            <p class="mb-6 leading-[1.6] text-neutral-600">Architecture and interior design projects from the Archipro portfolio.</p>
+            <span class="inline-flex rounded-full border border-neutral-800 px-5 py-2.5 text-sm font-medium transition-colors group-hover:bg-neutral-800 group-hover:text-neutral-100">View project</span>
+          </div>
+        </a>
+      ))}
+    </Slider>
   </div>
 </section>
 
 <ProcessTabs variant="v3" />
 <QuoteCta />
-<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" />
+<TestimonialsSection title="Trusted by 10k+ happy clients worldwide" spotlightQuote="From concept to build, every step was smooth and thoughtful." />
 
 {/* Follow our work — image marquee */}
 <section class="overflow-hidden px-0 py-24">
