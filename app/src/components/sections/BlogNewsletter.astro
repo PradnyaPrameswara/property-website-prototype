@@ -1,0 +1,29 @@
+---
+/**
+ * Shared source newsletter promotion for Blog V1/V2.
+ * Source: blog-pages/blog-v1.html and blog-v2.html.
+ */
+import SubscribeForm from "@/components/islands/SubscribeForm";
+---
+
+<section class="px-4 py-14 sm:px-6 sm:py-20" aria-labelledby="blog-weekly-newsletter">
+  <div class="mx-auto grid max-w-[1228px] items-center gap-8 overflow-hidden rounded-3xl bg-brand-secondary-100 px-6 py-8 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] sm:gap-12 sm:px-12 sm:py-10">
+    <img
+      src="/assets/img/688d318046b61808abd0ddea_newsletter-archipro-webflow-template.png"
+      alt="Archipro design article displayed on a laptop"
+      width="760"
+      height="630"
+      loading="lazy"
+      class="mx-auto max-h-[330px] w-full object-contain object-bottom"
+    />
+    <div class="max-w-[450px]">
+      <h2 id="blog-weekly-newsletter" class="mb-5 text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-100 sm:text-4xl">
+        Subscribe for weekly design insights
+      </h2>
+      <p class="mb-6 text-base leading-[1.55] text-neutral-100">
+        Lorem ipsum dolor sit amet consectetur. Risus euismod sed aliquam nibh pellentesque velit. Augue sit sed et sit nisl tempor.
+      </p>
+      <SubscribeForm client:visible variant="newsletter" />
+    </div>
+  </div>
+</section>
