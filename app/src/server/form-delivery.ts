@@ -1,6 +1,6 @@
 /**
  * Server-only form delivery. The webhook must be provisioned at deployment.
- * A 2xx acknowledgement from the receiver is required before showing success.
+ * A 2xx receiver acknowledgement is required; it does not prove inbox delivery.
  * No personal form details are logged by this application.
  */
 import { json } from "@/lib/forms";
@@ -46,7 +46,7 @@ export async function deliverForm(kind: FormKind, payload: Record<string, string
       return json({ ok: false, error: "Form delivery failed" }, 502);
     }
 
-    return json({ ok: true, delivered: true });
+    return json({ ok: true, accepted: true });
   } catch {
     return json({ ok: false, error: "Form delivery failed" }, 502);
   }
