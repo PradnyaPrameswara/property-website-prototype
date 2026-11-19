@@ -3,32 +3,11 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium } from "playwright";
+import { VIEWPORTS, openPage } from "./lib/visual-capture.mjs";
 
 const pages = ["home-v1", "home-v2", "home-v3"];
 
-const viewports = [
-  { width: 390, height: 844 },
-  { width: 768, height: 1024 },
-  { width: 991, height: 900 },
-  { width: 1440, height: 900 },
-];
-
-const referenceCss = [
-  "[data-w-id] { opacity: 1 !important; filter: none !important; }",
-  '[style*="opacity:0"], [style*="opacity: 0"] { opacity: 1 !important; filter: none !important; }',
-  '[style*="translate3d"] { transform: none !important; }',
-].join("\n");
-
-// Deterministic captures without Playwright's animations:"disabled", which
-// injects inline caret-color styles and triggers a false hydration warning.
-const quietCss = [
-  "*,*::before,*::after {",
-  "  animation-duration: 0s !important;",
-  "  animation-delay: 0s !important;",
-  "  transition-duration: 0s !important;",
-  "  transition-delay: 0s !important;",
-  "}",
-].join("\n");
+const viewports = VIEWPORTS;
 
 const browser = await chromium.launch({ headless: true });
 
@@ -74,26 +53,14 @@ try {
             ? "http://127.0.0.1:4401"
             : "http://127.0.0.1:4321";
 
-          const response = await page.goto(baseUrl + path, {
-            waitUntil: "domcontentloaded",
-            timeout: 30000,
+          const response = await openPage(page, baseUrl + path, {
+            isReference: version === "reference",
+            forceImages: false,
           });
 
           if (!response?.ok()) {
             throw new Error(version + " " + path + " returned " + response?.status());
           }
-
-          await page.addStyleTag({ content: quietCss });
-
-          if (version === "reference") {
-            // Webflow animations leave unrevealed sections at opacity zero.
-            // These override styles exist in the QA browser only.
-            await page.addStyleTag({ content: referenceCss });
-          }
-
-          await page.evaluate(() => document.fonts.ready);
-
-          await page.waitForTimeout(600);
 
           const layout = await page.evaluate(inspectOverflow);
 

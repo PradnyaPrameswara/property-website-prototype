@@ -7,6 +7,7 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { VIEWPORTS, openPage } from "./lib/visual-capture.mjs";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -47,31 +48,7 @@ async function originals() {
 
 const routes = (await originals()).filter((_, index) => index % shardCount === shard);
 
-const viewports = [
-  { width: 390, height: 844 },
-  { width: 768, height: 1024 },
-  { width: 991, height: 900 },
-  { width: 1440, height: 900 },
-];
-
-const referenceCss = [
-  "[data-w-id] { opacity: 1 !important; filter: none !important; }",
-  '[style*="opacity:0"], [style*="opacity: 0"] { opacity: 1 !important; filter: none !important; }',
-  '[style*="translate3d"] { transform: none !important; }',
-].join("\n");
-
-// Playwright's animations:"disabled" option writes caret-color:transparent
-// as an inline style on every input before hydration, which surfaces as a
-// false React hydration mismatch on form islands. Zeroing animation CSS
-// gives deterministic captures without mutating element attributes.
-const quietCss = [
-  "*,*::before,*::after {",
-  "  animation-duration: 0s !important;",
-  "  animation-delay: 0s !important;",
-  "  transition-duration: 0s !important;",
-  "  transition-delay: 0s !important;",
-  "}",
-].join("\n");
+const viewports = VIEWPORTS;
 
 const output = join("visual", "full-site", "shard-" + shard);
 
@@ -166,44 +143,17 @@ try {
         const record = { url };
 
         try {
-          const response = await page.goto(url, {
-            waitUntil: "domcontentloaded",
-            timeout: 20000,
+          // Full-page screenshots do not automatically trigger offscreen lazy
+          // images. Force local Astro images only on the captured widths.
+          const forceImages = version === "astro" &&
+            (viewport.width === 390 || viewport.width === 1440);
+
+          const response = await openPage(page, url, {
+            isReference: version === "reference",
+            forceImages,
           });
 
           record.status = response?.status() ?? 0;
-
-          await page.addStyleTag({ content: quietCss });
-
-          if (version === "reference") {
-            await page.addStyleTag({ content: referenceCss });
-          }
-
-          await page.evaluate(async () => {
-            await Promise.race([
-              document.fonts.ready,
-              new Promise((done) => setTimeout(done, 1800)),
-            ]);
-          });
-
-          // Full-page screenshots do not automatically trigger offscreen lazy
-          // images. Force local Astro images to load, with a bounded wait.
-          if (version === "astro" && (viewport.width === 390 || viewport.width === 1440)) {
-            await page.evaluate(async () => {
-              const images = [...document.querySelectorAll("section img")];
-
-              for (const img of images) {
-                if (img.loading === "lazy") img.loading = "eager";
-              }
-
-              await Promise.race([
-                Promise.all(images.map((img) => img.decode().catch(() => undefined))),
-                new Promise((done) => setTimeout(done, 1800)),
-              ]);
-            });
-          }
-
-          await page.waitForTimeout(400);
 
           Object.assign(record, await page.evaluate(inspect));
 
