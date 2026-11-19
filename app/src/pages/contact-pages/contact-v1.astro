@@ -4,8 +4,7 @@ import Base from "@/layouts/Base.astro";
 import ContactForm from "@/components/islands/ContactForm";
 import OfficeLocations from "@/components/islands/OfficeLocations";
 import FaqAccordion from "@/components/islands/FaqAccordion";
-import Marquee from "@/components/site/Marquee.astro";
-import QuoteCta from "@/components/sections/QuoteCta.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
 
 const description =
   "Lorem ipsum dolor sit amet consectetur risus euismod sed aliquam nibh pellentesque velit augue sit sed et sit nisl tempor.";
@@ -72,32 +71,34 @@ const gallery = [
     </div>
   </section>
 
-  <section class="px-6 py-24" aria-labelledby="contact-v1-faq">
-    <div class="mx-auto grid max-w-[1228px] items-start gap-10 lg:grid-cols-[0.8fr_1fr]">
-      <h2 id="contact-v1-faq" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
-        You ask, we answer
-      </h2>
+  <section class="mx-4 rounded-3xl bg-brand-secondary-200 px-6 py-24 sm:mx-6" aria-labelledby="contact-v1-faq">
+    <div class="mx-auto grid max-w-[1228px] items-start gap-10 lg:grid-cols-[0.7fr_1fr]">
+      <div>
+        <h2 id="contact-v1-faq" class="mb-6 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+          You ask, we answer
+        </h2>
+        <p class="mb-8 max-w-[350px] text-base leading-[1.6] text-neutral-600">{description}</p>
+        <SiteButton href="#get-in-touch" label="Get in touch" />
+      </div>
       <FaqAccordion client:visible items={faqs} />
     </div>
   </section>
 
-  <section class="overflow-hidden py-20" aria-labelledby="contact-v1-follow">
-    <div class="mx-auto max-w-[1228px] px-6">
-      <h2 id="contact-v1-follow" class="mb-8 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+  <section class="overflow-hidden px-6 py-24" aria-labelledby="contact-v1-follow">
+    <div class="relative mx-auto max-w-[1228px] lg:min-h-[620px]">
+      <div class="relative z-10 mx-auto max-w-[426px] text-center lg:pt-[210px]">
+        <h2 id="contact-v1-follow" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Follow our work</h2>
+        <p class="mb-7 text-base leading-[1.6] text-neutral-600">{description}</p>
+        <div class="flex justify-center">
+          <SiteButton href="https://www.instagram.com/archipro" label="@archipro" />
+        </div>
+      </div>
+      <div class="relative mt-10 grid grid-cols-2 gap-4 lg:pointer-events-none lg:absolute lg:inset-0 lg:mt-0 lg:block">
+        <img src={gallery[0]} alt="Archipro studio gallery" width="888" height="606" loading="lazy" class="w-full rounded-2xl object-cover lg:absolute lg:left-0 lg:top-[100px] lg:max-w-[296px]" />
+        <img src={gallery[1]} alt="Archipro studio gallery" width="606" height="606" loading="lazy" class="w-full rounded-2xl object-cover lg:absolute lg:bottom-0 lg:left-[40px] lg:max-w-[202px]" />
+        <img src={gallery[2]} alt="Archipro studio gallery" width="606" height="606" loading="lazy" class="w-full rounded-2xl object-cover lg:absolute lg:right-[40px] lg:top-0 lg:max-w-[202px]" />
+        <img src={gallery[3]} alt="Archipro studio gallery" width="636" height="822" loading="lazy" class="w-full rounded-2xl object-cover lg:absolute lg:right-0 lg:bottom-[60px] lg:max-w-[212px]" />
+      </div>
     </div>
-    <Marquee duration={35} pauseOnHover>
-      {gallery.map((source, index) => (
-        <img
-          src={source}
-          alt={"Archipro studio gallery " + (index + 1)}
-          width="400"
-          height="360"
-          loading="lazy"
-          class="h-[260px] w-[320px] rounded-3xl object-cover"
-        />
-      ))}
-    </Marquee>
   </section>
-
-  <QuoteCta />
 </Base>

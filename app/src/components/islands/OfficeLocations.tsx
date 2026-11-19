@@ -26,19 +26,19 @@ const locations = [
 export default function OfficeLocations() {
   return (
     <Tabs defaultValue={locations[0].value} className="w-full">
-      <div className="grid items-start gap-5 lg:grid-cols-[minmax(240px,0.65fr)_1fr] lg:gap-8">
-        <TabsList className="flex h-auto w-full flex-col items-stretch gap-2 bg-transparent p-0">
+      <div className="grid items-start gap-5 lg:grid-cols-[1fr_minmax(240px,0.65fr)] lg:gap-12">
+        <TabsList className="flex h-auto w-full flex-col items-stretch gap-5 bg-transparent p-0 lg:order-2">
           {locations.map((location) => (
             <TabsTrigger
               key={location.value}
               value={location.value}
-              className="w-full justify-start rounded-2xl border border-neutral-300 bg-neutral-100 px-6 py-5 text-left text-lg font-medium text-neutral-800 data-active:border-brand-primary data-active:bg-brand-secondary-200 sm:text-xl"
+              className="w-full justify-start border-0 bg-transparent p-0 text-left text-xl font-medium text-neutral-400 data-active:text-neutral-800 sm:text-2xl"
             >
               {location.label}
             </TabsTrigger>
           ))}
         </TabsList>
-        <div className="min-w-0">
+        <div className="min-w-0 lg:order-1">
           {locations.map((location) => (
             <TabsContent key={location.value} value={location.value} className="mt-0">
               <img
