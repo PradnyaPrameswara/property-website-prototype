@@ -12,21 +12,26 @@ interface Props {
   duration?: number;
   /** pause the loop on hover (testimonial marquees in the raw site) */
   pauseOnHover?: boolean;
+  /**
+   * Number of identical item groups inside the track. The Webflow source
+   * repeats its logo strip four times; matching that count keeps the
+   * DOM structure and loop width faithful to the original.
+   */
+  copies?: number;
   class?: string;
 }
 
-const { duration = 30, pauseOnHover = false, class: className } = Astro.props;
+const { duration = 30, pauseOnHover = false, copies = 2, class: className } = Astro.props;
 ---
 
 <div
   class:list={["marquee overflow-hidden", pauseOnHover && "marquee-track-paused-on-hover", className]}
 >
   <div class="marquee-track" style={`animation-duration: ${duration}s`}>
-    <div class="flex flex-none items-center gap-9 pr-9">
-      <slot />
-    </div>
-    <div class="flex flex-none items-center gap-9 pr-9" aria-hidden="true">
-      <slot />
-    </div>
+    {Array.from({ length: copies }, (_, index) => (
+      <div class="flex flex-none items-center gap-9 pr-9" aria-hidden={index === 0 ? undefined : "true"}>
+        <slot />
+      </div>
+    ))}
   </div>
 </div>
