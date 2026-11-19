@@ -5,19 +5,23 @@
  */
 import Base from "@/layouts/Base.astro";
 import SiteButton from "@/components/site/SiteButton.astro";
-import SectionHeader from "@/components/sections/SectionHeader.astro";
-import TeamGrid from "@/components/sections/TeamGrid.astro";
+
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro";
 import QuoteCta from "@/components/sections/QuoteCta.astro";
 import OfficeLocations from "@/components/islands/OfficeLocations";
 import FaqAccordion from "@/components/islands/FaqAccordion";
 import Lightbox from "@/components/islands/Lightbox";
-import { iconMap } from "@/lib/icons";
 
-const PlayIcon = iconMap.play;
 
 const summary =
   "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+
+const teamCards = [
+  { name: "John Carter", role: "CEO & Founder", slug: "john-carter", image: "6883f1540bc9fce02a9a6e73_john-carter-portrait-card-archipro-webflow-template.png" },
+  { name: "Sophie Moore", role: "Principal Architect", slug: "sophie-moore", image: "6883f12865d018be94096208_sophie-moore-portrait-card-archipro-webflow-template.png" },
+  { name: "Matt Cannon", role: "Design Director", slug: "matt-cannon", image: "6883f0fbbafb63aaafc51362_matt-cannon-portrait-card-archipro-webflow-template.png" },
+  { name: "Lilly Woods", role: "Project Manager", slug: "lilly-woods", image: "6883f0cbcc571d1defdf59ed_lilly-woods-portrait-card-archipro-webflow-template.png" },
+];
 
 const values = [
   { title: "Passion", icon: "68923500f2996c45c70b924f_heart-icon-archipro-webflow-template.svg" },
@@ -81,16 +85,41 @@ const faqs = [
           loading="eager"
           class="absolute inset-0 h-full w-full object-cover"
         />
-        <div class="absolute bottom-5 right-5 z-10 rounded-2xl bg-neutral-800/70 p-3 sm:bottom-8 sm:right-8" >
+        <div class="absolute bottom-5 left-5 z-10 rounded-2xl bg-neutral-800/70 p-3 sm:bottom-8 sm:left-8" >
           <Lightbox client:visible label="Watch Archipro studio video" videoSrc="/assets/video/hero-home-v3.mp4">
             <span class="flex cursor-pointer items-center gap-3 text-neutral-100">
               <span class="flex size-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-800">
-                <PlayIcon className="size-5 fill-current" aria-hidden />
+                <img src="/assets/img/688bdee7552683ac488ba805_play-button-icon-archipro-webflow-template.svg" alt="" width="20" height="20" aria-hidden="true" class="size-5" />
               </span>
               <span class="text-sm font-medium">Watch our studio</span>
             </span>
           </Lightbox>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-20">
+    <div class="mx-auto max-w-[1228px]">
+      <p class="max-w-[980px] text-2xl leading-[1.45] font-medium tracking-tightest text-neutral-800 sm:text-3xl">
+        From concept to construction, Archipro designs with intention, merging creativity and technology to shape environments that truly make a difference.
+      </p>
+      <div class="my-10 h-px w-full bg-neutral-300"></div>
+      <div class="flex flex-wrap items-end justify-between gap-8">
+        <div class="grid flex-1 grid-cols-2 gap-8 sm:grid-cols-4">
+          {[
+            { value: "340+", label: "Built & designed projects" },
+            { value: "65+", label: "Architects & designers" },
+            { value: "80+", label: "Clients across sectors" },
+            { value: "12+", label: "Industry awards" },
+          ].map((stat) => (
+            <div>
+              <p class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">{stat.value}</p>
+              <p class="mt-2 text-sm text-neutral-600">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+        <a href="/company-pages/about#more-about-us" class="inline-flex rounded-full border border-neutral-800 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100">More about us</a>
       </div>
     </div>
   </section>
@@ -147,10 +176,29 @@ const faqs = [
     </div>
   </section>
 
-  <section class="px-6 py-24">
+  <section class="px-6 py-24" aria-labelledby="about-team">
     <div class="mx-auto max-w-[1228px]">
-      <SectionHeader eyebrow="Team" title="Our creative minds" linkHref="/company-pages/team" linkLabel="Browse all team members" />
-      <TeamGrid limit={4} order={["john-carter", "sophie-moore", "matt-cannon", "lilly-woods"]} />
+      <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <h2 id="about-team" class="text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Our creative minds</h2>
+          <p class="mt-4 max-w-[322px] text-base leading-[1.6] text-neutral-600">{summary}</p>
+        </div>
+        <a href="/company-pages/team" class="inline-flex rounded-full border border-neutral-800 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100">Browse all team members</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {teamCards.map((member) => (
+          <a href={"/team/" + member.slug} class="group relative aspect-[280/366] overflow-hidden rounded-3xl bg-neutral-200">
+            <img src={"/assets/img/" + member.image} alt={member.name} width="280" height="366" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-gradient-to-t from-neutral-800/80 to-transparent p-5 text-neutral-100">
+              <div>
+                <h3 class="text-xl font-medium tracking-tightest">{member.name}</h3>
+                <p class="text-sm text-neutral-200">{member.role}</p>
+              </div>
+              <span aria-hidden="true" class="flex size-9 shrink-0 items-center justify-center rounded-full bg-white text-lg leading-none text-neutral-800">+</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -164,12 +212,18 @@ const faqs = [
     </div>
   </section>
 
-  <section class="px-6 py-24" aria-labelledby="about-faq">
+  <section class="mx-4 rounded-3xl bg-brand-secondary-200 px-6 py-24 sm:mx-6" aria-labelledby="about-faq">
     <div class="mx-auto max-w-[1228px]">
       <div class="grid items-start gap-10 lg:grid-cols-[0.75fr_1fr]">
-        <h2 id="about-faq" class="max-w-[420px] text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
-          You ask, we answer
-        </h2>
+        <div>
+          <h2 id="about-faq" class="max-w-[420px] text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">
+            You ask, we answer
+          </h2>
+          <p class="mt-5 max-w-[350px] text-base leading-[1.6] text-neutral-600">{summary}</p>
+          <div class="mt-8">
+            <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+          </div>
+        </div>
         <FaqAccordion client:visible items={faqs} />
       </div>
     </div>
