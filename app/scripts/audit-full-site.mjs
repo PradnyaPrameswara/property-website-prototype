@@ -60,6 +60,19 @@ const referenceCss = [
   '[style*="translate3d"] { transform: none !important; }',
 ].join("\n");
 
+// Playwright's animations:"disabled" option writes caret-color:transparent
+// as an inline style on every input before hydration, which surfaces as a
+// false React hydration mismatch on form islands. Zeroing animation CSS
+// gives deterministic captures without mutating element attributes.
+const quietCss = [
+  "*,*::before,*::after {",
+  "  animation-duration: 0s !important;",
+  "  animation-delay: 0s !important;",
+  "  transition-duration: 0s !important;",
+  "  transition-delay: 0s !important;",
+  "}",
+].join("\n");
+
 const output = join("visual", "full-site", "shard-" + shard);
 
 await mkdir(join(output, "reference"), { recursive: true });
@@ -160,6 +173,8 @@ try {
 
           record.status = response?.status() ?? 0;
 
+          await page.addStyleTag({ content: quietCss });
+
           if (version === "reference") {
             await page.addStyleTag({ content: referenceCss });
           }
@@ -201,7 +216,6 @@ try {
             await page.screenshot({
               path: join(output, record.screenshot),
               fullPage: true,
-              animations: "disabled",
               timeout: 30000,
             });
           }

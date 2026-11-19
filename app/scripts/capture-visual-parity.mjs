@@ -19,6 +19,17 @@ const referenceCss = [
   '[style*="translate3d"] { transform: none !important; }',
 ].join("\n");
 
+// Deterministic captures without Playwright's animations:"disabled", which
+// injects inline caret-color styles and triggers a false hydration warning.
+const quietCss = [
+  "*,*::before,*::after {",
+  "  animation-duration: 0s !important;",
+  "  animation-delay: 0s !important;",
+  "  transition-duration: 0s !important;",
+  "  transition-delay: 0s !important;",
+  "}",
+].join("\n");
+
 const browser = await chromium.launch({ headless: true });
 
 const report = [];
@@ -72,6 +83,8 @@ try {
             throw new Error(version + " " + path + " returned " + response?.status());
           }
 
+          await page.addStyleTag({ content: quietCss });
+
           if (version === "reference") {
             // Webflow animations leave unrevealed sections at opacity zero.
             // These override styles exist in the QA browser only.
@@ -89,7 +102,6 @@ try {
           await page.screenshot({
             path: join("visual", version, filename),
             fullPage: true,
-            animations: "disabled",
             timeout: 30000,
           });
 
