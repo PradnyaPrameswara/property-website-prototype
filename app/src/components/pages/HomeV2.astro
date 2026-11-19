@@ -35,6 +35,8 @@ const sourceServices = [
 ];
 
 const serviceIntro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.";
+
+const portfolioIntro = "Lorem ipsum dolor sit amet consectetur ac habitant viverra pretium nulla vel ac scelerisque proin volutpat misl integer lorem pellentesque sed convallis pharetra adipiscing turpis elementum in eu nunc ipsum.";
 ---
 
 {/* Original Home V2 hero: four staggered image capsules beside the introduction. */}
@@ -97,20 +99,31 @@ const serviceIntro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habit
       <p class="leading-[1.6] text-neutral-600">{serviceIntro}</p>
     </div>
     <div class="divide-y divide-neutral-300">
-      {selectedProjects.map((project) => (
-        <a href={"/portfolio/" + project.slug} class="group grid min-w-0 items-center gap-8 py-9 first:pt-0 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-          <div class="flex h-full flex-col justify-between gap-6">
+      {selectedProjects.map((project, index) => (
+        <a href={"/portfolio/" + project.slug} class:list={[
+          "group grid min-w-0 items-center gap-8 py-9 first:pt-0 lg:gap-16",
+          index % 2 === 0
+            ? "lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]"
+            : "lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]",
+        ]}>
+          <div class:list={["flex h-full flex-col justify-between gap-6", index % 2 === 1 && "lg:order-2"]}>
             <div>
               <h3 class="mb-4 text-3xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-4xl">{project.title}</h3>
-              <p class="text-sm leading-[1.5] text-neutral-600">Architecture · Los Angeles, CA</p>
+              <p class="text-sm leading-[1.5] text-neutral-500">Architecture</p>
+              <p class="text-sm leading-[1.5] text-neutral-500">Los Angeles, CA</p>
+              <p class="text-sm leading-[1.5] text-neutral-500">Oct 2026</p>
             </div>
-            <p class="max-w-[420px] leading-[1.6] text-neutral-600">{serviceIntro}</p>
+            <p class="max-w-[420px] leading-[1.6] text-neutral-600">{portfolioIntro}</p>
           </div>
-          <div class="aspect-[702/364] min-w-0 overflow-hidden rounded-3xl bg-neutral-200">
+          <div class:list={["relative aspect-[702/364] min-w-0 overflow-hidden rounded-3xl bg-neutral-200", index % 2 === 1 && "lg:order-1"]}>
             <img src={"/assets/img/" + project.image} alt={project.title} width="702" height="364" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <span aria-hidden="true" class="absolute right-6 bottom-6 flex size-12 items-center justify-center rounded-full bg-neutral-100 text-xl leading-none text-neutral-800">−</span>
           </div>
         </a>
       ))}
+    </div>
+    <div class="mt-12 flex justify-center">
+      <SiteButton href="/portfolio-pages/portfolio" label="Browse all portfolio" />
     </div>
   </div>
 </section>
