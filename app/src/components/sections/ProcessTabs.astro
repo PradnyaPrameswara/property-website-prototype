@@ -38,7 +38,7 @@ const steps = [
 ];
 ---
 
-<section class="relative px-6 py-24">
+<section class:list={["relative px-6 py-24", variant === "v3" && "lg:py-36"]}>
   <div class="mx-auto max-w-[1228px]">
     <SectionHeader eyebrow="Our process" title="Check how our process is done" />
     <SiteTabs client:visible items={steps} />
