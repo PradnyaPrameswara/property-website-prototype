@@ -4,7 +4,7 @@
  * webhook simulator. No real accounts, outbound email, or live backend needed.
  */
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
@@ -51,13 +51,20 @@ const endpoint = "http://127.0.0.1:" + receiverPort;
 function startAstro(port, webhook) {
   const env = { ...process.env, FORM_WEBHOOK_URL: webhook, FORM_WEBHOOK_TOKEN: "test-token" };
 
+  // On Windows npm is a .cmd shim, which Node's spawn cannot execute without
+  // a shell (EINVAL). Invoke cmd.exe directly instead of shell: true to avoid
+  // the DEP0190 warning; CI (Linux) keeps the plain npm path.
+  const isWindows = process.platform === "win32";
+
   const child = spawn(
-    process.platform === "win32" ? "npm.cmd" : "npm",
-    ["run", "dev", "--", "--host", "127.0.0.1", "--port", String(port)],
+    isWindows ? "cmd.exe" : "npm",
+    isWindows
+      ? ["/c", "npm", "run", "dev", "--", "--host", "127.0.0.1", "--port", String(port)]
+      : ["run", "dev", "--", "--host", "127.0.0.1", "--port", String(port)],
     {
       cwd: appRoot,
       env,
-      detached: process.platform !== "win32",
+      detached: !isWindows,
       stdio: ["ignore", "ignore", "pipe"],
     },
   );
@@ -75,8 +82,12 @@ function stopAstro({ child }) {
   if (!child.pid) return;
 
   try {
-    if (process.platform === "win32") child.kill();
-    else process.kill(-child.pid, "SIGTERM");
+    if (process.platform === "win32") {
+      // Killing the cmd shell alone leaves the Node grandchild running.
+      spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"], { stdio: "ignore" });
+    } else {
+      process.kill(-child.pid, "SIGTERM");
+    }
   } catch {
     // Process already exited.
   }
