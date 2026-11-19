@@ -2,20 +2,50 @@
 /** 404 — root 404.html equivalent. Astro serves this for unmatched routes. */
 import Base from "@/layouts/Base.astro";
 import SiteButton from "@/components/site/SiteButton.astro";
+
+const floating = [
+  {
+    src: "/assets/img/688cfe489476c4e08de3bc6e_minimal-living-room-archipro-webflow-template.png",
+    alt: "Minimal living room",
+    class: "top-[15%] left-[5%] w-[296px] max-w-[22vw]",
+  },
+  {
+    src: "/assets/img/688cfe48748fbbb3bb41eea4_rustic-kitchen-shelf-archipro-webflow-template.png",
+    alt: "Rustic kitchen shelf",
+    class: "top-[4%] right-[20%] w-[202px] max-w-[16vw]",
+  },
+  {
+    src: "/assets/img/688cfe48f0fe1bc40edb8f53_modern-bathtub-archipro-webflow-template.png",
+    alt: "Modern bathtub",
+    class: "bottom-[26%] left-[2%] w-[202px] max-w-[16vw]",
+  },
+  {
+    src: "/assets/img/688cfe48a75a2a99e05c2218_cozy-neutral-bedroom-archipro-webflow-template.png",
+    alt: "Cozy neutral bedroom",
+    class: "right-[3%] bottom-[20%] w-[244px] max-w-[19vw]",
+  },
+];
 ---
 
 <Base title="Page not found" description="The page you are looking for doesn’t exist or has been moved.">
-  <section class="flex min-h-[70vh] items-center px-6 pt-40 pb-24 max-lg:pt-32">
+  <section class="relative isolate overflow-hidden px-6 pt-28 pb-32 max-lg:pt-24">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+      {floating.map((image) => (
+        <img src={image.src} alt="" loading="lazy" class:list={["absolute rounded-2xl object-cover", image.class]} />
+      ))}
+    </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+      <span class="not-found-number text-[37vw] leading-[0.74] font-medium tracking-[-18px] text-[#e7e7e766]">404</span>
+    </div>
     <div class="mx-auto max-w-[1228px] text-center">
-      <p class="mb-4 text-sm font-medium tracking-wide text-brand-primary uppercase">404</p>
-      <h1 class="mx-auto max-w-[16ch] text-6xl leading-[1.05em] font-medium tracking-tightest text-neutral-800 max-lg:text-5xl">
+      <h1 class="mx-auto -mt-9 max-w-[16ch] text-5xl leading-[1.05] font-medium tracking-tightest text-neutral-800 max-lg:text-4xl">
         Oops! Page not found
       </h1>
-      <p class="mx-auto mt-6 max-w-[46ch] text-lg leading-[1.5em] text-neutral-600">
-        The page you are looking for doesn’t exist or has been moved.
+      <p class="mx-auto mt-5 max-w-[426px] text-base leading-[1.6] text-neutral-600">
+        Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse aliquam vestibulum auctor fringilla risus consequat est semper.
       </p>
-      <div class="mt-10 flex justify-center">
-        <SiteButton href="/" label="Back to home" />
+      <div class="mt-8 flex justify-center">
+        <SiteButton href="/home-pages/home-v1" label="Go back home" />
       </div>
     </div>
   </section>
