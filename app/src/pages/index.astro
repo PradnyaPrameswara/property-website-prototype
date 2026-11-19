@@ -58,11 +58,11 @@ const utilityPages = [
 ];
 
 const extras = [
-  "3 Headers and Footers",
-  "3 Notification Bars",
-  "Custom Icon Set",
-  "Social Media Assets",
-  "Email Signature",
+  { title: "3 Headers and Footers", image: "68914591739f112512ce8edd_archipro-3-headers-footers-architecture-firm-webflow-template.png" },
+  { title: "3 Notification Bars", image: "68914590d37fa6a5f503f178_archipro-3-notification-bars-architecture-firm-webflow-template.png" },
+  { title: "Custom Icon Set", image: "689145909e70a99e2eb02e78_archipro-custom-icon-set-architecture-firm-webflow-template.png" },
+  { title: "Social Media Assets", image: "68914591fb3a962d3fa7ca9d_archipro-social-media-assets-architecture-firm-webflow-template.png" },
+  { title: "Email Signature", image: "68914590477ef74b2e212e9b_archipro-email-signature-architecture-firm-webflow-template.png" },
 ];
 ---
 
@@ -181,8 +181,9 @@ const extras = [
       </h2>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {extras.map((item) => (
-          <div class="rounded-3xl bg-brand-secondary-200 p-8">
-            <h3 class="text-2xl font-medium tracking-tightest text-neutral-800">{item}</h3>
+          <div class="overflow-hidden rounded-3xl bg-brand-secondary-200">
+            <img src={assets + item.image} alt={item.title + " preview"} width="740" height="560" loading="lazy" class="aspect-[4/3] w-full object-cover object-top" />
+            <h3 class="px-7 py-6 text-2xl font-medium tracking-tightest text-neutral-800">{item.title}</h3>
           </div>
         ))}
       </div>
@@ -201,11 +202,12 @@ const extras = [
         <span class="relative z-10 mt-auto w-fit rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors group-hover:bg-brand-primary">Buy template</span>
         <img src={assets + "689145914f620244ffe3b425_archipro-buy-now-architecture-firm-webflow-template.png"} alt="" width="980" height="780" loading="lazy" class="pointer-events-none absolute bottom-0 right-0 max-h-[52%] max-w-[58%] object-contain object-bottom" />
       </a>
-      <a href="https://www.brixtemplates.com/more-webflow-templates" class="group flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-neutral-800 p-8 text-neutral-100 no-underline sm:p-10">
-        <img src={assets + "68914590f274b4a13aee66c5_archipro-brix-logo-architecture-firm-webflow-template.svg"} alt="BRIX Templates" width="176" height="64" loading="lazy" class="mb-7 h-12 max-w-[180px] object-contain" />
-        <h2 class="mb-4 max-w-[420px] text-4xl font-medium tracking-tightest sm:text-5xl">Browse all templates</h2>
-        <p class="mb-6 max-w-[380px] leading-[1.6] text-neutral-200">Looking for more templates? Browse our collection of 100+ Webflow Templates on BRIXTemplates.com</p>
-        <span class="mt-auto w-fit rounded-full bg-neutral-100 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors group-hover:bg-brand-primary group-hover:text-neutral-100">Browse all templates</span>
+      <a href="https://www.brixtemplates.com/more-webflow-templates" class="group relative flex min-h-[440px] flex-col overflow-hidden rounded-3xl bg-neutral-800 p-8 text-neutral-100 no-underline sm:p-10">
+        <img src={assets + "68914590f274b4a13aee66c5_archipro-brix-logo-architecture-firm-webflow-template.svg"} alt="BRIX Templates" width="176" height="64" loading="lazy" class="relative z-10 mb-7 h-12 max-w-[180px] object-contain" />
+        <h2 class="relative z-10 mb-4 max-w-[420px] text-4xl font-medium tracking-tightest sm:text-5xl">Browse all templates</h2>
+        <p class="relative z-10 mb-6 max-w-[380px] leading-[1.6] text-neutral-200">Looking for more templates? Browse our collection of 100+ Webflow Templates on BRIXTemplates.com</p>
+        <span class="relative z-10 mt-auto w-fit rounded-full bg-neutral-100 px-6 py-3 text-sm font-medium text-neutral-800 transition-colors group-hover:bg-brand-primary group-hover:text-neutral-100">Browse all templates</span>
+        <img src={assets + "6883a66d1ebb4685edc546f2_sales-cta-card-image-bottom-brix-templates.png"} alt="" width="980" height="780" loading="lazy" class="pointer-events-none absolute bottom-0 right-0 max-h-[52%] max-w-[58%] object-contain object-bottom" />
       </a>
     </div>
   </section>
