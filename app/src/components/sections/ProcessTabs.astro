@@ -1,6 +1,7 @@
 ---
 /** Native Astro wrapper for V2/V3 source project-stage tabs. */
 import SectionHeader from "@/components/sections/SectionHeader.astro";
+import SiteButton from "@/components/site/SiteButton.astro";
 import SiteTabs from "@/components/islands/SiteTabs";
 
 interface Props {
@@ -41,5 +42,8 @@ const steps = [
   <div class="mx-auto max-w-[1228px]">
     <SectionHeader eyebrow="Our process" title="Check how our process is done" />
     <SiteTabs client:visible items={steps} />
+    <div class="mt-10 flex justify-end">
+      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
+    </div>
   </div>
 </section>
