@@ -30,8 +30,8 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
       <h2 id="home-v1-portfolio-heading" class="mb-5 text-4xl font-medium tracking-tightest text-neutral-800 sm:text-5xl">Selected works</h2>
       <p class="leading-[1.6] text-neutral-600">{intro}</p>
     </div>
-    <div class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,0.84fr)_minmax(0,1fr)] lg:gap-12">
-      <div role="tablist" aria-label="Selected architecture projects" class="flex flex-col">
+    <div class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-[60px]">
+      <div role="tablist" aria-label="Selected architecture projects" class="flex flex-col lg:order-2">
         {projects.map((project, index) => (
           <button
             type="button"
@@ -42,14 +42,19 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
             tabindex={index === 0 ? "0" : "-1"}
             data-portfolio-tab={index}
             data-active={index === 0 ? "true" : "false"}
-            class="group w-full cursor-pointer border-b border-neutral-300 px-5 py-7 text-left transition-colors hover:bg-brand-secondary-200 data-[active=true]:bg-brand-secondary-200 sm:px-7"
+            class="group w-full cursor-pointer border-b border-neutral-300 px-5 py-7 text-left sm:px-7"
           >
-            <span class="block text-2xl font-medium leading-[1.15] tracking-tightest text-neutral-800 sm:text-3xl">{project.title}</span>
-            <span class="mt-4 block max-w-[420px] text-sm leading-[1.55] text-neutral-600">{intro}</span>
+            <span class="block text-2xl font-medium leading-[1.15] tracking-tightest text-neutral-400 group-data-[active=true]:text-neutral-800 sm:text-3xl">{project.title}</span>
+            <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 group-data-[active=true]:grid-rows-[1fr]">
+              <div class="overflow-hidden">
+                <p class="mt-4 max-w-[420px] text-sm leading-[1.55] text-neutral-600">{intro}</p>
+                <span aria-hidden="true" class="mt-5 flex size-11 items-center justify-center rounded-full bg-brand-secondary-200 text-2xl leading-none text-neutral-800">+</span>
+              </div>
+            </div>
           </button>
         ))}
       </div>
-      <div id="home-v1-portfolio-panel" role="tabpanel" aria-labelledby="home-v1-portfolio-tab-0" class="min-w-0 overflow-hidden rounded-3xl bg-neutral-200" data-portfolio-panel>
+      <div id="home-v1-portfolio-panel" role="tabpanel" aria-labelledby="home-v1-portfolio-tab-0" class="min-w-0 overflow-hidden rounded-3xl bg-neutral-200 lg:order-1" data-portfolio-panel>
         <div class="relative aspect-[1062/726] w-full">
           {projects.map((project, index) => (
             <img
@@ -64,9 +69,9 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
             />
           ))}
         </div>
-        <div class="flex items-center justify-between gap-4 bg-brand-secondary-200 p-4 sm:p-6">
-          <a href="/portfolio-pages/portfolio" class="inline-flex rounded-full border border-neutral-800 px-5 py-3 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100">Browse all portfolio</a>
-          <div class="relative size-16 shrink-0 overflow-hidden rounded-2xl sm:size-24">
+        <div class="flex items-center justify-between gap-4 pt-4 sm:pt-6">
+          <a href="/portfolio-pages/portfolio" class="inline-flex rounded-full bg-neutral-800 px-6 py-3 text-sm font-medium text-neutral-100 transition-colors hover:bg-brand-primary">Browse all portfolio</a>
+          <div class="flex items-center gap-3">
             {projects.map((project, index) => (
               <img
                 src={"/assets/img/" + project.thumb}
@@ -74,9 +79,9 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
                 width="320"
                 height="320"
                 loading="lazy"
-                hidden={index !== 0}
                 data-portfolio-thumb={index}
-                class="absolute inset-0 h-full w-full object-cover"
+                data-active={index === 0 ? "true" : "false"}
+                class="size-16 shrink-0 rounded-2xl object-cover ring-2 ring-transparent transition-[box-shadow] data-[active=true]:ring-neutral-800 sm:size-[88px]"
               />
             ))}
           </div>
@@ -101,8 +106,12 @@ const intro = "Lorem ipsum dolor sit amet consectetur faucibus nunc habitasse al
 
       panel?.setAttribute("aria-labelledby", tabs[index]?.id ?? "");
 
-      root.querySelectorAll<HTMLImageElement>("[data-portfolio-image], [data-portfolio-thumb]").forEach((img) => {
-        img.hidden = Number(img.dataset.portfolioImage ?? img.dataset.portfolioThumb) !== index;
+      root.querySelectorAll<HTMLImageElement>("[data-portfolio-image]").forEach((img) => {
+        img.hidden = Number(img.dataset.portfolioImage) !== index;
+      });
+
+      root.querySelectorAll<HTMLImageElement>("[data-portfolio-thumb]").forEach((thumb) => {
+        thumb.dataset.active = String(Number(thumb.dataset.portfolioThumb) === index);
       });
     }
 

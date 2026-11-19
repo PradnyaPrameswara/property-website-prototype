@@ -61,7 +61,7 @@ const serviceDescription = "Lorem ipsum dolor sit amet consectetur faucibus nunc
 {/* Original partner logos, rather than plain-text substitutes. */}
 <section class="overflow-hidden px-4 py-12 sm:px-6" aria-label="Our partners">
   <div class="mx-auto max-w-[1228px]">
-    <Marquee duration={35} pauseOnHover>
+    <Marquee duration={35} pauseOnHover copies={4}>
       {partners.map((partner) => (
         <img
           src={"/assets/brand/partners/" + partner.file}
