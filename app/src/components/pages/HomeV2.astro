@@ -70,7 +70,7 @@ const portfolioIntro = "Lorem ipsum dolor sit amet consectetur ac habitant viver
   </div>
 </section>
 
-<section class="overflow-hidden rounded-3xl bg-brand-secondary-200 pt-24">
+<section class="overflow-hidden rounded-3xl bg-brand-secondary-200 pt-16">
   <div class="mx-auto grid max-w-[1228px] items-start gap-8 px-6 pb-12 lg:grid-cols-[1fr_1fr_auto]">
     <h2 class="text-4xl leading-[1.08] font-medium tracking-tightest text-neutral-800 sm:text-5xl">Inside the firm</h2>
     <p class="max-w-[430px] text-lg leading-[1.55] text-neutral-600">
@@ -138,7 +138,7 @@ const portfolioIntro = "Lorem ipsum dolor sit amet consectetur ac habitant viver
     </div>
     <Slider label="Browse architecture design services">
       {sourceServices.map((service) => (
-        <a href="/service-pages/services" class="group block w-[min(82vw,448px)] shrink-0 snap-start overflow-hidden rounded-3xl bg-brand-secondary-200 text-neutral-800 no-underline">
+        <a href="/service-pages/services" class="group block w-[min(82vw,320px)] shrink-0 snap-start overflow-hidden rounded-3xl bg-brand-secondary-200 text-neutral-800 no-underline">
           <img src={"/assets/img/" + service.image} alt={service.title} width="448" height="624" loading="lazy" class="aspect-[448/624] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
           <div class="p-6">
             <h3 class="mb-3 text-2xl font-medium tracking-tightest">{service.title}</h3>
@@ -151,7 +151,7 @@ const portfolioIntro = "Lorem ipsum dolor sit amet consectetur ac habitant viver
 </section>
 
 {/* Original Home V2 background-photo CTA instead of a blank solid-color card. */}
-<section class="relative isolate overflow-hidden bg-neutral-800 px-6 py-28 sm:py-36" aria-labelledby="home-v2-quote">
+<section class="relative isolate overflow-hidden bg-neutral-800 px-6 py-28 sm:py-52" aria-labelledby="home-v2-quote">
   <img
     src="/assets/img/688aa7b404595ae5e675ddd1_modern-living-room-with-neutral-furniture-archipro-webflow-template.jpg"
     alt=""

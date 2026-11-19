@@ -38,12 +38,13 @@ const steps = [
 ];
 ---
 
-<section class="px-6 py-24">
+<section class="relative px-6 py-24">
   <div class="mx-auto max-w-[1228px]">
     <SectionHeader eyebrow="Our process" title="Check how our process is done" />
     <SiteTabs client:visible items={steps} />
-    <div class="mt-10 flex justify-end">
-      <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
-    </div>
+  </div>
+  {/* Source CTA floats at the bottom-right of the section; it is not in flow. */}
+  <div class="absolute right-4 bottom-8 lg:right-[12.5%] lg:translate-x-1/2">
+    <SiteButton href="/contact-pages/contact-v1" label="Get in touch" />
   </div>
 </section>
