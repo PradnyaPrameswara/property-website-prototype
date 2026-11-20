@@ -138,6 +138,43 @@ function markdown(body) {
   return out.replace(/\n{3,}/g, "\n\n").trim();
 }
 
+function extractAllRichtext(html) {
+  const blocks = [];
+
+  let from = 0;
+
+  while (true) {
+    const start = html.indexOf("w-richtext", from);
+
+    if (start === -1) break;
+
+    const open = html.indexOf(">", start);
+
+    let depth = 1;
+
+    const re = /<\/?div\b[^>]*>/g;
+
+    re.lastIndex = open + 1;
+
+    let match;
+
+    while ((match = re.exec(html)) !== null) {
+      if (match[0].startsWith("</")) depth -= 1;
+      else depth += 1;
+
+      if (depth === 0) {
+        blocks.push(html.slice(open + 1, match.index));
+        from = match.index + match[0].length;
+        break;
+      }
+    }
+
+    if (depth !== 0) break;
+  }
+
+  return blocks;
+}
+
 function rewriteBody(mdFile, body) {
   const original = readFileSync(mdFile, "utf8");
 
@@ -173,9 +210,13 @@ for (const [sourceFolder, collection] of folders) {
 
     const html = readFileSync(join(htmlDir, file), "utf8");
 
-    const richtext = extractRichtext(html);
+    let body = markdown(extractRichtext(html));
 
-    const body = markdown(richtext);
+    if (collection === "portfolio") {
+      const blocks = extractAllRichtext(html);
+
+      body = blocks.map((block) => markdown(block)).join("\n\n");
+    }
 
     if (!body) continue;
 
